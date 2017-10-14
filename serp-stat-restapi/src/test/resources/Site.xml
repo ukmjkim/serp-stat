@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <sites id="1" USER_ID="1" TITLE="title1" URL="www.url1.com" TRACKING="1" />
+    <sites id="2" USER_ID="2" TITLE="title2" URL="www.url2.com" TRACKING="1" />
+    <sites id="3" USER_ID="3" TITLE="title3" URL="www.url3.com" TRACKING="1" />
+</dataset>

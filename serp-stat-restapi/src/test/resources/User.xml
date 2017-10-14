@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <users id="1" LOGIN="testuser1" PASSWORD="password" NICENAME="nicename1" EMAIL="email@serpstat.com" />
+    <users id="2" LOGIN="testuser2" PASSWORD="password" NICENAME="nicename2" EMAIL="email@serpstat.com" />
+    <users id="3" LOGIN="testuser3" PASSWORD="password" NICENAME="nicename3" EMAIL="email@serpstat.com" />
+</dataset>
