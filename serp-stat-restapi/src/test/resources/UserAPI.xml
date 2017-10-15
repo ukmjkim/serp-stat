@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dataset>
-    <user_apis id="1" USER_ID="1" KEY="key1" IPS="" />
-    <user_apis id="2" USER_ID="2" KEY="key2" IPS="" />
-    <user_apis id="3" USER_ID="3" KEY="key3" IPS="" />
+    <user_apis id="1" USER_ID="1" API_KEY="key1" IPS="" />
+    <user_apis id="2" USER_ID="2" API_KEY="key2" IPS="" />
+    <user_apis id="3" USER_ID="3" API_KEY="key3" IPS="" />
 </dataset>

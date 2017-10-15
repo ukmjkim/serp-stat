@@ -191,7 +191,7 @@ public class UserRestControllerTest {
 		UserAPI userApi1 = new UserAPI();
 
 		userApi1.setId(1);
-		userApi1.setKey("newKey1");
+		userApi1.setApiKey("newKey1");
 		userApis1.add(userApi1);
 
 		User user1 = new User();
@@ -207,7 +207,7 @@ public class UserRestControllerTest {
 		UserAPI userApi2 = new UserAPI();
 
 		userApi2.setId(2);
-		userApi2.setKey("newKey2");
+		userApi2.setApiKey("newKey2");
 		userApis2.add(userApi2);
 
 		User user2 = new User();

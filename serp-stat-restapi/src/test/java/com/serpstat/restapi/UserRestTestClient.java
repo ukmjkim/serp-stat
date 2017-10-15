@@ -34,8 +34,9 @@ public class UserRestTestClient {
                 HttpMethod.GET, request, List.class);
 
 		List<LinkedHashMap<String, Object>> usersMap = (List<LinkedHashMap<String, Object>>) response.getBody();
-		
+
 		if (usersMap != null) {
+			System.out.println("count: " + usersMap.size());
 			for (LinkedHashMap<String, Object> map : usersMap) {
 				System.out.println("User : id="+map.get("id")+", Login="+map.get("login")+", Email="+map.get("email"));
 			}

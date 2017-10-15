@@ -22,6 +22,7 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
 		User user = getByKey(id);
 		if (user != null) {
 			Hibernate.initialize(user.getUserAPIs());
+			Hibernate.initialize(user.getSites());
 		}
 		return user;
 	}
@@ -31,6 +32,7 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
 		User user = (User) criteria.uniqueResult();
 		if (user != null) {
 			Hibernate.initialize(user.getUserAPIs());
+			Hibernate.initialize(user.getSites());
 		}
 		return user;
 	}
@@ -39,7 +41,12 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
 		Criteria criteria = createEntityCriteria();
 		criteria.addOrder(Order.asc("login"));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-		return (List<User>) criteria.list();
+		List<User> users = (List<User>) criteria.list();
+		for(User user : users){
+            Hibernate.initialize(user.getUserAPIs());
+            Hibernate.initialize(user.getSites());
+        }
+		return users;
 	}
 	public void save(User user) {
 		persist(user);

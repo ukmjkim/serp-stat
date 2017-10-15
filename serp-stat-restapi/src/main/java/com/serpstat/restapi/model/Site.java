@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -57,15 +58,11 @@ public class Site {
 	@Column(name="UPDATED_AT")
 	private Date updatedAt = null;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DELETED_AT")
-	private Date deletedAt = null;
-	
 	@Column(name="DELETED")
 	private Integer deleted = 0;
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name="USER_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="USER_ID", nullable = false)
 	private User user;
 
 	public Long getId() {
@@ -156,14 +153,6 @@ public class Site {
 		this.updatedAt = updatedAt;
 	}
 
-	public Date getDeletedAt() {
-		return deletedAt;
-	}
-
-	public void setDeletedAt(Date deletedAt) {
-		this.deletedAt = deletedAt;
-	}
-
 	public Integer getDeleted() {
 		return deleted;
 	}
@@ -200,7 +189,7 @@ public class Site {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof User))
+		if (!(obj instanceof Site))
 			return false;
 		
 		Site other = (Site) obj;
@@ -216,7 +205,7 @@ public class Site {
 	
 	@Override
 	public String toString() {
-		return "Site [id=" + id + ", user_id=" + user.getId() 
+		return "Site [id=" + id
 				+ ", title=" + title
 				+ ", url=" + url + ", tracking=" + tracking
 				+ ", drop_www_prefix=" + dropWWWPrefix

@@ -51,7 +51,7 @@ public class UserAPIServiceImplTest {
 	public void findByKey() {
 		UserAPI userApi = userApis.get(0);
 		when(dao.findByKey(anyString())).thenReturn(userApi);
-		Assert.assertEquals(userApiService.findByKey(userApi.getKey()), userApi);
+		Assert.assertEquals(userApiService.findByKey(userApi.getApiKey()), userApi);
 	}
 
 	@Test
@@ -92,7 +92,7 @@ public class UserAPIServiceImplTest {
 	public void isUserAPIKeyUnique() {
 		UserAPI user = userApis.get(0);
 		when(dao.findByKey(anyString())).thenReturn(user);
-		Assert.assertEquals(userApiService.isUserAPIKeyUnique(user.getId(), user.getKey()), true);
+		Assert.assertEquals(userApiService.isUserAPIKeyUnique(user.getId(), user.getApiKey()), true);
 	}
 
 	public List<UserAPI> getUserAPIList() {
@@ -108,12 +108,12 @@ public class UserAPIServiceImplTest {
 		UserAPI userApi1 = new UserAPI();
 		userApi1.setId(1);
 		userApi1.setUser(user);
-		userApi1.setKey("newKey1");
+		userApi1.setApiKey("newKey1");
 
 		UserAPI userApi2 = new UserAPI();
 		userApi2.setId(2);
 		userApi1.setUser(user);
-		userApi2.setKey("newKey2");
+		userApi2.setApiKey("newKey2");
 		
 		userApis.add(userApi1);
 		userApis.add(userApi2);

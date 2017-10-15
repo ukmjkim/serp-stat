@@ -23,8 +23,8 @@ public class UserAPIServiceImpl implements UserAPIService {
 	public UserAPI findById(int id) {
 		return dao.findById(id);
 	}
-	public UserAPI findByKey(String key) {
-		return dao.findByKey(key);
+	public UserAPI findByKey(String apiKey) {
+		return dao.findByKey(apiKey);
 	}
 	public List<UserAPI> findAllByUserId(long userId) {
 		return dao.findAllByUserId(userId);
@@ -44,10 +44,10 @@ public class UserAPIServiceImpl implements UserAPIService {
 		}
 	}
 	public void deleteUserAPI(UserAPI userApi) {
-		dao.deleteByKey(userApi.getKey());
+		dao.deleteByKey(userApi.getApiKey());
 	}
-	public void deleteByKey(String key) {
-		dao.deleteByKey(key);
+	public void deleteByKey(String apiKey) {
+		dao.deleteByKey(apiKey);
 	}
 	public boolean isUserAPIKeyUnique(Integer id, String key) {
 		UserAPI userApi = dao.findByKey(key);

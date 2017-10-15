@@ -7,6 +7,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -54,11 +55,11 @@ public class User {
 	@Column(name="DELETED")
 	private Integer deleted = 0;
 	
-	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	// https://stackoverflow.com/questions/31132495/could-not-extract-resultset-in-hibernate-application
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
 	private Set<UserAPI> userAPIs = new HashSet<UserAPI>();
 
-	
-	@OneToMany(mappedBy="user", cascade=CascadeType.ALL)
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
 	private Set<Site> sites = new HashSet<Site>();
 
 

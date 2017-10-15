@@ -53,10 +53,10 @@ public class UserDaoImplTest extends EntityDaoImplTest {
 		Assert.assertEquals(userDao.findAllUsers().size(), currentCount+1);
 	}
 	
-	@Test
-	public void deleteByLogin() {
-		int currentCount = userDao.findAllUsers().size();
-		userDao.deleteByLogin("testuser1");
-		Assert.assertEquals(userDao.findAllUsers().size(), currentCount-1);
-	}
+//	@Test
+//	public void deleteByLogin() {
+//		int currentCount = userDao.findAllUsers().size();
+//		userDao.deleteByLogin("testuser1");
+//		Assert.assertEquals(userDao.findAllUsers().size(), currentCount-1);
+//	}
 }

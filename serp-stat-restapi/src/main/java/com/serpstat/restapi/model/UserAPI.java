@@ -4,6 +4,7 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,8 +24,8 @@ public class UserAPI {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name="key", unique=true, nullable=false)
-	private String key;
+	@Column(name="API_key", unique=true, nullable=false)
+	private String apiKey;
 	
 	@Column(name="IPS")
 	private String ips;
@@ -45,15 +46,11 @@ public class UserAPI {
 	@Column(name="UPDATED_AT")
 	private Date updatedAt = null;
 	
-	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="DELETED_AT")
-	private Date deletedAt = null;
-	
 	@Column(name="DELETED")
 	private Integer deleted = 0;
 
-	@ManyToOne(optional = false)
-	@JoinColumn(name="USER_ID")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name="USER_ID", nullable = false)
 	private User user;
 
 	public Integer getId() {
@@ -64,12 +61,12 @@ public class UserAPI {
 		this.id = id;
 	}
 
-	public String getKey() {
-		return key;
+	public String getApiKey() {
+		return apiKey;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setApiKey(String apiKey) {
+		this.apiKey = apiKey;
 	}
 
 	public String getIps() {
@@ -112,14 +109,6 @@ public class UserAPI {
 		this.updatedAt = updatedAt;
 	}
 
-	public Date getDeletedAt() {
-		return deletedAt;
-	}
-
-	public void setDeletedAt(Date deletedAt) {
-		this.deletedAt = deletedAt;
-	}
-
 	public Integer getDeleted() {
 		return deleted;
 	}
@@ -142,7 +131,7 @@ public class UserAPI {
 		int result = 1;
 		
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((key == null) ? 0 : key.hashCode());
+		result = prime * result + ((apiKey == null) ? 0 : apiKey.hashCode());
 		return result;
 	}
 	
@@ -152,7 +141,7 @@ public class UserAPI {
 			return true;
 		if (obj == null)
 			return false;
-		if (!(obj instanceof User))
+		if (!(obj instanceof UserAPI))
 			return false;
 		
 		UserAPI other = (UserAPI) obj;
@@ -163,10 +152,10 @@ public class UserAPI {
 			return false;
 		}
 		
-		if (key == null) {
-			if (other.key != null) 
+		if (apiKey == null) {
+			if (other.apiKey != null) 
 				return false;
-		} else if (!key.equals(other.key)) {
+		} else if (!apiKey.equals(other.apiKey)) {
 			return false;
 		}
 		
@@ -176,8 +165,7 @@ public class UserAPI {
 	@Override
 	public String toString() {
 		return "UserAPI [id=" + id 
-				+ ", user_id=" + user.getId() 
-				+ ", key=" + ((key == null) ? "" : key)
+				+ ", api_key=" + ((apiKey == null) ? "" : apiKey)
 				+ ", ips=" + ((ips == null) ? "" : ips)
 				+ ", count=" + ((count == null) ? 0 : count)
 				+ ", api_limit=" + ((apiLimit == null) ? 0 : apiLimit) + "]";

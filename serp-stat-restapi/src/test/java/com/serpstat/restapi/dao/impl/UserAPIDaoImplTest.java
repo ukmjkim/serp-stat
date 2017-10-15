@@ -57,7 +57,7 @@ public class UserAPIDaoImplTest extends EntityDaoImplTest {
 
 		UserAPI userApi = new UserAPI();
 		userApi.setUser(userDao.findById(1));
-		userApi.setKey("newKey");
+		userApi.setApiKey("newKey");
 		userApi.setIps("");
 		userApiDao.save(userApi);
 		Assert.assertEquals(userApiDao.findAll().size(), currentCount+1);
@@ -66,7 +66,7 @@ public class UserAPIDaoImplTest extends EntityDaoImplTest {
 	@Test
 	public void deleteByKey() {
 		int currentCount = userApiDao.findAll().size();
-		userApiDao.deleteByKey(userApiDao.findById(1).getKey());
+		userApiDao.deleteByKey(userApiDao.findById(1).getApiKey());
 		Assert.assertEquals(userApiDao.findAll().size(), currentCount-1);
 	}
 }
