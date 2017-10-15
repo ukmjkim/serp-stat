@@ -38,7 +38,21 @@ public class UserRestTestClient {
 		if (usersMap != null) {
 			System.out.println("count: " + usersMap.size());
 			for (LinkedHashMap<String, Object> map : usersMap) {
-				System.out.println("User : id="+map.get("id")+", Login="+map.get("login")+", Email="+map.get("email"));
+				System.out.println("User : id="+map.get("id")+", login="+map.get("login")+", email="+map.get("email"));
+				Object objUserAPI = map.get("userAPIs");
+				if ((objUserAPI != null) && (objUserAPI instanceof List)) {
+					List<LinkedHashMap<String, Object>> userAPIs = (List<LinkedHashMap<String, Object>>) objUserAPI;
+					for (LinkedHashMap<String, Object> userAPI : userAPIs) {
+						System.out.println("===> UserAPI : id="+userAPI.get("id")+", apiKey="+userAPI.get("apiKey"));
+					}
+				}
+				Object objSites = map.get("sites");
+				if ((objSites != null) && (objSites instanceof List)) {
+					List<LinkedHashMap<String, Object>> sites = (List<LinkedHashMap<String, Object>>) objSites;
+					for (LinkedHashMap<String, Object> site : sites) {
+						System.out.println("===> Site : id="+site.get("id")+", title="+site.get("title"));
+					}
+				}
 			}
 		} else {
 			System.out.println("No user exist ----------------");
