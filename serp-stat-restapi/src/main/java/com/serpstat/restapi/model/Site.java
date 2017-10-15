@@ -161,13 +161,10 @@ public class Site {
 		this.deleted = deleted;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 	/* Effective Java 2nd Edition, the reason to choose 31 is:
 	 * 1. Because it's an odd prime, and it's "traditional" to use primes
 	 * 2. It's also one less than a power of two, which permits for bitwise optimization

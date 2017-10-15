@@ -56,10 +56,10 @@ public class User {
 	private Integer deleted = 0;
 	
 	// https://stackoverflow.com/questions/31132495/could-not-extract-resultset-in-hibernate-application
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user", cascade=CascadeType.ALL)
 	private Set<UserAPI> userAPIs = new HashSet<UserAPI>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy="user")
+	@OneToMany(fetch = FetchType.LAZY, mappedBy="user", cascade=CascadeType.ALL)
 	private Set<Site> sites = new HashSet<Site>();
 
 

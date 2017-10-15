@@ -43,8 +43,8 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		List<User> users = (List<User>) criteria.list();
 		for(User user : users){
-            Hibernate.initialize(user.getUserAPIs());
-            Hibernate.initialize(user.getSites());
+			Hibernate.initialize(user.getUserAPIs());
+			Hibernate.initialize(user.getSites());
         }
 		return users;
 	}

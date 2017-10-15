@@ -32,6 +32,9 @@ public class SiteServiceImplTest {
 	SiteServiceImpl siteService;
 	
 	@Spy
+	User user = null;
+	
+	@Spy
 	List<Site> sites = new ArrayList<Site>();
 	
 	@BeforeClass
@@ -85,11 +88,11 @@ public class SiteServiceImplTest {
 	public void isSiteTitleUnique() {
 		Site site = sites.get(0);
 		when(dao.findById(anyLong())).thenReturn(site);
-		Assert.assertEquals(siteService.isSiteTitleUnique(site.getId(), site.getUser().getId(), site.getTitle()), true);
+		Assert.assertEquals(siteService.isSiteTitleUnique(site.getId(), user.getId(), site.getTitle()), true);
 	}
 
 	public List<Site> getSiteList() {
-		User user = new User();
+		user = new User();
 		user.setId(1L);
 		user.setLogin("newLogin");
 		user.setPassword("password");

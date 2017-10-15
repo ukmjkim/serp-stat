@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.serpstat.restapi.model.Site;
 import com.serpstat.restapi.model.User;
 import com.serpstat.restapi.model.UserAPI;
+import com.serpstat.restapi.service.SiteService;
 import com.serpstat.restapi.service.UserAPIService;
 import com.serpstat.restapi.service.UserService;
 
@@ -30,6 +32,9 @@ public class UserRestController {
 
 	@Autowired
 	UserAPIService userApiService;
+
+	@Autowired
+	SiteService siteService;
 
 	@RequestMapping(value = "/user/", method = RequestMethod.GET)
 	public ResponseEntity<List<User>> listAllUsers() {
@@ -107,7 +112,7 @@ public class UserRestController {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(ucBuilder.path("/user/{userId}/userapi/{id}")
-        		.buildAndExpand(userApi.getUser().getId(), userApi.getId()).toUri());
+        		.buildAndExpand(userId, userApi.getId()).toUri());
         return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
@@ -137,6 +142,57 @@ public class UserRestController {
  
         userApiService.deleteUserAPI(userApi);
         return new ResponseEntity<UserAPI>(HttpStatus.NO_CONTENT);
+	}
+
+
+	@RequestMapping(value = "/user/{userId}/site", method = RequestMethod.POST)
+	public ResponseEntity<Void> addSite(@PathVariable("userId") long userId, @RequestBody Site site, UriComponentsBuilder ucBuilder) {
+		logger.debug("Creating Site {}", site.getTitle());
+		User currentUser = userService.findById(userId);
+        if (currentUser==null) {
+        		logger.info("User with id {} not found", userId);
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
+
+		if (siteService.isSiteTitleUnique(site.getId(), userId, site.getTitle())) {
+			logger.debug("A Site with title {} already exist", site.getTitle());
+			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+		}
+        logger.debug("{}", site);
+        siteService.saveSite(site);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(ucBuilder.path("/user/{userId}/userapi/{id}")
+        		.buildAndExpand(userId, site.getId()).toUri());
+        return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
+	}
+
+
+	@RequestMapping(value = "/user/{userId}/site/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<Site> updateSite(@PathVariable("userId") long userId, @PathVariable("id") long id, @RequestBody Site site) {
+		logger.info("Updating Site {}", id);
+		Site currentSite = siteService.findById(id);
+        
+        if (currentSite==null) {
+        		logger.info("Site with id {} not found", id);
+            return new ResponseEntity<Site>(HttpStatus.NOT_FOUND);
+        }
+         
+        siteService.updateSite(site);
+        return new ResponseEntity<Site>(currentSite, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/user/{userId}/site/{id}", method = RequestMethod.DELETE)
+	public ResponseEntity<Site> deleteSite(@PathVariable("userId") long userId, @PathVariable("id") long id) {
+		logger.info("Fetching & Deleting Site with id {}", id);
+		Site site = siteService.findById(id);
+        if (site == null) {
+        		logger.info("Unable to delete. Site with id {} not found", id);
+            return new ResponseEntity<Site>(HttpStatus.NOT_FOUND);
+        }
+ 
+        siteService.deleteById(id);
+        return new ResponseEntity<Site>(HttpStatus.NO_CONTENT);
 	}
 
 }

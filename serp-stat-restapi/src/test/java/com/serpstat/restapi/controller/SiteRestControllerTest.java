@@ -1,10 +1,7 @@
 package com.serpstat.restapi.controller;
 
-import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyLong;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -60,54 +57,6 @@ public class SiteRestControllerTest {
 		ResponseEntity<Site> response = siteController.getSite(site.getId());
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		verify(siteService, atLeastOnce()).findById(anyLong());
-	}
-
-	@Test
-	public void createSiteWithConflict() {
-		doNothing().when(siteService).saveSite(any(Site.class));
-		when(siteService.isSiteTitleUnique(anyLong(), anyLong(), anyString())).thenReturn(true);
-		ResponseEntity<Void> response = siteController.createSite(sites.get(0), ucBuilder);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
-	}
-
-	@Test
-	public void createSiteWithSuccess() {
-		doNothing().when(siteService).saveSite(any(Site.class));
-		when(siteService.isSiteTitleUnique(anyLong(), anyLong(), anyString())).thenReturn(false);
-		ResponseEntity<Void> response = siteController.createSite(sites.get(0), ucBuilder);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.CREATED);
-	}
-
-	@Test
-	public void updateSiteWithNotFound() {
-		doNothing().when(siteService).updateSite(any(Site.class));
-		when(siteService.findById(anyLong())).thenReturn(null);
-		ResponseEntity<Site> response = siteController.updateSite(1000L, sites.get(0));
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
-	}
-
-	@Test
-	public void updateSiteWithSuccess() {
-		doNothing().when(siteService).updateSite(any(Site.class));
-		when(siteService.findById(anyLong())).thenReturn(sites.get(0));
-		ResponseEntity<Site> response = siteController.updateSite(sites.get(0).getId(), sites.get(0));
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
-	}
-
-	@Test
-	public void deleteSiteWithNotFound() {
-		doNothing().when(siteService).deleteById(anyLong());
-		when(siteService.findById(anyLong())).thenReturn(null);
-		ResponseEntity<Site> response = siteController.deletSite(1000L);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
-	}
-
-	@Test
-	public void deleteSiteWithSuccess() {
-		doNothing().when(siteService).deleteById(anyLong());
-		when(siteService.findById(anyLong())).thenReturn(sites.get(0));
-		ResponseEntity<Site> response = siteController.deletSite(sites.get(0).getId());
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
 	}
 
 	public List<Site> getSiteList() {

@@ -30,7 +30,10 @@ public class UserAPIServiceImplTest {
 
 	@InjectMocks
 	UserAPIServiceImpl userApiService;
-	
+
+	@Spy
+	User user = null;
+
 	@Spy
 	List<UserAPI> userApis = new ArrayList<UserAPI>();
 	
@@ -57,7 +60,7 @@ public class UserAPIServiceImplTest {
 	@Test
 	public void findAllByUserId() {
 		when(dao.findAllByUserId(anyLong())).thenReturn(userApis);
-		Assert.assertEquals(userApiService.findAllByUserId(userApis.get(0).getUser().getId()).size(), userApis.size());
+		Assert.assertEquals(userApiService.findAllByUserId(user.getId()).size(), userApis.size());
 	}
 
 	@Test
@@ -96,7 +99,7 @@ public class UserAPIServiceImplTest {
 	}
 
 	public List<UserAPI> getUserAPIList() {
-		User user = new User();
+		user = new User();
 		user.setId(1L);
 		user.setLogin("newLogin");
 		user.setPassword("password");

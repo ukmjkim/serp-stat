@@ -27,9 +27,11 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.serpstat.restapi.model.Site;
 import com.serpstat.restapi.model.User;
 import com.serpstat.restapi.model.UserAPI;
 import com.serpstat.restapi.service.UserService;
+import com.serpstat.restapi.service.SiteService;
 import com.serpstat.restapi.service.UserAPIService;
 
 public class UserRestControllerTest {
@@ -38,6 +40,9 @@ public class UserRestControllerTest {
 
 	@Mock
 	UserAPIService userApiService;
+
+	@Mock
+	SiteService siteService;
 
 	@Mock
 	HttpHeaders headers;
@@ -186,13 +191,100 @@ public class UserRestControllerTest {
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
 	}
 
+	@Test
+	public void addSiteWithUserNotFound() {
+		UriComponentsBuilder ucBuilder = UriComponentsBuilder.newInstance();
+		User user = users.get(0);
+		Set<Site> sites = users.get(0).getSites();
+		Site site = sites.iterator().next();
+		doNothing().when(siteService).saveSite(any(Site.class));
+		when(userService.findById(anyLong())).thenReturn(null);
+		ResponseEntity<Void> response = userController.addSite(user.getId(), site, ucBuilder);
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+	}
+
+	@Test
+	public void addSiteWithSiteConflict() {
+		UriComponentsBuilder ucBuilder = UriComponentsBuilder.newInstance();
+		User user = users.get(0);
+		Set<Site> sites = users.get(0).getSites();
+		Site site = sites.iterator().next();
+		doNothing().when(siteService).saveSite(any(Site.class));
+		when(userService.findById(anyLong())).thenReturn(user);
+		when(siteService.isSiteTitleUnique(anyLong(), anyLong(), anyString())).thenReturn(true);
+		ResponseEntity<Void> response = userController.addSite(user.getId(), site, ucBuilder);
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+	}
+
+	@Test
+	public void addSiteWithSuccess() {
+		UriComponentsBuilder ucBuilder = UriComponentsBuilder.newInstance();
+		User user = users.get(0);
+		Set<Site> sites = users.get(0).getSites();
+		Site site = sites.iterator().next();
+		doNothing().when(siteService).saveSite(any(Site.class));
+		when(userService.findById(anyLong())).thenReturn(user);
+		when(siteService.isSiteTitleUnique(anyLong(), anyLong(), anyString())).thenReturn(false);
+		ResponseEntity<Void> response = userController.addSite(user.getId(), site, ucBuilder);
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.CREATED);
+	}
+
+	@Test
+	public void updateSiteWithNotFound() {
+		User user = users.get(0);
+		Set<Site> sites = users.get(0).getSites();
+		Site site = sites.iterator().next();
+		doNothing().when(siteService).updateSite(any(Site.class));
+		when(siteService.findById(anyLong())).thenReturn(null);
+		ResponseEntity<Site> response = userController.updateSite(user.getId(), site.getId(), site);
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+	}
+
+	@Test
+	public void updateSiteWithSuccess() {
+		User user = users.get(0);
+		Set<Site> sites = users.get(0).getSites();
+		Site site = sites.iterator().next();
+		doNothing().when(siteService).updateSite(any(Site.class));
+		when(siteService.findById(anyLong())).thenReturn(site);
+		ResponseEntity<Site> response = userController.updateSite(user.getId(), site.getId(), site);
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+	}
+
+	@Test
+	public void deleteSiteWithNotFound() {
+		User user = users.get(0);
+		Set<Site> sites = users.get(0).getSites();
+		Site site = sites.iterator().next();
+		doNothing().when(siteService).deleteById(anyLong());
+		when(siteService.findById(anyLong())).thenReturn(null);
+		ResponseEntity<Site> response = userController.deleteSite(user.getId(), site.getId());
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+	}
+
+	@Test
+	public void deleteSiteWithSuccess() {
+		User user = users.get(0);
+		Set<Site> sites = users.get(0).getSites();
+		Site site = sites.iterator().next();
+		doNothing().when(siteService).deleteById(anyLong());
+		when(siteService.findById(anyLong())).thenReturn(site);
+		ResponseEntity<Site> response = userController.deleteSite(user.getId(), site.getId());
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+	}
+
 	public List<User> getUserList() {
 		Set<UserAPI> userApis1 = new HashSet<UserAPI>();
 		UserAPI userApi1 = new UserAPI();
-
 		userApi1.setId(1);
 		userApi1.setApiKey("newKey1");
 		userApis1.add(userApi1);
+
+		Set<Site> sites1 = new HashSet<Site>();
+		Site site1 = new Site();
+		site1.setId(1L);
+		site1.setTitle("newTitle1");
+		site1.setUrl("www.url1.com");
 
 		User user1 = new User();
 		user1.setId(1L);
@@ -201,14 +293,22 @@ public class UserRestControllerTest {
 		user1.setNiceName("nicename");
 		user1.setEmail("email");
 		user1.setUserAPIs(userApis1);
-		userApi1.setUser(user1);
+		site1.setUser(user1);
+		sites1.add(site1);
+		user1.setSites(sites1);
 
 		Set<UserAPI> userApis2 = new HashSet<UserAPI>();
 		UserAPI userApi2 = new UserAPI();
-
 		userApi2.setId(2);
 		userApi2.setApiKey("newKey2");
 		userApis2.add(userApi2);
+
+
+		Set<Site> sites2 = new HashSet<Site>();
+		Site site2 = new Site();
+		site2.setId(1L);
+		site2.setTitle("newTitle1");
+		site2.setUrl("www.url1.com");
 
 		User user2 = new User();
 		user2.setId(2L);
@@ -217,7 +317,9 @@ public class UserRestControllerTest {
 		user2.setNiceName("nicename");
 		user2.setEmail("email");
 		user2.setUserAPIs(userApis2);
-		userApi2.setUser(user2);
+		site2.setUser(user2);
+		sites2.add(site2);
+		user2.setSites(sites2);
 
 		users.add(user1);
 		users.add(user2);

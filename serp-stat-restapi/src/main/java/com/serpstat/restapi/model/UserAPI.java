@@ -117,14 +117,9 @@ public class UserAPI {
 		this.deleted = deleted;
 	}
 
-	public User getUser() {
-		return user;
-	}
-
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 	@Override
 	public int hashCode() {
 		final int prime=31;
