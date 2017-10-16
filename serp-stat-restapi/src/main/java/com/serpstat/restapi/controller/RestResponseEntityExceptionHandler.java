@@ -14,29 +14,36 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import com.serpstat.restapi.model.ExceptionInfo;
+
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
 	
 	@ExceptionHandler(SQLException.class)
-	public ResponseEntity<Object> handleSQLException(RuntimeException ex, WebRequest request){
+	public ResponseEntity<ExceptionInfo> handleSQLException(RuntimeException ex, WebRequest request){
 		logger.info("SQLException Occured:: URL="+request.getContextPath());
-		String bodyOfResponse = "This should be application specific";
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.EXPECTATION_FAILED, request);
+		ExceptionInfo error = new ExceptionInfo();
+		error.setErrorCode(HttpStatus.PRECONDITION_FAILED.value());
+		error.setMessage(ex.getMessage());
+		return new ResponseEntity<ExceptionInfo>(error, HttpStatus.OK);
 	}
 	
 	@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="IOException occured")
 	@ExceptionHandler(IOException.class)
-	public ResponseEntity<Object> handleIOException(RuntimeException ex, WebRequest request){
+	public ResponseEntity<ExceptionInfo> handleIOException(RuntimeException ex, WebRequest request){
 		logger.error("IOException handler executed");
-		String bodyOfResponse = "IOException handler executed";
-        return handleExceptionInternal(ex, bodyOfResponse, new HttpHeaders(), HttpStatus.EXPECTATION_FAILED, request);
+		ExceptionInfo error = new ExceptionInfo();
+		error.setErrorCode(HttpStatus.PRECONDITION_FAILED.value());
+		error.setMessage(ex.getMessage());
+		return new ResponseEntity<ExceptionInfo>(error, HttpStatus.OK);
 	}
 
     @ExceptionHandler(value = { IllegalArgumentException.class, IllegalStateException.class })
-    protected ResponseEntity<Object> handleConflict(RuntimeException ex, WebRequest request) {
-        String bodyOfResponse = "This should be application specific";
-        return handleExceptionInternal(ex, bodyOfResponse, 
-          new HttpHeaders(), HttpStatus.CONFLICT, request);
+    protected ResponseEntity<ExceptionInfo> handleConflict(RuntimeException ex, WebRequest request) {
+		ExceptionInfo error = new ExceptionInfo();
+		error.setErrorCode(HttpStatus.PRECONDITION_FAILED.value());
+		error.setMessage(ex.getMessage());
+		return new ResponseEntity<ExceptionInfo>(error, HttpStatus.OK);
     }
 }
