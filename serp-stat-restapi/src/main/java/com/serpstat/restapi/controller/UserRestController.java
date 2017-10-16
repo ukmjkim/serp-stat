@@ -9,6 +9,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.serpstat.restapi.exception.UserNotFoundException;
+import com.serpstat.restapi.model.ExceptionInfo;
 import com.serpstat.restapi.model.Site;
 import com.serpstat.restapi.model.User;
 import com.serpstat.restapi.model.UserAPI;
@@ -46,12 +49,12 @@ public class UserRestController {
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<User> getUser(@PathVariable("id") long id) {
+	public ResponseEntity<User> getUser(@PathVariable("id") long id) throws UserNotFoundException {
 		logger.info("Fetching User with id {}", id);
 		User user = userService.findById(id);
 		if (user == null) {
 			logger.info("User with id {} not found", id);
-			return new ResponseEntity<User>(HttpStatus.NOT_FOUND);
+			throw new UserNotFoundException("User with id not found");
 		}
 		return new ResponseEntity<User>(user, HttpStatus.OK);
 	}
@@ -195,4 +198,11 @@ public class UserRestController {
         return new ResponseEntity<Site>(HttpStatus.NO_CONTENT);
 	}
 
+	@ExceptionHandler(UserNotFoundException.class)
+	public ResponseEntity<ExceptionInfo> handleException(Exception ex) {
+		ExceptionInfo error = new ExceptionInfo();
+		error.setErrorCode(HttpStatus.PRECONDITION_FAILED.value());
+		error.setMessage(ex.getMessage());
+		return new ResponseEntity<ExceptionInfo>(error, HttpStatus.OK);
+	}
 }

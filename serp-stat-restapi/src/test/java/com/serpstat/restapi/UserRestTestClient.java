@@ -27,6 +27,7 @@ public class UserRestTestClient {
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void listAllUsers() {
+		System.out.println("=======================================================");
 		System.out.println("Testing listAllUsers API-----------");
 		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
 		RestTemplate restTemplate = new RestTemplate();
@@ -59,7 +60,26 @@ public class UserRestTestClient {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
+	private static void getUser(long userId) {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing getUser API----------- with ------ " + userId);
+		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI+"/user/" + userId + "/", HttpMethod.GET, request, Object.class);
+		LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+		if (map != null) {
+			if (map.containsKey("id")) {
+				System.out.println("User : id="+map.get("id")+", login="+map.get("login")+", email="+map.get("email"));
+			} else {
+				System.out.println("errorCode="+map.get("errorCode")+", message="+map.get("message"));
+			}
+		}
+	}
+
 	public static void main(String[] args) {
         listAllUsers();
+        getUser(1);
+        getUser(100);
 	}
 }

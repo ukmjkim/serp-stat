@@ -27,6 +27,7 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.serpstat.restapi.exception.UserNotFoundException;
 import com.serpstat.restapi.model.Site;
 import com.serpstat.restapi.model.User;
 import com.serpstat.restapi.model.UserAPI;
@@ -71,9 +72,15 @@ public class UserRestControllerTest {
 	public void getUser() {
 		User user = users.get(0);
 		when(userService.findById(anyLong())).thenReturn(user);
-		ResponseEntity<User> response = userController.getUser(user.getId());
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
-		verify(userService, atLeastOnce()).findById(anyLong());
+		ResponseEntity<User> response;
+		try {
+			response = userController.getUser(user.getId());
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+			verify(userService, atLeastOnce()).findById(anyLong());
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
