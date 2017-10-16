@@ -4,14 +4,14 @@
 ## serp-stat-restapi : Spring 4 MVC REST API
 
 ## calling rest api by curl
-Mijungs-MBP-2:serp-stat-restapi MijungKimMacPro$ curl -i -H "Accept: application/json" -H "Content-Type: application/json" "http://localhost:8080/serp-stat-restapi/user/"
+`Mijungs-MBP-2:serp-stat-restapi MijungKimMacPro$ curl -i -H "Accept: application/json" -H "Content-Type: application/json" "http://localhost:8080/serp-stat-restapi/user/"
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1
 Content-Type: application/json;charset=UTF-8
 Transfer-Encoding: chunked
 Date: Mon, 16 Oct 2017 00:47:45 GMT
 
-[{"id":1,"login":"mjkim","password":"mjkim","niceName":"","email":"mjkim@gmail.com","createdAt":null,"updatedAt":null,"deletedAt":null,"deleted":0,"userAPIs":[{"id":1,"apiKey":"abc","ips":"","count":0,"apiLimit":1000,"createdAt":null,"updatedAt":null,"deleted":0}],"sites":[{"id":1,"title":"title1","url":"url1","tracking":1,"dropWWWPrefix":1,"dropDirectories":0,"contactEmail":null,"treatNonRankingAs":null,"nonRankingValue":null,"createdAt":1508050800000,"updatedAt":1508050800000,"deleted":0}]}]Mijungs-MBP-2:serp-stat-restapi MijungKimMacPro$
+[{"id":1,"login":"mjkim","password":"mjkim","niceName":"","email":"mjkim@gmail.com","createdAt":null,"updatedAt":null,"deletedAt":null,"deleted":0,"userAPIs":[{"id":1,"apiKey":"abc","ips":"","count":0,"apiLimit":1000,"createdAt":null,"updatedAt":null,"deleted":0}],"sites":[{"id":1,"title":"title1","url":"url1","tracking":1,"dropWWWPrefix":1,"dropDirectories":0,"contactEmail":null,"treatNonRankingAs":null,"nonRankingValue":null,"createdAt":1508050800000,"updatedAt":1508050800000,"deleted":0}]}]Mijungs-MBP-2:serp-stat-restapi MijungKimMacPro$`
 
 
 
