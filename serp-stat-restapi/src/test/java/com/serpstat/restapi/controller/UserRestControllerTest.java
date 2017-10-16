@@ -27,6 +27,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.serpstat.restapi.exception.SiteNotFoundException;
+import com.serpstat.restapi.exception.UserAPINotFoundException;
+import com.serpstat.restapi.exception.UserLoginNotUniqueException;
 import com.serpstat.restapi.exception.UserNotFoundException;
 import com.serpstat.restapi.model.Site;
 import com.serpstat.restapi.model.User;
@@ -87,26 +90,42 @@ public class UserRestControllerTest {
 	public void createUserWithConflict() {
 		UriComponentsBuilder ucBuilder = UriComponentsBuilder.newInstance();
 		doNothing().when(userService).saveUser(any(User.class));
-		when(userService.isUserLoginUnique(anyLong(), anyString())).thenReturn(true);
-		ResponseEntity<Void> response = userController.createUser(users.get(0), ucBuilder);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+		when(userService.isUserLoginUnique(anyLong(), anyString())).thenReturn(false);
+		ResponseEntity<Void> response;
+		try {
+			response = userController.createUser(users.get(0), ucBuilder);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+		} catch (UserLoginNotUniqueException e) {
+
+		}
 	}
 
 	@Test
 	public void createUserWithSuccess() {
 		UriComponentsBuilder ucBuilder = UriComponentsBuilder.newInstance();
 		doNothing().when(userService).saveUser(any(User.class));
-		when(userService.isUserLoginUnique(anyLong(), anyString())).thenReturn(false);
-		ResponseEntity<Void> response = userController.createUser(users.get(0), ucBuilder);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.CREATED);
+		when(userService.isUserLoginUnique(anyLong(), anyString())).thenReturn(true);
+		ResponseEntity<Void> response;
+		try {
+			response = userController.createUser(users.get(0), ucBuilder);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.CREATED);
+		} catch (UserLoginNotUniqueException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void updateUserWithNotFound() {
 		doNothing().when(userService).saveUser(any(User.class));
 		when(userService.findById(anyLong())).thenReturn(null);
-		ResponseEntity<User> response = userController.updateUser(1000L, users.get(0));
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		ResponseEntity<User> response;
+		try {
+			response = userController.updateUser(1000L, users.get(0));
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		} catch (UserNotFoundException e) {
+
+		}
 	}
 
 	@Test
@@ -114,16 +133,27 @@ public class UserRestControllerTest {
 		User user = users.get(0);
 		doNothing().when(userService).saveUser(any(User.class));
 		when(userService.findById(anyLong())).thenReturn(user);
-		ResponseEntity<User> response = userController.updateUser(user.getId(), user);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		ResponseEntity<User> response;
+		try {
+			response = userController.updateUser(user.getId(), user);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
 	public void deleteUserWithNotFound() {
 		doNothing().when(userService).deleteByLogin(anyString());
 		when(userService.findById(anyLong())).thenReturn(null);
-		ResponseEntity<User> response = userController.deleteUser(1000L);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		ResponseEntity<User> response;
+		try {
+			response = userController.deleteUser(1000L);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		} catch (UserNotFoundException e) {
+
+		}
 	}
 
 	@Test
@@ -131,8 +161,14 @@ public class UserRestControllerTest {
 		User user = users.get(0);
 		doNothing().when(userService).deleteByLogin(anyString());
 		when(userService.findById(anyLong())).thenReturn(user);
-		ResponseEntity<User> response = userController.deleteUser(user.getId());
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+		ResponseEntity<User> response;
+		try {
+			response = userController.deleteUser(user.getId());
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -142,8 +178,14 @@ public class UserRestControllerTest {
 		UserAPI userApi = userApis.iterator().next();
 		when(userService.findById(anyLong())).thenReturn(null);
 		doNothing().when(userApiService).saveUserAPI(any(UserAPI.class));
-		ResponseEntity<Void> response = userController.addUserAPI(users.get(0).getId(), userApi, ucBuilder);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		ResponseEntity<Void> response;
+		try {
+			response = userController.addUserAPI(users.get(0).getId(), userApi, ucBuilder);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -154,8 +196,14 @@ public class UserRestControllerTest {
 		UserAPI userApi = userApis.iterator().next();
 		when(userService.findById(anyLong())).thenReturn(user);
 		doNothing().when(userApiService).saveUserAPI(any(UserAPI.class));
-		ResponseEntity<Void> response = userController.addUserAPI(user.getId(), userApi, ucBuilder);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.CREATED);
+		ResponseEntity<Void> response;
+		try {
+			response = userController.addUserAPI(user.getId(), userApi, ucBuilder);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.CREATED);
+		} catch (UserNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -164,8 +212,13 @@ public class UserRestControllerTest {
 		UserAPI userApi = userApis.iterator().next();
 		when(userApiService.findById(anyInt())).thenReturn(null);
 		doNothing().when(userApiService).updateUserAPI(any(UserAPI.class));
-		ResponseEntity<UserAPI> response = userController.updateUserAPI(users.get(0).getId(), userApi.getId(), userApi);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		ResponseEntity<UserAPI> response;
+		try {
+			response = userController.updateUserAPI(users.get(0).getId(), userApi.getId(), userApi);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		} catch (UserAPINotFoundException e) {
+
+		}
 	}
 
 	@Test
@@ -174,8 +227,14 @@ public class UserRestControllerTest {
 		UserAPI userApi = userApis.iterator().next();
 		when(userApiService.findById(anyInt())).thenReturn(userApi);
 		doNothing().when(userApiService).updateUserAPI(any(UserAPI.class));
-		ResponseEntity<UserAPI> response = userController.updateUserAPI(users.get(0).getId(), userApi.getId(), userApi);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		ResponseEntity<UserAPI> response;
+		try {
+			response = userController.updateUserAPI(users.get(0).getId(), userApi.getId(), userApi);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		} catch (UserAPINotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -184,8 +243,13 @@ public class UserRestControllerTest {
 		UserAPI userApi = userApis.iterator().next();
 		when(userApiService.findById(anyInt())).thenReturn(null);
 		doNothing().when(userApiService).deleteUserAPI(any(UserAPI.class));
-		ResponseEntity<UserAPI> response = userController.deleteUserAPI(users.get(0).getId(), userApi.getId());
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		ResponseEntity<UserAPI> response;
+		try {
+			response = userController.deleteUserAPI(users.get(0).getId(), userApi.getId());
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		} catch (UserAPINotFoundException e) {
+
+		}
 	}
 
 	@Test
@@ -194,8 +258,14 @@ public class UserRestControllerTest {
 		UserAPI userApi = userApis.iterator().next();
 		when(userApiService.findById(anyInt())).thenReturn(userApi);
 		doNothing().when(userApiService).deleteUserAPI(any(UserAPI.class));
-		ResponseEntity<UserAPI> response = userController.deleteUserAPI(users.get(0).getId(), userApi.getId());
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+		ResponseEntity<UserAPI> response;
+		try {
+			response = userController.deleteUserAPI(users.get(0).getId(), userApi.getId());
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+		} catch (UserAPINotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -206,8 +276,14 @@ public class UserRestControllerTest {
 		Site site = sites.iterator().next();
 		doNothing().when(siteService).saveSite(any(Site.class));
 		when(userService.findById(anyLong())).thenReturn(null);
-		ResponseEntity<Void> response = userController.addSite(user.getId(), site, ucBuilder);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		ResponseEntity<Void> response;
+		try {
+			response = userController.addSite(user.getId(), site, ucBuilder);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -218,9 +294,14 @@ public class UserRestControllerTest {
 		Site site = sites.iterator().next();
 		doNothing().when(siteService).saveSite(any(Site.class));
 		when(userService.findById(anyLong())).thenReturn(user);
-		when(siteService.isSiteTitleUnique(anyLong(), anyLong(), anyString())).thenReturn(true);
-		ResponseEntity<Void> response = userController.addSite(user.getId(), site, ucBuilder);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+		when(siteService.isSiteTitleUnique(anyLong(), anyLong(), anyString())).thenReturn(false);
+		ResponseEntity<Void> response;
+		try {
+			response = userController.addSite(user.getId(), site, ucBuilder);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.CONFLICT);
+		} catch (Exception e) {
+
+		}
 	}
 
 	@Test
@@ -231,9 +312,15 @@ public class UserRestControllerTest {
 		Site site = sites.iterator().next();
 		doNothing().when(siteService).saveSite(any(Site.class));
 		when(userService.findById(anyLong())).thenReturn(user);
-		when(siteService.isSiteTitleUnique(anyLong(), anyLong(), anyString())).thenReturn(false);
-		ResponseEntity<Void> response = userController.addSite(user.getId(), site, ucBuilder);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.CREATED);
+		when(siteService.isSiteTitleUnique(anyLong(), anyLong(), anyString())).thenReturn(true);
+		ResponseEntity<Void> response;
+		try {
+			response = userController.addSite(user.getId(), site, ucBuilder);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.CREATED);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -243,8 +330,13 @@ public class UserRestControllerTest {
 		Site site = sites.iterator().next();
 		doNothing().when(siteService).updateSite(any(Site.class));
 		when(siteService.findById(anyLong())).thenReturn(null);
-		ResponseEntity<Site> response = userController.updateSite(user.getId(), site.getId(), site);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		ResponseEntity<Site> response;
+		try {
+			response = userController.updateSite(user.getId(), site.getId(), site);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		} catch (SiteNotFoundException e) {
+
+		}
 	}
 
 	@Test
@@ -254,8 +346,14 @@ public class UserRestControllerTest {
 		Site site = sites.iterator().next();
 		doNothing().when(siteService).updateSite(any(Site.class));
 		when(siteService.findById(anyLong())).thenReturn(site);
-		ResponseEntity<Site> response = userController.updateSite(user.getId(), site.getId(), site);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		ResponseEntity<Site> response;
+		try {
+			response = userController.updateSite(user.getId(), site.getId(), site);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		} catch (SiteNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Test
@@ -265,8 +363,13 @@ public class UserRestControllerTest {
 		Site site = sites.iterator().next();
 		doNothing().when(siteService).deleteById(anyLong());
 		when(siteService.findById(anyLong())).thenReturn(null);
-		ResponseEntity<Site> response = userController.deleteSite(user.getId(), site.getId());
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		ResponseEntity<Site> response;
+		try {
+			response = userController.deleteSite(user.getId(), site.getId());
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
+		} catch (SiteNotFoundException e) {
+
+		}
 	}
 
 	@Test
@@ -276,8 +379,14 @@ public class UserRestControllerTest {
 		Site site = sites.iterator().next();
 		doNothing().when(siteService).deleteById(anyLong());
 		when(siteService.findById(anyLong())).thenReturn(site);
-		ResponseEntity<Site> response = userController.deleteSite(user.getId(), site.getId());
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+		ResponseEntity<Site> response;
+		try {
+			response = userController.deleteSite(user.getId(), site.getId());
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
+		} catch (SiteNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	public List<User> getUserList() {

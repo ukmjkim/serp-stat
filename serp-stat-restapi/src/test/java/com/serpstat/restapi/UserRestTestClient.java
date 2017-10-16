@@ -1,23 +1,28 @@
 package com.serpstat.restapi;
 
 import java.net.URI;
+import java.time.Instant;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.apache.commons.codec.binary.Base64;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
+
+import com.serpstat.restapi.model.Site;
+import com.serpstat.restapi.model.User;
+import com.serpstat.restapi.model.UserAPI;
 
 /* Run As > Java Application */
 public class UserRestTestClient {
 	public static final String REST_SERVICE_URI = "http://localhost:8080/serp-stat-restapi";
-	private static int lastCreatedId = 0;
+	private static long lastCreatedId = 0;
 	
 	private static HttpHeaders getHeaders() {
 		HttpHeaders headers = new HttpHeaders();
@@ -77,9 +82,110 @@ public class UserRestTestClient {
 		}
 	}
 
+	private static void createUser() {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing createUser API----------------- ");
+
+		User user = new User();
+		user.setLogin("sarah");
+		user.setNiceName("Sarah");
+		user.setPassword("password");
+		user.setEmail("sarah@gmail.com");
+		Instant instant = Instant.now();
+		user.setCreatedAt(Date.from(instant));
+		user.setDeleted(0);
+		
+		System.out.println(user);
+
+		HttpEntity<Object> request = new HttpEntity<Object>(user, getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI+"/user/", HttpMethod.POST, request, Object.class);
+		if (response.getStatusCode() == HttpStatus.CREATED) {
+			HttpHeaders headers = response.getHeaders();
+			URI uri = headers.getLocation();
+			String urlStr = uri.toASCIIString();
+			System.out.println("Location: " + urlStr);
+			String[] paths = urlStr.split("/");
+			lastCreatedId = Integer.parseInt(paths[paths.length -1]);
+			System.out.println("lastCreatedId: " + lastCreatedId);
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode="+map.get("errorCode")+", message="+map.get("message"));
+		}
+	}
+
+
+	private static void addUserAPI() {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing addUserAPI API----------------- ");
+
+		UserAPI userAPI = new UserAPI();
+		userAPI.setApiKey("b7fa7429eb36a6335b714ecabfa1f84dccafce1b");
+		userAPI.setIps("");
+		userAPI.setCount(0);
+		userAPI.setApiLimit(1000);
+		Instant instant = Instant.now();
+		java.sql.Date date = new java.sql.Date(Date.from(instant).getTime());
+		userAPI.setCreatedAt(date);
+		userAPI.setDeleted(0);
+		
+		System.out.println(userAPI);
+
+		HttpEntity<Object> request = new HttpEntity<Object>(userAPI, getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI+"/user/"+lastCreatedId+"/userapi", HttpMethod.POST, request, Object.class);
+		if (response.getStatusCode() == HttpStatus.CREATED) {
+			HttpHeaders headers = response.getHeaders();
+			URI uri = headers.getLocation();
+			String urlStr = uri.toASCIIString();
+			System.out.println("Location: " + urlStr);
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode="+map.get("errorCode")+", message="+map.get("message"));
+		}
+	}
+
+	private static void addSite() {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing addSite API----------------- ");
+
+		Site site = new Site();
+		site.setTitle("wayfair.ca");
+		site.setUrl("www.wayfair.ca");
+		site.setTracking(1);
+		site.setDropWWWPrefix(1);
+		site.setDropDirectories(0);
+		site.setContactEmail("admin@wayfair.ca");
+		Instant instant = Instant.now();
+		java.sql.Date date = new java.sql.Date(Date.from(instant).getTime());
+		site.setCreatedAt(date);
+		site.setDeleted(0);
+
+		System.out.println(site);
+
+		HttpEntity<Object> request = new HttpEntity<Object>(site, getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI+"/user/"+lastCreatedId+"/site", HttpMethod.POST, request, Object.class);
+		if (response.getStatusCode() == HttpStatus.CREATED) {
+			HttpHeaders headers = response.getHeaders();
+			URI uri = headers.getLocation();
+			String urlStr = uri.toASCIIString();
+			System.out.println("Location: " + urlStr);
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode="+map.get("errorCode")+", message="+map.get("message"));
+		}
+	}
+
 	public static void main(String[] args) {
         listAllUsers();
         getUser(1);
         getUser(100);
+        createUser();
+        addUserAPI();
+        addSite();
 	}
 }
