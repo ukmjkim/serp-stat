@@ -29,14 +29,14 @@ User (1) -> (M) UserAPI
 3. create customized exception class in excpetion package
     * UserNotFoundException
 4. Throw exception in your controller
-```
+```java
 public ResponseEntity<User> getUser(@PathVariable("id") long id) throws UserNotFoundException {
     ....
     throw new UserNotFoundException("User with id not found");
     ....
 ```
 5. Add handler with @ExceptionHandler
-```
+```java
   @ExceptionHandler(UserNotFoundException.class)
   public ResponseEntity<ExceptionInfo> handleException(Exception ex) {
     ExceptionInfo error = new ExceptionInfo();
