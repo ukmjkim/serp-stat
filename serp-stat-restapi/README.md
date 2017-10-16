@@ -1,7 +1,9 @@
 # SERP STAT RESTAPI
-* serp-stat-restapi : Spring 4 MVC REST API
 
-* calling rest api by curl
+
+## serp-stat-restapi : Spring 4 MVC REST API
+
+## calling rest api by curl
 Mijungs-MBP-2:serp-stat-restapi MijungKimMacPro$ curl -i -H "Accept: application/json" -H "Content-Type: application/json" "http://localhost:8080/serp-stat-restapi/user/"
 HTTP/1.1 200 OK
 Server: Apache-Coyote/1.1
@@ -13,13 +15,13 @@ Date: Mon, 16 Oct 2017 00:47:45 GMT
 
 
 
-* Hibernate ManyToOne Infinite Loop
+## Hibernate ManyToOne Infinite Loop
 User (1) -> (M) UserAPI
 1. Don't use user entity in toString, equals, and hashcode
 2. Remove the getter of User in UserAPI (owning class)
     JSON format returns like {"user":1 ... userapi: ["id":1, ... "user" [...] ==> infinite loop.
 
-* Exception Handling in Spring REST
+## Exception Handling in Spring REST
 1. RestResponseEntityExceptionHandler controller package
 2. ExceptionInfo model
 3. create customized exception class in excpetion package
@@ -42,5 +44,5 @@ public ResponseEntity<User> getUser(@PathVariable("id") long id) throws UserNotF
   }
 
 
-*
+##
 
