@@ -37,7 +37,7 @@ public class Site {
 	private Integer dropWWWPrefix = 1;
 	
 	@Column(name="DROP_DIRECTORIES")
-	private Integer dropDirectories = 0;;
+	private Integer dropDirectories = 0;
 	
 	@Column(name="CONTACT_EMAIL")
 	private String contactEmail = null;
