@@ -26,6 +26,7 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
 		}
 		return user;
 	}
+
 	public User findByLogin(String login) {
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("login", login));
@@ -36,21 +37,24 @@ public class UserDaoImpl extends AbstractDao<Long, User> implements UserDao {
 		}
 		return user;
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<User> findAllUsers() {
 		Criteria criteria = createEntityCriteria();
 		criteria.addOrder(Order.asc("login"));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		List<User> users = (List<User>) criteria.list();
-		for(User user : users){
+		for (User user : users) {
 			Hibernate.initialize(user.getUserAPIs());
 			Hibernate.initialize(user.getSites());
-        }
+		}
 		return users;
 	}
+
 	public void save(User user) {
 		persist(user);
 	}
+
 	public void deleteByLogin(String login) {
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("login", login));

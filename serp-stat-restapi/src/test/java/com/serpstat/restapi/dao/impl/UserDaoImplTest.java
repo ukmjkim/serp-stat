@@ -16,11 +16,9 @@ public class UserDaoImplTest extends EntityDaoImplTest {
 
 	@Override
 	protected IDataSet getDataSet() throws Exception {
-		IDataSet dataSets[] = {
-				new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("User.xml")),
+		IDataSet dataSets[] = { new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("User.xml")),
 				new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("UserAPI.xml")),
-				new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("Site.xml")),
-		};
+				new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("Site.xml")), };
 		return new CompositeDataSet(dataSets);
 	}
 
@@ -29,13 +27,13 @@ public class UserDaoImplTest extends EntityDaoImplTest {
 		Assert.assertNotNull(userDao.findById(1));
 		Assert.assertNull(userDao.findById(1000));
 	}
-	
+
 	@Test
 	public void findByLogin() {
 		Assert.assertNotNull(userDao.findByLogin("testuser1"));
 		Assert.assertNull(userDao.findByLogin("dataNotFound"));
 	}
-	
+
 	@Test
 	public void findAllUsers() {
 		Assert.assertEquals(userDao.findAllUsers().size(), 3);
@@ -50,13 +48,13 @@ public class UserDaoImplTest extends EntityDaoImplTest {
 		user.setNiceName("nicename");
 		user.setEmail("email");
 		userDao.save(user);
-		Assert.assertEquals(userDao.findAllUsers().size(), currentCount+1);
+		Assert.assertEquals(userDao.findAllUsers().size(), currentCount + 1);
 	}
-	
+
 	@Test
 	public void deleteByLogin() {
 		int currentCount = userDao.findAllUsers().size();
 		userDao.deleteByLogin("testuser1");
-		Assert.assertEquals(userDao.findAllUsers().size(), currentCount-1);
+		Assert.assertEquals(userDao.findAllUsers().size(), currentCount - 1);
 	}
 }

@@ -23,18 +23,23 @@ public class UserAPIServiceImpl implements UserAPIService {
 	public UserAPI findById(int id) {
 		return dao.findById(id);
 	}
+
 	public UserAPI findByKey(String apiKey) {
 		return dao.findByKey(apiKey);
 	}
+
 	public List<UserAPI> findAllByUserId(long userId) {
 		return dao.findAllByUserId(userId);
 	}
+
 	public List<UserAPI> findAll() {
 		return dao.findAll();
 	}
+
 	public void saveUserAPI(UserAPI userApi) {
 		dao.save(userApi);
 	}
+
 	public void updateUserAPI(UserAPI userApi) {
 		UserAPI entity = dao.findById(userApi.getId());
 		if (entity != null) {
@@ -43,12 +48,15 @@ public class UserAPIServiceImpl implements UserAPIService {
 			entity.setApiLimit(userApi.getApiLimit());
 		}
 	}
+
 	public void deleteUserAPI(UserAPI userApi) {
 		dao.deleteByKey(userApi.getApiKey());
 	}
+
 	public void deleteByKey(String apiKey) {
 		dao.deleteByKey(apiKey);
 	}
+
 	public boolean isUserAPIKeyUnique(Integer id, String key) {
 		UserAPI userApi = dao.findByKey(key);
 		return (userApi == null || ((id != null) && userApi.getId() == id));

@@ -19,7 +19,7 @@ import com.serpstat.restapi.service.SiteService;
 @RestController
 public class SiteRestController {
 	static final Logger logger = LoggerFactory.getLogger(SiteRestController.class);
-	
+
 	@Autowired
 	SiteService siteService;
 

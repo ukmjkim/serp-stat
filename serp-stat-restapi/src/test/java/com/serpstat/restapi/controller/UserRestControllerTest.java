@@ -62,7 +62,7 @@ public class UserRestControllerTest {
 		MockitoAnnotations.initMocks(this);
 		users = getUserList();
 	}
-	
+
 	@Test
 	public void listUsers() {
 		when(userService.findAllUsers()).thenReturn(users);
@@ -70,7 +70,7 @@ public class UserRestControllerTest {
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		verify(userService, atLeastOnce()).findAllUsers();
 	}
-	
+
 	@Test
 	public void getUser() {
 		User user = users.get(0);
@@ -418,7 +418,6 @@ public class UserRestControllerTest {
 		userApi2.setId(2);
 		userApi2.setApiKey("newKey2");
 		userApis2.add(userApi2);
-
 
 		Set<Site> sites2 = new HashSet<Site>();
 		Site site2 = new Site();

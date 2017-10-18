@@ -19,19 +19,19 @@ import com.serpstat.restapi.model.ExceptionInfo;
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(RestResponseEntityExceptionHandler.class);
-	
+
 	@ExceptionHandler(SQLException.class)
-	public ResponseEntity<ExceptionInfo> handleSQLException(RuntimeException ex, WebRequest request){
-		logger.info("SQLException Occured:: URL="+request.getContextPath());
+	public ResponseEntity<ExceptionInfo> handleSQLException(RuntimeException ex, WebRequest request) {
+		logger.info("SQLException Occured:: URL=" + request.getContextPath());
 		ExceptionInfo error = new ExceptionInfo();
 		error.setErrorCode(HttpStatus.PRECONDITION_FAILED.value());
 		error.setMessage(ex.getMessage());
 		return new ResponseEntity<ExceptionInfo>(error, HttpStatus.OK);
 	}
-	
-	@ResponseStatus(value=HttpStatus.NOT_FOUND, reason="IOException occured")
+
+	@ResponseStatus(value = HttpStatus.NOT_FOUND, reason = "IOException occured")
 	@ExceptionHandler(IOException.class)
-	public ResponseEntity<ExceptionInfo> handleIOException(RuntimeException ex, WebRequest request){
+	public ResponseEntity<ExceptionInfo> handleIOException(RuntimeException ex, WebRequest request) {
 		logger.error("IOException handler executed");
 		ExceptionInfo error = new ExceptionInfo();
 		error.setErrorCode(HttpStatus.PRECONDITION_FAILED.value());
@@ -39,11 +39,11 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
 		return new ResponseEntity<ExceptionInfo>(error, HttpStatus.OK);
 	}
 
-    @ExceptionHandler(value = { IllegalArgumentException.class, IllegalStateException.class })
-    protected ResponseEntity<ExceptionInfo> handleConflict(RuntimeException ex, WebRequest request) {
+	@ExceptionHandler(value = { IllegalArgumentException.class, IllegalStateException.class })
+	protected ResponseEntity<ExceptionInfo> handleConflict(RuntimeException ex, WebRequest request) {
 		ExceptionInfo error = new ExceptionInfo();
 		error.setErrorCode(HttpStatus.PRECONDITION_FAILED.value());
 		error.setMessage(ex.getMessage());
 		return new ResponseEntity<ExceptionInfo>(error, HttpStatus.OK);
-    }
+	}
 }

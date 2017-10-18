@@ -18,39 +18,39 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
-@Table(name="USER_APIS")
+@Table(name = "USER_APIS")
 public class UserAPI {
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	
-	@Column(name="API_key", unique=true, nullable=false)
+
+	@Column(name = "API_key", unique = true, nullable = false)
 	private String apiKey;
-	
-	@Column(name="IPS")
+
+	@Column(name = "IPS")
 	private String ips;
-	
-	@Column(name="COUNT")
+
+	@Column(name = "COUNT")
 	private Integer count = 0;
-	
-	@Column(name="API_LIMIT")
+
+	@Column(name = "API_LIMIT")
 	private Integer apiLimit = 0;
 
 	@CreationTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="CREATED_AT")
+	@Column(name = "CREATED_AT")
 	private Date createdAt;
-	
+
 	@UpdateTimestamp
 	@Temporal(TemporalType.TIMESTAMP)
-	@Column(name="UPDATED_AT")
+	@Column(name = "UPDATED_AT")
 	private Date updatedAt = null;
-	
-	@Column(name="DELETED")
+
+	@Column(name = "DELETED")
 	private Integer deleted = 0;
 
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="USER_ID", nullable = false)
+	@JoinColumn(name = "USER_ID", nullable = false)
 	private User user;
 
 	public Integer getId() {
@@ -120,16 +120,17 @@ public class UserAPI {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
 	@Override
 	public int hashCode() {
-		final int prime=31;
+		final int prime = 31;
 		int result = 1;
-		
+
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((apiKey == null) ? 0 : apiKey.hashCode());
 		return result;
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -138,7 +139,7 @@ public class UserAPI {
 			return false;
 		if (!(obj instanceof UserAPI))
 			return false;
-		
+
 		UserAPI other = (UserAPI) obj;
 		if (id == null) {
 			if (other.id != null)
@@ -146,23 +147,21 @@ public class UserAPI {
 		} else if (!id.equals(other.id)) {
 			return false;
 		}
-		
+
 		if (apiKey == null) {
-			if (other.apiKey != null) 
+			if (other.apiKey != null)
 				return false;
 		} else if (!apiKey.equals(other.apiKey)) {
 			return false;
 		}
-		
+
 		return true;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "UserAPI [id=" + id 
-				+ ", api_key=" + ((apiKey == null) ? "" : apiKey)
-				+ ", ips=" + ((ips == null) ? "" : ips)
-				+ ", count=" + ((count == null) ? 0 : count)
-				+ ", api_limit=" + ((apiLimit == null) ? 0 : apiLimit) + "]";
+		return "UserAPI [id=" + id + ", api_key=" + ((apiKey == null) ? "" : apiKey) + ", ips="
+				+ ((ips == null) ? "" : ips) + ", count=" + ((count == null) ? 0 : count) + ", api_limit="
+				+ ((apiLimit == null) ? 0 : apiLimit) + "]";
 	}
 }

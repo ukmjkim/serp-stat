@@ -20,11 +20,9 @@ public class UserAPIDaoImplTest extends EntityDaoImplTest {
 
 	@Override
 	protected IDataSet getDataSet() throws Exception {
-		IDataSet dataSets[] = {
-			new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("User.xml")),
-			new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("UserAPI.xml")),
-			new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("Site.xml")),
-		};
+		IDataSet dataSets[] = { new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("User.xml")),
+				new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("UserAPI.xml")),
+				new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("Site.xml")), };
 		return new CompositeDataSet(dataSets);
 	}
 
@@ -33,19 +31,19 @@ public class UserAPIDaoImplTest extends EntityDaoImplTest {
 		Assert.assertNotNull(userApiDao.findById(1));
 		Assert.assertNull(userApiDao.findById(1000));
 	}
-	
+
 	@Test
 	public void findByKey() {
 		Assert.assertNotNull(userApiDao.findByKey("key1"));
 		Assert.assertNull(userApiDao.findByKey("key10"));
 	}
-	
+
 	@Test
 	public void findAllByUserId() {
 		Assert.assertNotNull(userApiDao.findAllByUserId(1));
 		Assert.assertEquals(userApiDao.findAllByUserId(1000L).size(), 0);
 	}
-	
+
 	@Test
 	public void findAll() {
 		Assert.assertEquals(userApiDao.findAll().size(), 3);
@@ -60,13 +58,13 @@ public class UserAPIDaoImplTest extends EntityDaoImplTest {
 		userApi.setApiKey("newKey");
 		userApi.setIps("");
 		userApiDao.save(userApi);
-		Assert.assertEquals(userApiDao.findAll().size(), currentCount+1);
+		Assert.assertEquals(userApiDao.findAll().size(), currentCount + 1);
 	}
-	
+
 	@Test
 	public void deleteByKey() {
 		int currentCount = userApiDao.findAll().size();
 		userApiDao.deleteByKey(userApiDao.findById(1).getApiKey());
-		Assert.assertEquals(userApiDao.findAll().size(), currentCount-1);
+		Assert.assertEquals(userApiDao.findAll().size(), currentCount - 1);
 	}
 }

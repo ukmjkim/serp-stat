@@ -31,16 +31,16 @@ public class UserServiceImplTest {
 
 	@InjectMocks
 	UserServiceImpl userService;
-	
+
 	@Spy
 	List<User> users = new ArrayList<User>();
-	
+
 	@BeforeClass
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		users = getUserList();
 	}
-	
+
 	@Test
 	public void findById() {
 		User user = users.get(0);
@@ -71,7 +71,7 @@ public class UserServiceImplTest {
 	@Test
 	public void updateUser() {
 		User user = users.get(0);
-System.out.println("updateUser user: " + user);
+		System.out.println("updateUser user: " + user);
 		when(dao.findById(anyLong())).thenReturn(user);
 		userService.updateUser(user);
 		verify(dao, atLeastOnce()).findById(anyLong());
@@ -121,7 +121,7 @@ System.out.println("updateUser user: " + user);
 		user2.setNiceName("nicename");
 		user2.setEmail("email");
 		user2.setUserAPIs(userApis2);
-		
+
 		users.add(user1);
 		users.add(user2);
 		return users;

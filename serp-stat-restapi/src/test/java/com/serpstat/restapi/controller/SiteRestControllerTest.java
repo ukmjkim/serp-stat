@@ -41,7 +41,7 @@ public class SiteRestControllerTest {
 		MockitoAnnotations.initMocks(this);
 		sites = getSiteList();
 	}
-	
+
 	@Test
 	public void listAllSites() {
 		when(siteService.findAll()).thenReturn(sites);
@@ -49,7 +49,7 @@ public class SiteRestControllerTest {
 		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 		verify(siteService, atLeastOnce()).findAll();
 	}
-	
+
 	@Test
 	public void getSite() {
 		Site site = sites.get(0);
@@ -79,7 +79,7 @@ public class SiteRestControllerTest {
 		site2.setUser(user);
 		site2.setTitle("newTitle2");
 		site2.setUrl("www.url2.com");
-		
+
 		sites.add(site1);
 		sites.add(site2);
 		return sites;

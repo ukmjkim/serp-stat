@@ -17,13 +17,13 @@ import com.serpstat.restapi.configuration.HibernateTestConfiguration;
 public abstract class EntityDaoImplTest extends AbstractTransactionalTestNGSpringContextTests {
 	@Autowired
 	DataSource dataSource;
-	
+
 	@BeforeMethod
 	public void setUp() throws Exception {
 		IDatabaseConnection dbConn = new DatabaseDataSourceConnection(dataSource);
 		IDataSet dataSet = getDataSet();
-		DatabaseOperation.CLEAN_INSERT.execute(dbConn,  dataSet);
+		DatabaseOperation.CLEAN_INSERT.execute(dbConn, dataSet);
 	}
-	
+
 	protected abstract IDataSet getDataSet() throws Exception;
 }

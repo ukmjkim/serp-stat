@@ -20,20 +20,23 @@ public class SiteDaoImpl extends AbstractDao<Long, Site> implements SiteDao {
 	public Site findById(long id) {
 		return getByKey(id);
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<Site> findAllByUserId(long userId) {
 		Criteria criteria = createEntityCriteria();
 		Criteria userCriteria = criteria.createCriteria("user");
-		userCriteria.add(Restrictions.eq("id",  userId));
+		userCriteria.add(Restrictions.eq("id", userId));
 		return (List<Site>) criteria.list();
 	}
+
 	public Site findByUserIdAndTitle(long userId, String title) {
 		Criteria criteria = createEntityCriteria();
 		Criteria userCriteria = criteria.createCriteria("user");
-		userCriteria.add(Restrictions.eq("id",  userId));
-		criteria.add(Restrictions.eq("title",  title));
+		userCriteria.add(Restrictions.eq("id", userId));
+		criteria.add(Restrictions.eq("title", title));
 		return (Site) criteria.uniqueResult();
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<Site> findAll() {
 		Criteria criteria = createEntityCriteria();
@@ -42,9 +45,11 @@ public class SiteDaoImpl extends AbstractDao<Long, Site> implements SiteDao {
 		return (List<Site>) criteria.list();
 
 	}
+
 	public void save(Site site) {
 		persist(site);
 	}
+
 	public void deleteById(long id) {
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("id", id));

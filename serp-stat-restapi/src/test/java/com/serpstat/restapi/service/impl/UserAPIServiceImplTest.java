@@ -36,7 +36,7 @@ public class UserAPIServiceImplTest {
 
 	@Spy
 	List<UserAPI> userApis = new ArrayList<UserAPI>();
-	
+
 	@BeforeClass
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
@@ -117,7 +117,7 @@ public class UserAPIServiceImplTest {
 		userApi2.setId(2);
 		userApi1.setUser(user);
 		userApi2.setApiKey("newKey2");
-		
+
 		userApis.add(userApi1);
 		userApis.add(userApi2);
 		return userApis;

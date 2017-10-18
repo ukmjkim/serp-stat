@@ -23,15 +23,19 @@ public class UserServiceImpl implements UserService {
 	public User findById(long id) {
 		return dao.findById(id);
 	}
+
 	public User findByLogin(String login) {
 		return dao.findByLogin(login);
 	}
+
 	public List<User> findAllUsers() {
 		return dao.findAllUsers();
 	}
+
 	public void saveUser(User user) {
 		dao.save(user);
 	}
+
 	public void updateUser(User user) {
 		User entity = dao.findById(user.getId());
 		if (entity != null) {
@@ -40,9 +44,11 @@ public class UserServiceImpl implements UserService {
 			entity.setEmail(user.getEmail());
 		}
 	}
+
 	public void deleteByLogin(String login) {
 		dao.deleteByLogin(login);
 	}
+
 	public boolean isUserLoginUnique(Long id, String login) {
 		User user = dao.findByLogin(login);
 		return (user == null || ((id != null) && user.getId() == id));

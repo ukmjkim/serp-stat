@@ -20,11 +20,9 @@ public class SiteDaoImplTest extends EntityDaoImplTest {
 
 	@Override
 	protected IDataSet getDataSet() throws Exception {
-		IDataSet dataSets[] = {
-				new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("User.xml")),
+		IDataSet dataSets[] = { new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("User.xml")),
 				new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("UserAPI.xml")),
-				new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("Site.xml")),
-		};
+				new FlatXmlDataSet(this.getClass().getClassLoader().getResourceAsStream("Site.xml")), };
 		return new CompositeDataSet(dataSets);
 	}
 
@@ -33,19 +31,19 @@ public class SiteDaoImplTest extends EntityDaoImplTest {
 		Assert.assertNotNull(siteDao.findById(1));
 		Assert.assertNull(siteDao.findById(1000));
 	}
-	
+
 	@Test
 	public void findByUserIdAndTitle() {
 		Assert.assertNotNull(siteDao.findByUserIdAndTitle(1, "title1"));
 		Assert.assertNull(siteDao.findByUserIdAndTitle(10, "title10"));
 	}
-	
+
 	@Test
 	public void findAllByUserId() {
 		Assert.assertNotNull(siteDao.findAllByUserId(1));
 		Assert.assertEquals(siteDao.findAllByUserId(10).size(), 0);
 	}
-	
+
 	@Test
 	public void findAll() {
 		Assert.assertEquals(siteDao.findAll().size(), 3);
@@ -60,13 +58,13 @@ public class SiteDaoImplTest extends EntityDaoImplTest {
 		site.setTitle("newTitle");
 		site.setUrl("www.site.com");
 		siteDao.save(site);
-		Assert.assertEquals(siteDao.findAll().size(), currentCount+1);
+		Assert.assertEquals(siteDao.findAll().size(), currentCount + 1);
 	}
-	
+
 	@Test
 	public void deleteById() {
 		int currentCount = siteDao.findAll().size();
 		siteDao.deleteById(1);
-		Assert.assertEquals(siteDao.findAll().size(), currentCount-1);
+		Assert.assertEquals(siteDao.findAll().size(), currentCount - 1);
 	}
 }

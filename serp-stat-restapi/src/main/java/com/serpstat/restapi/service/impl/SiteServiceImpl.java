@@ -23,15 +23,19 @@ public class SiteServiceImpl implements SiteService {
 	public Site findById(long id) {
 		return dao.findById(id);
 	}
+
 	public List<Site> findAllByUserId(long userId) {
 		return dao.findAllByUserId(userId);
 	}
+
 	public List<Site> findAll() {
 		return dao.findAll();
 	}
+
 	public void saveSite(Site site) {
 		dao.save(site);
 	}
+
 	public void updateSite(Site site) {
 		Site entity = dao.findById(site.getId());
 		if (entity != null) {
@@ -45,9 +49,11 @@ public class SiteServiceImpl implements SiteService {
 			entity.setNonRankingValue(site.getNonRankingValue());
 		}
 	}
+
 	public void deleteById(long id) {
 		dao.deleteById(id);
 	}
+
 	public boolean isSiteTitleUnique(Long id, Long userId, String title) {
 		Site site = dao.findByUserIdAndTitle(userId, title);
 		return (site == null || ((id != null) && site.getId() == id));

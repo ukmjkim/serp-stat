@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages="com.serpstat.restapi")
+@ComponentScan(basePackages = "com.serpstat.restapi")
 public class AppConfiguration extends WebMvcConfigurerAdapter {
 
 }

@@ -6,10 +6,16 @@ import com.serpstat.restapi.model.Site;
 
 public interface SiteService {
 	Site findById(long id);
+
 	List<Site> findAllByUserId(long userId);
+
 	List<Site> findAll();
+
 	void saveSite(Site site);
+
 	void updateSite(Site site);
+
 	void deleteById(long id);
+
 	boolean isSiteTitleUnique(Long id, Long userId, String title);
 }

@@ -20,18 +20,21 @@ public class UserAPIDaoImpl extends AbstractDao<Integer, UserAPI> implements Use
 	public UserAPI findById(int id) {
 		return getByKey(id);
 	}
+
 	public UserAPI findByKey(String apiKey) {
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("apiKey", apiKey));
 		return (UserAPI) criteria.uniqueResult();
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<UserAPI> findAllByUserId(long userId) {
 		Criteria criteria = createEntityCriteria();
 		Criteria userCriteria = criteria.createCriteria("user");
-		userCriteria.add(Restrictions.eq("id",  userId));
+		userCriteria.add(Restrictions.eq("id", userId));
 		return (List<UserAPI>) criteria.list();
 	}
+
 	@SuppressWarnings("unchecked")
 	public List<UserAPI> findAll() {
 		Criteria criteria = createEntityCriteria();
@@ -39,9 +42,11 @@ public class UserAPIDaoImpl extends AbstractDao<Integer, UserAPI> implements Use
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (List<UserAPI>) criteria.list();
 	}
+
 	public void save(UserAPI userApi) {
 		persist(userApi);
 	}
+
 	public void deleteByKey(String apiKey) {
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("apiKey", apiKey));

@@ -30,13 +30,13 @@ public class SiteServiceImplTest {
 
 	@InjectMocks
 	SiteServiceImpl siteService;
-	
+
 	@Spy
 	User user = null;
-	
+
 	@Spy
 	List<Site> sites = new ArrayList<Site>();
-	
+
 	@BeforeClass
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
@@ -112,7 +112,7 @@ public class SiteServiceImplTest {
 		site2.setUser(user);
 		site2.setTitle("newTitle2");
 		site2.setUrl("www.url2.com");
-		
+
 		sites.add(site1);
 		sites.add(site2);
 		return sites;
