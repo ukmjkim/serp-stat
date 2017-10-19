@@ -45,13 +45,13 @@ public class TagRestTestClient {
 		}
 	}
 
-	private static void createTag() {
+	private static void createTag(String tagName) {
 		System.out.println("=======================================================");
 		System.out.println("---- Testing createTag API----------------- ");
 
 		Tag tag = new Tag();
 		tag.setSiteId(1L);
-		tag.setTag("Tap 10 Performer");
+		tag.setTag(tagName);
 		Instant instant = Instant.now();
 		tag.setCreatedAt(Date.from(instant));
 		tag.setDeleted(0);
@@ -78,7 +78,12 @@ public class TagRestTestClient {
 	}
 
 	public static void main(String[] args) {
-		createTag();
+		createTag("Favorites");
+		createTag("Seasonal Target");
+		createTag("Region Target");
+		createTag("Top Revenue");
+		createTag("New Business");
+		createTag("Red Ocean");
 		getTag(lastCreatedId);
 	}
 }
