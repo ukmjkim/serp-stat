@@ -1,6 +1,9 @@
 package com.serpstat.restapi.configuration;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
+
+import com.serpstat.restapi.filter.CORSFilter;
+
 import javax.servlet.Filter;
 
 public class AppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
@@ -22,7 +25,7 @@ public class AppInitializer extends AbstractAnnotationConfigDispatcherServletIni
 
 	@Override
 	protected Filter[] getServletFilters() {
-		Filter[] singleton = { new CORSFilter() };
-		return singleton;
+		Filter[] filters = { new CORSFilter() };
+		return filters;
 	}
 }

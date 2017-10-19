@@ -26,7 +26,7 @@ User (1) -> (M) UserAPI
 ## Exception Handling in Spring REST
 1. RestResponseEntityExceptionHandler controller package
 2. ExceptionInfo model
-3. create customized exception class in excpetion package
+3. create customized exception class in exception package
     * UserNotFoundException
 4. Throw exception in your controller
 ```java
@@ -46,5 +46,7 @@ public ResponseEntity<User> getUser(@PathVariable("id") long id) throws UserNotF
   }
 ```
 
-##
+## CORS
+https://www.concretepage.com/spring-4/spring-4-rest-cors-integration-using-crossorigin-annotation-xml-filter-example
+
 
