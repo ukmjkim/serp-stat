@@ -19,13 +19,19 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import com.serpstat.restapi.exception.SiteNotFoundException;
 import com.serpstat.restapi.model.Site;
+import com.serpstat.restapi.model.Tag;
 import com.serpstat.restapi.model.User;
 import com.serpstat.restapi.service.SiteService;
+import com.serpstat.restapi.service.TagService;
 
 public class SiteRestControllerTest {
 	@Mock
 	SiteService siteService;
+
+	@Mock
+	TagService tagService;
 
 	@InjectMocks
 	SiteRestController siteController;
@@ -36,10 +42,14 @@ public class SiteRestControllerTest {
 	@Spy
 	List<Site> sites = new ArrayList<Site>();
 
+	@Spy
+	List<Tag> tags = new ArrayList<Tag>();
+
 	@BeforeClass
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		sites = getSiteList();
+		tags = getTagList();
 	}
 
 	@Test
@@ -54,9 +64,23 @@ public class SiteRestControllerTest {
 	public void getSite() {
 		Site site = sites.get(0);
 		when(siteService.findById(anyLong())).thenReturn(site);
-		ResponseEntity<Site> response = siteController.getSite(site.getId());
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		ResponseEntity<Site> response;
+		try {
+			response = siteController.getSite(site.getId());
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		} catch (SiteNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		verify(siteService, atLeastOnce()).findById(anyLong());
+	}
+
+	@Test
+	public void listAllTagsBySiteId() {
+		when(tagService.findAllBySiteId(anyLong())).thenReturn(tags);
+		ResponseEntity<List<Tag>> response = siteController.listAllTagsBySiteId(1L);
+		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		verify(tagService, atLeastOnce()).findAllBySiteId(anyLong());
 	}
 
 	public List<Site> getSiteList() {
@@ -83,5 +107,21 @@ public class SiteRestControllerTest {
 		sites.add(site1);
 		sites.add(site2);
 		return sites;
+	}
+
+	public List<Tag> getTagList() {
+		Tag tag1 = new Tag();
+		tag1.setId(1L);
+		tag1.setSiteId(1L);
+		tag1.setTag("tag1");
+
+		Tag tag2 = new Tag();
+		tag2.setId(2L);
+		tag2.setSiteId(1L);
+		tag2.setTag("tag2");
+
+		tags.add(tag1);
+		tags.add(tag2);
+		return tags;
 	}
 }

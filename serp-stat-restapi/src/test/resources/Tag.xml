@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <tags id="1" SITE_ID="1" TAG="tag1" />
+    <tags id="2" SITE_ID="1" TAG="tag2" />
+    <tags id="3" SITE_ID="1" TAG="tag3" />
+</dataset>
