@@ -3,6 +3,7 @@
 
 backup/
 
+
 */target/
 */*/target/
 */*/*/target/
@@ -11,4 +12,7 @@ backup/
 */.project
 */*/.classpath
 */*/.project
+
+*/.vscode
+*/node_modules
 
