@@ -1,8 +1,8 @@
 const routes = {
   '/': 'Home',
-  'dashboard': 'dashboard',
-  'site/:site/tag/:tag': 'top10_keywords',
-  'keyword': 'keyword',
-  'settings': 'settings',
+  '/dashboard': 'Dashboard',
+  '/site/:site/tag/:tag': 'Dashboard',
+  '/keyword': 'Keyword',
+  '/settings': 'Settings',
 };
 export default routes;

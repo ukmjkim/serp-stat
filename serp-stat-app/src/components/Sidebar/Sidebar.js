@@ -1,15 +1,32 @@
 import React, {Component} from 'react';
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
+
 import {NavLink} from 'react-router-dom';
 import {Badge, Nav, NavItem, NavLink as RsNavLink} from 'reactstrap';
 import isExternal from 'is-url-external';
 import classNames from 'classnames';
-import nav from './_nav';
 import SidebarFooter from './../SidebarFooter';
 import SidebarForm from './../SidebarForm';
 import SidebarHeader from './../SidebarHeader';
 import SidebarMinimizer from './../SidebarMinimizer';
 
+import { sitesSelected } from "../../actions/sites"
+import { tagsFetchData } from "../../actions/tags"
+
 class Sidebar extends Component {
+  componentDidMount() {
+    if (this.props.sitesSelected) {
+      this.props.fetchData(this.props.sitesSelected);
+    }
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if ((!this.props.sitesSelected && nextProps.sitesSelected) ||
+        (this.props.sitesSelected != nextProps.sitesSelected)) {
+      nextProps.fetchData(nextProps.sitesSelected.id);
+    }
+  }
 
   handleClick(e) {
     e.preventDefault();
@@ -27,12 +44,65 @@ class Sidebar extends Component {
   //   return this.props.location.pathname.indexOf(routeName) > -1 ? "nav nav-second-level collapse in" : "nav nav-second-level collapse";
   // }
 
+  generateSidebar(props) {
+    const header = [{
+      name: 'Dashboard',
+      url: '/dashboard',
+      icon: 'icon-speedometer'
+    },
+    {
+      title: true,
+      name: props.sitesSelected.title,
+      wrapper: {
+        element: '',
+        attributes: {}
+      },
+      class: ''
+    }];
+
+    const tagMap = (item, key) => {
+      return {
+        name: item.tag,
+        key: item.id,
+        url: '/site/'+props.sitesSelected.id+'/tag/'+item.id,
+        icon: 'icon-puzzle'
+      }
+    };
+
+    const tags = props.tags.map((tag, index) => tagMap(tag, index));
+    const tail = [
+      {
+        name: 'Customer Service',
+        url: '/customer_service',
+        icon: 'icon-cloud-download',
+        class: 'mt-auto',
+        variant: 'success'
+      },
+      {
+        name: 'What\'s New',
+        url: '/whats_new',
+        icon: 'icon-layers',
+        variant: 'danger'
+      }
+    ];
+
+    const body = header.concat(tags);
+    const items = body.concat(tail);
+
+    return items;
+  }
 
   render() {
-
     const props = this.props;
     const activeRoute = this.activeRoute;
     const handleClick = this.handleClick;
+
+    if (!props.hasFetched) {
+      return <div>Loading....</div>;
+    }
+
+    const items = this.generateSidebar(props);
+
 
     // badge addon to NavItem
     const badge = (badge) => {
@@ -103,7 +173,7 @@ class Sidebar extends Component {
         <SidebarForm/>
         <nav className="sidebar-nav">
           <Nav>
-            {navList(nav.items)}
+            {navList(items)}
           </Nav>
         </nav>
         <SidebarFooter/>
@@ -113,4 +183,29 @@ class Sidebar extends Component {
   }
 }
 
-export default Sidebar;
+Sidebar.propTypes = {
+    sitesSelected: PropTypes.object,
+    fetchData: PropTypes.func.isRequired,
+    tags: PropTypes.array.isRequired,
+    hasErrored: PropTypes.bool.isRequired,
+    hasFetched: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = (state) => {
+  return {
+    sitesSelected: state.sitesSelected,
+    tags: state.tags,
+    hasErrored: state.tagsHasErrored,
+    hasFetched: state.tagsHasFetched,
+    isLoading: state.tagsIsLoading
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchData: (siteId) => dispatch(tagsFetchData(siteId))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Sidebar);

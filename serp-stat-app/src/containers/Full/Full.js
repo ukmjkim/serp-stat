@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
+
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Container } from 'reactstrap';
 
@@ -14,45 +17,23 @@ import Dashboard from '../../views/Dashboard/';
 import Keyword from '../../views/Keyword/';
 import Settings from '../../views/Settings/';
 
-export default class Full extends Component {
-  constructor() {
-    super();
-    this.state = {
-      siteId: 0,
-      entities: [
-        {
-          key: 1,
-          name: "top10_keywords",
-          path: "site/:site/tag/:tag"
-        },
-        {
-          key: 2,
-          name: "high_revenue",
-          path: "site/:site/tag/:tag"
-        },
-        {
-          key: 3,
-          name: "seasonal",
-          path: "site/:site/tag/:tag"
-        },
-        {
-          key: 4,
-          name: "targetting",
-          path: "site/:site/tag/:tag"
-        },
-      ]
-    }
+import { userFetchData } from "../../actions/user"
+
+class Full extends Component {
+  componentDidMount() {
+    this.props.fetchData(1);
   }
 
-  changeSite(siteId) {
-    this.setState({siteId});
-  }
   render() {
-    console.log(this.props);
-    const { entities } = this.state;
-    const EntityItems = entities.map((entity) => {
-      return <Route path={entity.path} name={entity.name} key={entity.key} component={Dashboard} {...entity}/>;
-    });
+    const { user } = this.props;
+
+    if (user === undefined || user.id == null) {
+      return (
+        <div className="app">
+          Loading...
+        </div>
+      );
+    }
 
     return (
       <div className="app">
@@ -63,10 +44,10 @@ export default class Full extends Component {
             <Breadcrumb />
             <Container fluid>
               <Switch>
-                <Route path="dashboard" name="dashboard" component={Dashboard}/>
-                {EntityItems}
-                <Route path="keyword" name="keyword" component={Keyword}/>
-                <Route path="settings" name="settings" component={Settings}/>
+                <Route path="/dashboard" name="Dashboard" component={Dashboard}/>
+                <Route path="/site/:site/tag/:tag" name="Dashboard" component={Dashboard}/>
+                <Route path="/keyword" name="Keyword" component={Keyword}/>
+                <Route path="/settings" name="Settings" component={Settings}/>
                 <Redirect from="/" to="/dashboard"/>
               </Switch>
             </Container>
@@ -78,3 +59,26 @@ export default class Full extends Component {
     );
   }
 }
+
+Sidebar.propTypes = {
+    fetchData: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired,
+    hasErrored: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired
+};
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user,
+    hasErrored: state.userHasErrored,
+    isLoading: state.userIsLoading
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchData: (id) => dispatch(userFetchData(id))
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Full);

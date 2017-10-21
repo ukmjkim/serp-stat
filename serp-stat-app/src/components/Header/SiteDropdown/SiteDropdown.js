@@ -1,17 +1,15 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
 import { connect } from "react-redux"
-import {bindActionCreators} from 'redux';
 
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 
-import { fetchUser } from "../../../actions/userActions"
-import { fetchSites } from "../../../actions/sitesActions"
+import { sitesFetchData } from "../../../actions/sites"
+import { sitesSelected } from "../../../actions/sites"
 
 class SiteDropdown extends Component {
   constructor(props) {
     super(props);
-
-    console.log(props)
 
     this.toggle = this.toggle.bind(this);
     this.select = this.select.bind(this);
@@ -22,9 +20,8 @@ class SiteDropdown extends Component {
     };
   }
 
-  componentWillMount() {
-    console.log(this.props)
-    this.props.fetchUser();
+  componentDidMount() {
+    this.props.fetchData(1);
   }
 
   toggle() {
@@ -33,20 +30,16 @@ class SiteDropdown extends Component {
     });
   }
 
-  select(e) {
-    console.log("e.target.value: " + e.target.value);
-    const siteId = e.target.value;
+  select(e, site) {
+    console.log("site.id: " + site.id);
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen,
-      value: siteId
+      dropdownOpen: !this.state.dropdownOpen
     });
+    this.props.selectSite(site);
   }
   render() {
-    const { user, sites } = this.props;
-console.log("user");
-console.log(user);
 
-    if (!sites) {
+    if (this.props.sites === undefined || this.props.sites.length == 0) {
       return (
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
           <DropdownToggle caret>
@@ -56,7 +49,9 @@ console.log(user);
       );
     }
 
-    const mappedSites = sites.map(site => <DropdownItem key={site.id}  onClick={this.select.bind(this)}>{site.title}</DropdownItem>)
+    const { sites } = this.props;
+
+    const mappedSites = sites.map(site => <DropdownItem key={site.id}  onClick={ (e) => this.select(e, site) }>{site.title}</DropdownItem>)
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle caret>
@@ -70,15 +65,27 @@ console.log(user);
   }
 }
 
-const mapStateToProps = (state, ownProps) => ({
-    user: state.user.user,
-    userFetched: state.user.fetched,
-    sites: state.user.sites,
-});
+SiteDropdown.propTypes = {
+    fetchData: PropTypes.func.isRequired,
+    selectSite: PropTypes.func.isRequired,
+    sites: PropTypes.array.isRequired,
+    hasErrored: PropTypes.bool.isRequired,
+    isLoading: PropTypes.bool.isRequired
+};
 
-const mapDispatchToProps = (dispatch) => ({
-  fetchUser: bindActionCreators(fetchUser, dispatch),
-  fetchSites: bindActionCreators(fetchSites, dispatch)
-});
+const mapStateToProps = (state) => {
+  return {
+    sites: state.sites,
+    hasErrored: state.sitesHasErrored,
+    isLoading: state.sitesIsLoading
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchData: (id) => dispatch(sitesFetchData(id)),
+    selectSite: (site) => dispatch(sitesSelected(site))
+  }
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(SiteDropdown);

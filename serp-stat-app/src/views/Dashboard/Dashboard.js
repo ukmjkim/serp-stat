@@ -419,6 +419,7 @@ export default class Dashboard extends Component {
     this.state = {
       dropdownOpen: false
     };
+      console.log("Dashboard");
   }
 
   toggle() {

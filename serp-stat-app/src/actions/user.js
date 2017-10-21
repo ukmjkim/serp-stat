@@ -1,5 +1,56 @@
 import axios from "axios";
 
+export function userIsLoading(bool) {
+  return {
+    type: "USER_FETCH",
+    isLoading: bool
+  }
+}
+export function userHasErrored(bool, err) {
+  return {
+    type: "USER_FETCH_REJECTED",
+    hasErrored: bool,
+    error: err
+  }
+}
+export function userDataSuccess(payload) {
+  return {
+    type: "USER_FETCH_FULFILLED",
+    isFetched: true,
+    payload
+  }
+}
+export function userFetchData(id) {
+  return (dispatch) => {
+    const config = {
+      method: 'get',
+      url: "http://localhost:8080/serp-stat-restapi/user/" + id + "/",
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    };
+
+    dispatch(userIsLoading(true));
+    axios.request(config)
+      .then((response) => {
+        dispatch(userDataSuccess(response.data));
+      })
+      .catch((err) => {
+        dispatch(userHasErrored(true, err));
+      })
+  }
+}
+
+export function setUser(id) {
+  return {
+    type: 'SET_USER',
+    payload: id,
+  }
+}
+
+/*
+import axios from "axios";
+
 export function fetchUser() {
   return function(dispatch) {
     const config = {
@@ -21,6 +72,7 @@ export function fetchUser() {
       })
   }
 }
+ */
 /*
 axios({
   method: 'post',

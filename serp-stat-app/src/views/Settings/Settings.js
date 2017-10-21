@@ -10,6 +10,7 @@ export default class Settings extends Component {
 
       return (
         <div className="animated fadeIn">
+          <h1>Settings</h1>
         </div>
       )
     }
