@@ -23,6 +23,7 @@ import com.serpstat.restapi.exception.UserLoginNotUniqueException;
 import com.serpstat.restapi.exception.UserNotFoundException;
 import com.serpstat.restapi.model.ExceptionInfo;
 import com.serpstat.restapi.model.Site;
+import com.serpstat.restapi.model.SiteTags;
 import com.serpstat.restapi.model.Tag;
 import com.serpstat.restapi.service.SiteService;
 import com.serpstat.restapi.service.TagService;
@@ -58,12 +59,13 @@ public class SiteRestController {
 	}
 
 	@RequestMapping(value = "/site/{id}/tags", method = RequestMethod.GET)
-	public ResponseEntity<List<Tag>> listAllTagsBySiteId(@PathVariable("id") long siteId) {
-		List<Tag> tags = tagService.findAllBySiteId(siteId);
-		if (tags.isEmpty()) {
-			return new ResponseEntity<List<Tag>>(HttpStatus.NO_CONTENT);
+	public ResponseEntity<SiteTags> listAllTagsBySiteId(@PathVariable("id") long id) throws SiteNotFoundException {
+		SiteTags siteTags = siteService.fetchTagsBySite(id);
+		if (siteTags == null || siteTags.getId() == null) {
+			logger.info("Site with id {} not found", id);
+			throw new SiteNotFoundException("Site with id not found");
 		}
-		return new ResponseEntity<List<Tag>>(tags, HttpStatus.OK);
+		return new ResponseEntity<SiteTags>(siteTags, HttpStatus.OK);
 	}
 
 	@ExceptionHandler({ SiteNotFoundException.class })

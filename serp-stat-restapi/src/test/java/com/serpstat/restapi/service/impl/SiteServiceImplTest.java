@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.mockito.InjectMocks;
@@ -21,12 +22,18 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.serpstat.restapi.dao.SiteDao;
+import com.serpstat.restapi.dao.TagDao;
 import com.serpstat.restapi.model.Site;
+import com.serpstat.restapi.model.SiteTags;
+import com.serpstat.restapi.model.Tag;
 import com.serpstat.restapi.model.User;
 
 public class SiteServiceImplTest {
 	@Mock
 	SiteDao dao;
+	
+	@Mock
+	TagDao tagDao;
 
 	@InjectMocks
 	SiteServiceImpl siteService;
@@ -37,10 +44,14 @@ public class SiteServiceImplTest {
 	@Spy
 	List<Site> sites = new ArrayList<Site>();
 
+	@Spy
+	SiteTags siteTags = new SiteTags();
+
 	@BeforeClass
 	public void setUp() {
 		MockitoAnnotations.initMocks(this);
 		sites = getSiteList();
+		siteTags = getSiteTags();
 	}
 
 	@Test
@@ -91,6 +102,19 @@ public class SiteServiceImplTest {
 		Assert.assertEquals(siteService.isSiteTitleUnique(site.getId(), user.getId(), site.getTitle()), true);
 	}
 
+	@Test
+	public void fetchTagsBySite(long id) {
+		Site site = new Site();
+		site.setId(siteTags.getId());
+		site.setTitle(siteTags.getTitle());
+		site.setUrl(siteTags.getUrl());
+		List<Tag> tags = siteTags.getTags();
+
+		when(dao.findById(anyLong())).thenReturn(site);
+		when(tagDao.findAllBySiteId(anyLong())).thenReturn(tags);
+		Assert.assertEquals(siteService.fetchTagsBySite(site.getId()), siteTags);
+	}
+
 	public List<Site> getSiteList() {
 		user = new User();
 		user.setId(1L);
@@ -116,5 +140,27 @@ public class SiteServiceImplTest {
 		sites.add(site1);
 		sites.add(site2);
 		return sites;
+	}
+
+	public SiteTags getSiteTags() {
+		SiteTags siteTags = new SiteTags();
+		siteTags.setId(1L);
+		siteTags.setTitle("newTitle1");
+		siteTags.setUrl("www.url1.com");
+
+		List<Tag> tags = new LinkedList<Tag>();
+		Tag tag1 = new Tag();
+		tag1.setId(1L);
+		tag1.setTag("Top 10");
+
+		Tag tag2 = new Tag();
+		tag2.setId(1L);
+		tag2.setTag("Worst 10");
+
+		tags.add(tag1);
+		tags.add(tag2);
+
+		siteTags.setTags(tags);
+		return siteTags;
 	}
 }

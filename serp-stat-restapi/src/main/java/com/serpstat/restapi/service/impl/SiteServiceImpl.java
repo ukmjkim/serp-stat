@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.serpstat.restapi.dao.SiteDao;
+import com.serpstat.restapi.dao.TagDao;
 import com.serpstat.restapi.model.Site;
+import com.serpstat.restapi.model.SiteTags;
+import com.serpstat.restapi.model.Tag;
 import com.serpstat.restapi.service.SiteService;
 
 @Service("siteService")
@@ -19,6 +22,9 @@ public class SiteServiceImpl implements SiteService {
 
 	@Autowired
 	SiteDao dao;
+
+	@Autowired
+	TagDao tagDao;
 
 	public Site findById(long id) {
 		return dao.findById(id);
@@ -57,5 +63,20 @@ public class SiteServiceImpl implements SiteService {
 	public boolean isSiteTitleUnique(Long id, Long userId, String title) {
 		Site site = dao.findByUserIdAndTitle(userId, title);
 		return (site == null || ((id != null) && site.getId() == id));
+	}
+
+	public SiteTags fetchTagsBySite(long id) {
+		SiteTags siteTags = new SiteTags();
+		Site site = dao.findById(id);
+		if (site == null) {
+			return siteTags;
+		}
+		siteTags.setId(site.getId());;
+		siteTags.setTitle(site.getTitle());
+		siteTags.setUrl(site.getUrl());		
+		List<Tag> tags = tagDao.findAllBySiteId(id);
+		siteTags.setTags(tags);
+
+		return siteTags;
 	}
 }

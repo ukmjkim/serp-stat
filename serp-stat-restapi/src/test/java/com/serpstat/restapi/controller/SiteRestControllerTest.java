@@ -6,6 +6,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.mockito.InjectMocks;
@@ -21,6 +22,7 @@ import org.testng.annotations.Test;
 
 import com.serpstat.restapi.exception.SiteNotFoundException;
 import com.serpstat.restapi.model.Site;
+import com.serpstat.restapi.model.SiteTags;
 import com.serpstat.restapi.model.Tag;
 import com.serpstat.restapi.model.User;
 import com.serpstat.restapi.service.SiteService;
@@ -77,10 +79,17 @@ public class SiteRestControllerTest {
 
 	@Test
 	public void listAllTagsBySiteId() {
-		when(tagService.findAllBySiteId(anyLong())).thenReturn(tags);
-		ResponseEntity<List<Tag>> response = siteController.listAllTagsBySiteId(1L);
-		Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
-		verify(tagService, atLeastOnce()).findAllBySiteId(anyLong());
+		SiteTags siteTags = getSiteTags();
+		when(siteService.fetchTagsBySite(anyLong())).thenReturn(siteTags);
+		ResponseEntity<SiteTags> response;
+		try {
+			response = siteController.listAllTagsBySiteId(1L);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+		} catch (SiteNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		verify(siteService, atLeastOnce()).fetchTagsBySite(anyLong());
 	}
 
 	public List<Site> getSiteList() {
@@ -123,5 +132,27 @@ public class SiteRestControllerTest {
 		tags.add(tag1);
 		tags.add(tag2);
 		return tags;
+	}
+
+	public SiteTags getSiteTags() {
+		SiteTags siteTags = new SiteTags();
+		siteTags.setId(1L);
+		siteTags.setTitle("newTitle1");
+		siteTags.setUrl("www.url1.com");
+
+		List<Tag> tags = new LinkedList<Tag>();
+		Tag tag1 = new Tag();
+		tag1.setId(1L);
+		tag1.setTag("Top 10");
+
+		Tag tag2 = new Tag();
+		tag2.setId(1L);
+		tag2.setTag("Worst 10");
+
+		tags.add(tag1);
+		tags.add(tag2);
+
+		siteTags.setTags(tags);
+		return siteTags;
 	}
 }
