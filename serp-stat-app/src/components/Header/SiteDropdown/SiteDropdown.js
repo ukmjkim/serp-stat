@@ -1,12 +1,14 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
+import { Route, Link } from 'react-router-dom';
 
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 
 import { sitesFetchData } from "../../../actions/sites"
 import { sitesSelected } from "../../../actions/sites"
 
+// https://reacttraining.com/react-router/web/example/modal-gallery
 class SiteDropdown extends Component {
   constructor(props) {
     super(props);
@@ -16,7 +18,7 @@ class SiteDropdown extends Component {
 
     this.state = {
       dropdownOpen: false,
-      value : "Home",
+      value : "Home"
     };
   }
 
@@ -31,14 +33,13 @@ class SiteDropdown extends Component {
   }
 
   select(e, site) {
-    console.log("site.id: " + site.id);
     this.setState({
-      dropdownOpen: !this.state.dropdownOpen
+      dropdownOpen: !this.state.dropdownOpen,
+      redirect: true
     });
     this.props.selectSite(site);
   }
   render() {
-
     if (this.props.sites === undefined || this.props.sites.length == 0) {
       return (
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
@@ -51,7 +52,11 @@ class SiteDropdown extends Component {
 
     const { sites } = this.props;
 
-    const mappedSites = sites.map(site => <DropdownItem key={site.id}  onClick={ (e) => this.select(e, site) }>{site.title}</DropdownItem>)
+    const mappedSites = sites.map(site =>
+      <DropdownItem key={site.id}  onClick={ (e) => this.select(e, site) }>
+        <Link to={site.link}>{site.title}</Link>
+      </DropdownItem>
+    )
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
         <DropdownToggle caret>
@@ -75,6 +80,7 @@ SiteDropdown.propTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    sitesSelected: state.sitesSelected,
     sites: state.sites,
     hasErrored: state.sitesHasErrored,
     isLoading: state.sitesIsLoading
