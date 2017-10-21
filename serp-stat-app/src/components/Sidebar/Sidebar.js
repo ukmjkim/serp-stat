@@ -64,7 +64,7 @@ class Sidebar extends Component {
       return {
         name: item.tag,
         key: item.id,
-        url: '/site/'+props.sitesSelected.id+'/tag/'+item.id,
+        url: '/tag/'+item.id,
         icon: 'icon-puzzle'
       }
     };

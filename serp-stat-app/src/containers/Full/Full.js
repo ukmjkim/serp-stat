@@ -14,6 +14,8 @@ import Footer from '../../components/Footer/';
 
 // Components
 import Dashboard from '../../views/Dashboard/';
+import SiteDashboard from '../../views/SiteDashboard/';
+import TagDashboard from '../../views/TagDashboard/';
 import Keyword from '../../views/Keyword/';
 import Settings from '../../views/Settings/';
 
@@ -45,7 +47,8 @@ class Full extends Component {
             <Container fluid>
               <Switch>
                 <Route path="/dashboard" name="Dashboard" component={Dashboard}/>
-                <Route path="/site/:site/tag/:tag" name="Dashboard" component={Dashboard}/>
+                <Route path="/site/:site" name="SiteDashboard" component={SiteDashboard}/>
+                <Route path="/tag/:tag" name="TagDashboard" component={TagDashboard}/>
                 <Route path="/keyword" name="Keyword" component={Keyword}/>
                 <Route path="/settings" name="Settings" component={Settings}/>
                 <Redirect from="/" to="/dashboard"/>

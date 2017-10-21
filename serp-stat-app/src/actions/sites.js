@@ -1,5 +1,6 @@
 import { tagsFetchData } from "./tags";
 import axios from "axios";
+import { hashHistory } from 'react-router-dom';
 
 export function sitesIsLoading(bool) {
   return {
@@ -15,6 +16,9 @@ export function sitesHasErrored(bool, err) {
   }
 }
 export function sitesDataSuccess(payload) {
+  for (var i = 0, len = payload.sites.length; i < len; i++) {
+    payload.sites[i].link = "/site/"+payload.sites[i].id;
+  }
   return {
     type: "SITES_FETCH_FULFILLED",
     isFetched: true,
