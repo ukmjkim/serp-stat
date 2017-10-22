@@ -189,4 +189,138 @@ console.log(lName + ', '+ fName);
 console.log(third, second, first);
 ```
 
+### Destructuring
+
 ```
+/*
+ * Destructuring
+ */
+{
+let {lName, fName} = {fName: 'Tom', age: 15, lName: 'Doe'};
+// output: Doe, John
+console.log(lName + ', '+ fName);
+}
+
+/*
+ * Object destructuring
+ * Object destructuring assignment uses an object literal pattern on the left hand side of an assignment operation. 
+ */
+{
+let config = {delay: 500, title: 'Hi!', info: {name: 'Elijah'}},
+{delay, info, title} = config;
+// output: {name: 'Elijah'}, 500, 'Hi!'
+console.log(info, delay, title);
+}
+
+/*
+ * Object destructuring
+ * We were able to store references to the 3 property values within config into variables with names that matched the property keys of config.
+ * This is actually the shorthand syntax for object destructuring 
+ */
+{
+let config = {
+		delay: 500,
+		title: 'Hi!',
+		info: {name: 'Elijah'}
+	},
+	{
+		info: one,
+		title: two,
+		empty: three,
+		delay: four
+	} = config;
+
+// output: {name: 'Elijan'}, 'Hi!', undefined, 500
+// missing properties have `undefined` value
+console.log(one, two, three, four);
+}
+
+/*
+ * Nested Object destructuring
+ */
+{
+let config = {delay: 500, title: 'Hi!', info: {name: 'Elijah'}},
+
+	// `delay` is using shorthand syntax mixed in w/
+	// full syntax
+	{
+		info: {name: fullName},
+		delay,
+		title: configTitle
+	} = config;
+
+// output: 'Elijah', 'Hi!', 500
+console.log(fullName, configTitle, delay);
+}
+
+/*
+ * Mixed object & array destructuring
+ */
+{
+let json = {
+		shapes: ['circle', 'square', 'triangle'],
+		colors: 5,
+		fill: true,
+		author: {
+			firstName: 'Ben',
+			lastName: 'Ilegbodu',
+			city: 'Pittsburg'
+		}
+	},
+	{
+  	fill,
+    author: {firstName, lastName, city},
+		shapes: [, secondShape],
+    colors: numColors
+	} = json;
+
+// output: true, square, 5
+console.log(fill, secondShape, numColors);
+// output: Ilegbodu, Ben, Pittsburg
+console.log(lastName, firstName, city);
+}
+
+/*
+ * Destructuring use cases
+ * 1. Swapping values
+ */
+{
+let a = 1, b = 2;
+
+[b, a] = [a, b];
+}
+
+/*
+ * Destructuring use cases
+ * 2. Destructuring class objects
+ */
+{
+let {
+		protocol: scheme,
+		host: domain,
+		pathname: path,
+		search: query,
+		hash,
+		href: url
+	} = location;
+
+// output: true
+console.log(
+	(scheme + '//' + domain + path + query + hash) == url
+);
+}
+
+/*
+ * Destructuring use cases
+ * 3. Destructuring return values
+ */
+{
+let [, areaCode, exchange, lineNumber] = /^(\d\d\d)-(\d\d\d)-(\d\d\d\d)$/.exec('650-555-1234');
+
+// ["650-555-1234", "650", "555", "1234", index: 0, input: "650-555-1234"]
+console.log(/^(\d\d\d)-(\d\d\d)-(\d\d\d\d)$/.exec('650-555-1234'));
+// output: 650, 555, 1234
+console.log(areaCode, exchange, lineNumber);
+}
+```
+
