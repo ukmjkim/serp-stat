@@ -326,6 +326,7 @@ console.log(areaCode, exchange, lineNumber);
 
 ### Parameter Handling
 
+```javascript
 /*
  * One rest parameter per function and the last parameter
  */
@@ -428,5 +429,5 @@ function func(requiredParam = throwIfMissing()) {
     // some implementation
 }
 }
-
+```
 
