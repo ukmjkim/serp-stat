@@ -8,6 +8,10 @@
 
 
 ## ES6
+* Arrow Function
+* Block level scoping with let and const
+* Destructuring
+
 
 ### Arrow Function
 
@@ -167,4 +171,22 @@ function temporalDeadZoneExample() {
 	func();
 }
 temporalDeadZoneExample();
+```
+* Destructuring
+Destructuring makes it easier to work with objects and arrays in JavaScript. Using a pattern syntax similar to object and array literals, we can poke into data structures and pick out the information we want into variables.
+
+```javascript
+// object pattern matching
+let {lName, fName} = {fName: 'John', age: 15, lName: 'Doe'};
+
+// array pattern matching
+let [first, second, third] = [8, 4, 100, -5, 20];
+
+// output: Doe, John
+console.log(lName + ', '+ fName);
+
+// output: 100, 4, 8
+console.log(third, second, first);
+```
+
 ```
