@@ -431,3 +431,62 @@ function func(requiredParam = throwIfMissing()) {
 }
 ```
 
+## Spread Operator
+
+```javascript
+/*
+ * Spread Operator
+ */
+var objectsList = [
+	{
+		count: 5,
+		delay: 2000,
+		early: true,
+		message: 'Hello'
+	},
+	{
+		early: false
+	}
+];
+
+function merge(...objects) {
+	let masterObj = {};
+
+	// iterate over `objects` merging each
+	// into `masterObj` to generate flattened
+	// object
+	for (let i = 0; i < objects.length; i++) {
+		let obj = objects[i];;
+		for (let key in obj)
+			masterObj[key] = obj[key];
+	}
+
+	return masterObj;
+}
+
+let merged = merge(...objectsList);
+
+// output:
+// {count:5, delay:2000, early:false, message:'Hello'}
+console.log(merged);
+
+
+let mergedObject = merge(
+	{count: 10},
+	...objectsList,
+	{delay: 1500}
+);
+
+// output:
+// {count:5, delay:1500, early:false, message:'Hello'}
+console.log(mergedObject);
+
+let list = [9, 8, 7, 6, 5],
+	[first, second, ...rest] = list;
+
+// output: [7, 6, 5], 8, 9
+console.log(rest, second, first);
+console.log([11, 10, ...list]);
+```
+
+
