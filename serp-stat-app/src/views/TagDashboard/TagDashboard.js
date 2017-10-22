@@ -430,10 +430,12 @@ export default class TagDashboard extends Component {
 
 
   render() {
-
+console.log("this.props");
+console.log(this.props.match.params.tag);
+    const title = "Tag Dashboard: " + this.props.match.params.tag;
     return (
       <div className="animated fadeIn">
-        <h1>Tag Dashboard</h1>
+        <h1>{title}</h1>
         <Row>
           <Col xs="12" sm="6" lg="3">
             <Card className="text-white bg-primary">

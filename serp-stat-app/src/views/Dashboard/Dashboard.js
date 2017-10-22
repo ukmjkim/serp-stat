@@ -10,24 +10,85 @@ import {
   Table
 } from 'reactstrap';
 
+const brandPrimary = '#20a8d8';
+const brandSuccess = '#4dbd74';
+const brandInfo = '#63c2de';
+const brandWarning = '#f8cb00';
+const brandDanger = '#f86c6b';
+
+
+// sparkline charts
+const sparkLineChartData = [
+  {
+    data: [35, 23, 56, 22, 97, 23, 64],
+    label: 'New Clients'
+  },
+  {
+    data: [65, 59, 84, 84, 51, 55, 40],
+    label: 'Recurring Clients'
+  },
+  {
+    data: [35, 23, 56, 22, 97, 23, 64],
+    label: 'Pageviews'
+  },
+  {
+    data: [65, 59, 84, 84, 51, 55, 40],
+    label: 'Organic'
+  },
+  {
+    data: [78, 81, 80, 45, 34, 12, 40],
+    label: 'CTR'
+  },
+  {
+    data: [1, 13, 9, 17, 34, 41, 38],
+    label: 'Bounce Rate'
+  }
+];
+
+const makeSparkLineData = (dataSetNo, variant) => {
+  const dataset = sparkLineChartData[dataSetNo];
+  const data = {
+    labels: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+    datasets: [
+      {
+        backgroundColor: 'transparent',
+        borderColor: variant ? variant : '#c2cfd6',
+        data: dataset.data,
+        label: dataset.label
+      }
+    ],
+  };
+  return () => data;
+};
+
+const sparklineChartOpts = {
+  responsive: true,
+  maintainAspectRatio: true,
+  scales: {
+    xAxes: [{
+      display: false,
+    }],
+    yAxes: [{
+      display: false,
+    }]
+  },
+  elements: {
+    line: {
+      borderWidth: 2
+    },
+    point: {
+      radius: 0,
+      hitRadius: 10,
+      hoverRadius: 4,
+      hoverBorderWidth: 3,
+    }
+  },
+  legend: {
+    display: false
+  }
+};
+
 export default class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      dropdownOpen: false
-    };
-      console.log("Dashboard");
-  }
-
-  toggle() {
-    this.setState({
-      dropdownOpen: !this.state.dropdownOpen
-    });
-  }
-
-
   render() {
 
     return (
@@ -42,224 +103,205 @@ export default class Dashboard extends Component {
                 <Table hover responsive className="table-outline mb-0 d-none d-sm-table">
                   <thead className="thead-default">
                   <tr>
-                    <th className="text-center"><i className="fa-internet-explorer"></i></th>
-                    <th>Site</th>
-                    <th className="text-center">Country</th>
-                    <th>Usage</th>
-                    <th className="text-center">Payment Method</th>
-                    <th>Activity</th>
+                    <th className="text-center">Site</th>
+                    <th className="text-center">Keywords Trend</th>
+                    <th className="text-center">Performance Trend</th>
+                    <th className="text-center"># of Tags</th>
+                    <th className="text-center">Performed</th>
+                    <th className="text-center">Need Efforts</th>
                   </tr>
                   </thead>
                   <tbody>
                   <tr>
                     <td className="text-center">
-                      <div className="avatar">
-                        <img src={'img/avatars/1.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
-                        <span className="avatar-status badge-success"></span>
+                      <div>lululemon.ca</div>
+                      <div className="small text-muted">
+                        Created: Jan 1, 2015
                       </div>
                     </td>
                     <td>
-                      <div>Yiorgos Avraamu</div>
-                      <div className="small text-muted">
-                        <span>New</span> | Registered: Jan 1, 2015
+                      <div className="callout callout-info">
+                        <small className="text-muted">New Clients</small>
+                        <br/>
+                        <strong className="h4">9,123</strong>
+                        <div className="chart-wrapper">
+                          <Line data={makeSparkLineData(0, brandPrimary)} options={sparklineChartOpts} width={100} height={30}/>
+                        </div>
                       </div>
-                    </td>
-                    <td className="text-center">
-                      <img src={'img/flags/USA.png'} alt="USA" style={{height: 24 + 'px'}}/>
                     </td>
                     <td>
                       <div className="clearfix">
-                        <div className="float-left">
-                          <strong>50%</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
+                        <div className="callout callout-danger">
+                          <small className="text-muted">Recurring Clients</small>
+                          <br/>
+                          <strong className="h4">2.5</strong>
+                          <div className="chart-wrapper">
+                            <Line data={makeSparkLineData(1, brandDanger)} options={sparklineChartOpts} width={100} height={30}/>
+                          </div>
                         </div>
                       </div>
-                      <Progress className="progress-xs" color="success" value="50"/>
                     </td>
                     <td className="text-center">
-                      <i className="fa fa-cc-mastercard" style={{fontSize: 24 + 'px'}}></i>
+                      <div>15</div>
+                      <div className="small text-muted">
+                        Last Modified: Jan 1, 2015
+                      </div>
                     </td>
-                    <td>
-                      <div className="small text-muted">Last login</div>
-                      <strong>10 sec ago</strong>
+                    <td className="text-center">
+                      <div>3.5</div>
+                      <div className="small text-muted">
+                        Seasonal Target
+                      </div>
+                    </td>
+                    <td className="text-center">
+                      <div>22.5</div>
+                      <div className="small text-muted">
+                        New Business
+                      </div>
                     </td>
                   </tr>
                   <tr>
                     <td className="text-center">
-                      <div className="avatar">
-                        <img src={'img/avatars/2.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
-                        <span className="avatar-status badge-danger"></span>
+                      <div>lululemon.uk</div>
+                      <div className="small text-muted">
+                        Created: Jan 1, 2015
                       </div>
                     </td>
                     <td>
-                      <div>Avram Tarasios</div>
-                      <div className="small text-muted">
-
-                        <span>Recurring</span> | Registered: Jan 1, 2015
+                      <div className="callout callout-info">
+                        <small className="text-muted">New Clients</small>
+                        <br/>
+                        <strong className="h4">8,153</strong>
+                        <div className="chart-wrapper">
+                          <Line data={makeSparkLineData(2, brandPrimary)} options={sparklineChartOpts} width={100} height={30}/>
+                        </div>
                       </div>
-                    </td>
-                    <td className="text-center">
-                      <img src={'img/flags/Brazil.png'} alt="Brazil" style={{height: 24 + 'px'}}/>
                     </td>
                     <td>
                       <div className="clearfix">
-                        <div className="float-left">
-                          <strong>10%</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
+                        <div className="callout callout-danger">
+                          <small className="text-muted">Recurring Clients</small>
+                          <br/>
+                          <strong className="h4">5.6</strong>
+                          <div className="chart-wrapper">
+                            <Line data={makeSparkLineData(3, brandDanger)} options={sparklineChartOpts} width={100} height={30}/>
+                          </div>
                         </div>
                       </div>
-                      <Progress className="progress-xs" color="info" value="10"/>
                     </td>
                     <td className="text-center">
-                      <i className="fa fa-cc-visa" style={{fontSize: 24 + 'px'}}></i>
+                      <div>121</div>
+                      <div className="small text-muted">
+                        Last Modified: Jan 1, 2015
+                      </div>
                     </td>
-                    <td>
-                      <div className="small text-muted">Last login</div>
-                      <strong>5 minutes ago</strong>
+                    <td className="text-center">
+                      <div>2.7</div>
+                      <div className="small text-muted">
+                        Top Revenue
+                      </div>
+                    </td>
+                    <td className="text-center">
+                      <div>13.6</div>
+                      <div className="small text-muted">
+                        Red Ocean
+                      </div>
                     </td>
                   </tr>
                   <tr>
                     <td className="text-center">
-                      <div className="avatar">
-                        <img src={'img/avatars/3.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
-                        <span className="avatar-status badge-warning"></span>
+                      <div>lululemon.au</div>
+                      <div className="small text-muted">
+                        Created: Jan 1, 2015
                       </div>
                     </td>
                     <td>
-                      <div>Quintin Ed</div>
-                      <div className="small text-muted">
-                        <span>New</span> | Registered: Jan 1, 2015
+                      <div className="callout callout-info">
+                        <small className="text-muted">New Clients</small>
+                        <br/>
+                        <strong className="h4">2,123</strong>
+                        <div className="chart-wrapper">
+                          <Line data={makeSparkLineData(4, brandPrimary)} options={sparklineChartOpts} width={100} height={30}/>
+                        </div>
                       </div>
-                    </td>
-                    <td className="text-center">
-                      <img src={'img/flags/India.png'} alt="India" style={{height: 24 + 'px'}}/>
                     </td>
                     <td>
                       <div className="clearfix">
-                        <div className="float-left">
-                          <strong>74%</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
+                        <div className="callout callout-danger">
+                          <small className="text-muted">Recurring Clients</small>
+                          <br/>
+                          <strong className="h4">1.5</strong>
+                          <div className="chart-wrapper">
+                            <Line data={makeSparkLineData(5, brandDanger)} options={sparklineChartOpts} width={100} height={30}/>
+                          </div>
                         </div>
                       </div>
-                      <Progress className="progress-xs" color="warning" value="74"/>
                     </td>
                     <td className="text-center">
-                      <i className="fa fa-cc-stripe" style={{fontSize: 24 + 'px'}}></i>
+                      <div>36</div>
+                      <div className="small text-muted">
+                        Last Modified: Jan 1, 2015
+                      </div>
                     </td>
-                    <td>
-                      <div className="small text-muted">Last login</div>
-                      <strong>1 hour ago</strong>
+                    <td className="text-center">
+                      <div>1.5</div>
+                      <div className="small text-muted">
+                        Renewal Site
+                      </div>
+                    </td>
+                    <td className="text-center">
+                      <div>33.7</div>
+                      <div className="small text-muted">
+                        Sunset Soon
+                      </div>
                     </td>
                   </tr>
                   <tr>
                     <td className="text-center">
-                      <div className="avatar">
-                        <img src={'img/avatars/4.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
-                        <span className="avatar-status badge-secondary"></span>
+                      <div>lululemon.ca</div>
+                      <div className="small text-muted">
+                        Created: Jan 1, 2015
                       </div>
                     </td>
                     <td>
-                      <div>Enéas Kwadwo</div>
-                      <div className="small text-muted">
-                        <span>New</span> | Registered: Jan 1, 2015
+                      <div className="callout callout-info">
+                        <small className="text-muted">New Clients</small>
+                        <br/>
+                        <strong className="h4">5,986</strong>
+                        <div className="chart-wrapper">
+                          <Line data={makeSparkLineData(0, brandPrimary)} options={sparklineChartOpts} width={100} height={30}/>
+                        </div>
                       </div>
-                    </td>
-                    <td className="text-center">
-                      <img src={'img/flags/France.png'} alt="France" style={{height: 24 + 'px'}}/>
                     </td>
                     <td>
                       <div className="clearfix">
-                        <div className="float-left">
-                          <strong>98%</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
+                        <div className="callout callout-danger">
+                          <small className="text-muted">Recurring Clients</small>
+                          <br/>
+                          <strong className="h4">12.3</strong>
+                          <div className="chart-wrapper">
+                            <Line data={makeSparkLineData(1, brandDanger)} options={sparklineChartOpts} width={100} height={30}/>
+                          </div>
                         </div>
                       </div>
-                      <Progress className="progress-xs" color="danger" value="98"/>
                     </td>
                     <td className="text-center">
-                      <i className="fa fa-paypal" style={{fontSize: 24 + 'px'}}></i>
-                    </td>
-                    <td>
-                      <div className="small text-muted">Last login</div>
-                      <strong>Last month</strong>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="text-center">
-                      <div className="avatar">
-                        <img src={'img/avatars/5.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
-                        <span className="avatar-status badge-success"></span>
-                      </div>
-                    </td>
-                    <td>
-                      <div>Agapetus Tadeáš</div>
+                      <div>lululemon.ca</div>
                       <div className="small text-muted">
-                        <span>New</span> | Registered: Jan 1, 2015
+                        Created: Jan 1, 2015
                       </div>
                     </td>
                     <td className="text-center">
-                      <img src={'img/flags/Spain.png'} alt="Spain" style={{height: 24 + 'px'}}/>
-                    </td>
-                    <td>
-                      <div className="clearfix">
-                        <div className="float-left">
-                          <strong>22%</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
-                        </div>
-                      </div>
-                      <Progress className="progress-xs" color="info" value="22"/>
-                    </td>
-                    <td className="text-center">
-                      <i className="fa fa-google-wallet" style={{fontSize: 24 + 'px'}}></i>
-                    </td>
-                    <td>
-                      <div className="small text-muted">Last login</div>
-                      <strong>Last week</strong>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="text-center">
-                      <div className="avatar">
-                        <img src={'img/avatars/6.jpg'} className="img-avatar" alt="admin@bootstrapmaster.com"/>
-                        <span className="avatar-status badge-danger"></span>
-                      </div>
-                    </td>
-                    <td>
-                      <div>Friderik Dávid</div>
+                      <div>5.8</div>
                       <div className="small text-muted">
-                        <span>New</span> | Registered: Jan 1, 2015
+                        Favorite
                       </div>
                     </td>
                     <td className="text-center">
-                      <img src={'img/flags/Poland.png'} alt="Poland" style={{height: 24 + 'px'}}/>
-                    </td>
-                    <td>
-                      <div className="clearfix">
-                        <div className="float-left">
-                          <strong>43%</strong>
-                        </div>
-                        <div className="float-right">
-                          <small className="text-muted">Jun 11, 2015 - Jul 10, 2015</small>
-                        </div>
+                      <div>4.7</div>
+                      <div className="small text-muted">
+                        Developing Area
                       </div>
-                      <Progress className="progress-xs" color="success" value="43"/>
-                    </td>
-                    <td className="text-center">
-                      <i className="fa fa-cc-amex" style={{fontSize: 24 + 'px'}}></i>
-                    </td>
-                    <td>
-                      <div className="small text-muted">Last login</div>
-                      <strong>Yesterday</strong>
                     </td>
                   </tr>
                   </tbody>
