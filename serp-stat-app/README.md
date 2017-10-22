@@ -324,3 +324,109 @@ console.log(areaCode, exchange, lineNumber);
 }
 ```
 
+### Parameter Handling
+
+/*
+ * One rest parameter per function and the last parameter
+ */
+
+/*
+ * Parameter Handling - optional (ordering)
+ */
+{
+
+function getData(data, useCache=true, msg) {
+	if (useCache) {
+		console.log('using cache for', data);
+	}
+	else {
+		console.log('not using cache', data);
+	}
+}
+
+// `useCache` is missing and is `undefined`.
+// therefore `useCache `defaults to `true`
+getData({q:'churches+in+Pittsburg'}, undefined, "msg");
+
+}
+
+/*
+ * Parameter Handling - merge to a variable which is Array
+ */
+{
+
+function join(separator, ...values) {
+  return values.join(separator);
+}
+
+// all of the parameters after the first
+// are gathered together into `values`
+// which is a true `Array`
+// output: "one//two//three"
+console.log(join('//', 'one', 'two', 'three'));
+
+}
+
+/*
+ * Parameter Handling - array splits to variables
+ */
+{
+
+function volume(width, length, height) {
+	return width * length * height;
+};
+
+// the array values are separated into
+// separate parameters
+// output: 80 (2 * 8 * 5)
+console.log(volume(...[2, 8, 5]));
+
+}
+
+/*
+ * Parameter Handling - object destructuring with function parameters
+ */
+{
+
+let ajax = function(url, {method, delay, callback}) {
+	console.log(url, method, delay);
+	setTimeout(
+		() => callback('DONE!'),
+		delay
+	);
+};
+
+// the second parameter to the function
+// is an object whose properties are
+// destructured to individual variables
+// simulating named parameters
+ajax(
+	'http://api.eventbrite.com/get',
+	{
+		delay: 2000,
+		method: 'POST',
+		callback: function(message) {
+			console.log(message);
+		}
+	}
+);
+
+}
+
+
+
+/**
+ * Parameter Handling - required
+ * Gets called if a parameter is missing and the expression
+ * specifying the default value is evaluated.
+ */
+{
+function throwIfMissing() {
+    throw new Error('Missing parameter');
+}
+function func(requiredParam = throwIfMissing()) {
+    // some implementation
+}
+}
+
+
