@@ -67,10 +67,11 @@ function simpleExample(value) {
 }
 
 simpleExample(2);
+```
 
-```
 `let` works similarly to `var`, but the variable it declares is block-scoped; it only exists within the current block.
-```
+
+```javascript
 function letExample(value) {
 	if (value) {
 		let letValue = value;
@@ -99,8 +100,9 @@ function letExample(value) {
 }
 letExample(2);
 ```
+
 Shadowing variables with `let`
-```
+```javascript
 function letShadowExample() {
 	let x = 15;
 
@@ -119,8 +121,9 @@ function letShadowExample() {
 }
 letShadowExample();
 ```
-Shadowing variables with let
-```
+
+Shadowing variables with `let`
+```javascript
 {
 	// Uninitialized “binding” for `disciple` variable is created
 	// upon entering scope. TDZ for `disciple` variable begins
@@ -140,7 +143,8 @@ Shadowing variables with let
 	console.log(disciple); // ‘thomas’
 }
 ```
-```
+
+```javascript
 function temporalDeadZoneExample() {
 	// TDZ for `value` begins
 
