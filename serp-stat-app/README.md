@@ -8,8 +8,10 @@
 
 
 ## ES6
-* Arrow Function
-** Multi parameter
+
+### Arrow Function
+
+* Multi parameter
 ```javascript
 const multiple = (x, y) => { return x * y };
 ```
@@ -18,12 +20,12 @@ or
 const multiple = (x, y) => x * y;
 ```
 
-** One parameter
+* One parameter
 ```javascript
 const phraseSplitterES6 = phrase => phrase.split(" ");
 ```
 
-** No parameter
+* No parameter
 ```
 const docLogES6 = () => { console.log("arrow function example"); }
 ```
