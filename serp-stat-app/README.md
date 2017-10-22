@@ -8,24 +8,23 @@
 
 
 ## ES6
-    * Arrow Function
+* Arrow Function
+** Multi parameter
+```javascript
+const multiple = (x, y) => { return x * y };
+```
+or
+```javascript
+const multiple = (x, y) => x * y;
+```
 
-        * Multi parameter
-    ```
-    const multiple = (x, y) => { return x * y };
+** One parameter
+```javascript
+const phraseSplitterES6 = phrase => phrase.split(" ");
+```
 
-    or
-
-    const multiple = (x, y) => x * y;
-    ```
-
-        * One parameter
-    ```
-    const phraseSplitterES6 = phrase => phrase.split(" ");
-    ```
-
-        * No parameter
-    ```
-    const docLogES6 = () => { console.log("arrow function example"); }
-    ```
+** No parameter
+```
+const docLogES6 = () => { console.log("arrow function example"); }
+```
 
