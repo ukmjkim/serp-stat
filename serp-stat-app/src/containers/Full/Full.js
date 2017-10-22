@@ -47,8 +47,8 @@ class Full extends Component {
             <Container fluid>
               <Switch>
                 <Route path="/dashboard" name="Dashboard" component={Dashboard}/>
+                <Route path="/site/:site/tag/:tag" name="TagDashboard" component={TagDashboard}/>
                 <Route path="/site/:site" name="SiteDashboard" component={SiteDashboard}/>
-                <Route path="/tag/:tag" name="TagDashboard" component={TagDashboard}/>
                 <Route path="/keyword" name="Keyword" component={Keyword}/>
                 <Route path="/settings" name="Settings" component={Settings}/>
                 <Redirect from="/" to="/dashboard"/>
