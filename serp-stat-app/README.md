@@ -662,3 +662,36 @@ console.log(String.raw`\t\tThis ${1} is not a\n multi-line string!`);
 
 ```
 
+## Promises
+
+```javascript
+/*
+ * Promises
+ * Instead of registering a callback in the call to an async function, the function returns a promise
+ * 1. Event handlers
+ * 2. Callbacks
+ * 3. Reactive programming
+ * 4. Chaining Promises
+ * http://www.benmvp.com/learning-es6-promises/
+ */
+
+fetch('/json/data.json')
+    .then(response => {
+    	let data = JSON.parse(response.text);
+
+    	console.log('main data', data);
+
+    	// now call `fetch` again to retrieve new data
+    	// based on the response data
+    	return fetch(data.url);
+    })
+    .then(response => {
+    	console.log('inner data', response);
+    })
+    .catch(e => {
+    	// catching all failures!
+    	console.error(e);
+    });
+    
+```
+
