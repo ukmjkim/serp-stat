@@ -540,4 +540,125 @@ car.depreciate();
 console.log(car.value);
 ```
 
+## Template literals & tagged templates
+
+```
+/*
+ * Template literals & tagged templates
+ * 1. Simple template literal. `He said, "It's your fault!"`
+ * 2. Template literal interpolation `${variable}`
+ * 3. Multi-line template literal
+ * 4. Tagged template: String.raw
+ */
+
+let firstName = 'Ben',
+	lastName = `Ilegbodu`;
+
+// Basic template literal is surrounding by
+// backticks so single/double quotes do need
+// to be escaped
+// output: He said, "It's your fault!"
+console.log(`He said, "It's your fault!"`);
+
+// Template literals support interpolation.
+// The values within `firstName` and `lastName`
+// are substituted into where the tokens are
+// output: Name: Ilegbodu, Ben
+console.log(`Name: ${lastName}, ${firstName}`);
+
+// Template literals support multi-line strings
+// output: This is
+// 		multi-line text, so that
+//		newline characters are
+//
+//
+//		not needed. All whitespace
+//			is respected, including tabs.
+//
+//
+console.log(`This is
+	multi-line text, so that
+	newline characters are
+
+
+	not needed. All whitespace
+		is respected, including tabs.
+
+`);
+
+
+let rawString = String.raw`\t\tThis is not a\n multi-line string!`;
+
+// instead of tabs and new lines being in the string,
+// the actual escape characters are in the string
+// (effectively the backslash is escaped)
+// output: \t\tThis is not a\n multi-line string!
+console.log(rawString);
+
+let name = 'Ben',
+
+	// no more double escaping and we can use
+	// interpolation!
+	nameRegExp = new RegExp(String.raw`\(${name}\)`);
+
+console.log(nameRegExp.test('(Ben) Ilegbodu'));
+
+
+
+/*
+ * Template literals & tagged templates
+ * 1. Tagged template: Interpolate
+ */
+function interpolate(literals, ...substitutions) {
+    let interpolation = '';
+console.log("INSPECT [literals]");
+console.log(literals);
+console.log("INSPECT [substitutions]");
+console.log(substitutions);
+    // loop through based on length of substitutions
+    // since its shorter by 1
+    for (let i = 0; i < substitutions.length; i++) {
+        interpolation += literals[i] + substitutions[i];
+    }
+
+    // add the extra literal to the end
+    interpolation += literals[literals.length - 1];
+
+    return interpolation;
+}
+
+let firstNameOfPerson = 'Ben',
+	lastNameOfPerson = `Ilegbodu`;
+
+// output: Name: Ilegbodu, Ben
+console.log(interpolate`Name: ${lastNameOfPerson}, ${firstNameOfPerson}`);
+
+
+
+/*
+ * Template literals & tagged templates
+ * 2. Tagged template: Interpolate
+ */
+String.raw = function(literals, ...substitutions) {
+	// literals.raw is an array of raw strings
+    let rawLiterals = literals.raw,
+    	interpolation = '';
+
+    // loop through based on length of substitutions
+    // since its shorter by 1
+    for (let i = 0; i < substitutions.length; i++) {
+        interpolation += rawLiterals[i] + substitutions[i];
+    }
+
+    // add the extra raw literal to the end
+    interpolation += rawLiterals[rawLiterals.length - 1];
+
+    return interpolation;
+}
+
+// output: \t\tThis 1 is not a\n multi-line string!
+console.log(String.raw`\t\tThis ${1} is not a\n multi-line string!`);
+
+
+```
 
