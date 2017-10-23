@@ -8,6 +8,8 @@
 
 
 ## ES6
+    * Reference: https://github.com/benmvp/learning-es6/tree/master/examples/es6
+
 * Arrow Function: http://www.benmvp.com/learning-es6-arrow-functions/
 * Block level scoping with let and const: http://www.benmvp.com/learning-es6-block-level-scoping-let-const/
 * Destructuring: http://www.benmvp.com/learning-es6-destructuring/
