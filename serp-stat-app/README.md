@@ -1009,6 +1009,44 @@ allStarVotesWeak.delete(kobeB);
 
 ```
 
+## Iterators & Iterable
+
+```javascript
+/*
+ * Iterator
+ */
+
+class MyIterator {
+    constructor() {
+        this.step = 0;
+    }
+    next() {
+        this.step++;
+
+        if (this.step === 1)
+            return {value: 'Ben'};
+        else if (this.step == 2)
+            return {value: 'Ilegbodu'};
+
+        return {done: true};
+    }
+}
+
+let myIter = new MyIterator();
+
+// output: {value: 'Ben'}
+console.log(myIter.next());
+
+// output: {value: 'Ilegbodu'}
+console.log(myIter.next());
+
+// output: {done: true}
+console.log(myIter.next());
+
+// output: {done: true}
+console.log(myIter.next());
+
+```
 
 
 
