@@ -1048,5 +1048,106 @@ console.log(myIter.next());
 
 ```
 
+## Generators as iterators
 
+```javascript
+/*
+ * Generators as iterators - basic
+ */
+
+function* range(start, count) {
+    for (let delta = 0; delta < count; delta++) {
+        yield start + delta;
+    }
+}
+
+for (let teenageYear of range(13, 7)) {
+    console.log(`Teenage angst @ ${teenageYear}!`);
+}
+
+
+/*
+ * Generators as iterators - a real example
+ */
+// Enumerable class that wraps an iterator exposing methods
+// to lazily transform the items
+class Enumerable {
+    constructor(iterator) {
+        // assuming iterator is some sort of iterable
+        this._iterator = iterator;
+    }
+
+    *[Symbol.iterator]() {
+        yield* this._iterator;
+    }
+
+    // Static (and private) helper generator functions
+    static *_filter(iterator, predicate) {
+        for (let value of iterator) {
+            if (predicate(value)) {
+                yield value;
+            }
+        }
+    }
+    static *_map(iterator, mapperFunc) {
+        for (let value of iterator) {
+            yield mapperFunc(value);
+        }
+    }
+    static *_take(iterator, count) {
+        let index = -1;
+        for (let value of iterator) {
+            if (++index >= count) {
+                break;
+            }
+
+            yield value;
+        }
+    }
+
+    // Instance methods wrapping functional helpers which allow for chaining
+    // The existing iterator is transformed by the helper generator function.
+    // The operations haven't actually happened yet, just the "instructions"
+    filter(predicate) {
+        this._iterator = Enumerable._filter(this._iterator, predicate);
+        return this;
+    }
+    map(mapper) {
+        this._iterator = Enumerable._map(this._iterator, mapper);
+        return this;
+    }
+    take(count) {
+        this._iterator = Enumerable._take(this._iterator, count);
+        return this;
+    }
+}
+
+function generateStocks() {
+    // Returns an infinite generator that keeps on returning new stocks
+    function* _generate() {
+        for (let stockNo = 1; ; stockNo++) {
+            let stockInfo = {
+                name: `Stock #${stockNo}`,
+                price: +(Math.random() * 100).toFixed(2)
+            };
+
+            console.log('Generated stock info', stockInfo);
+
+            yield stockInfo;
+        }
+    }
+
+    return new Enumerable(_generate());
+}
+
+let enumerable = generateStocks()
+    .filter((stockInfo) => stockInfo.price > 30)
+    .map((stockInfo) => `${stockInfo.name} ($${stockInfo.price})`)
+    .take(5);
+
+// Even though `_generate()` is an infinite generator, it's also lazy so
+// we only look at enough stocks that are > 30 until we get 5 of them
+console.log([...enumerable]);
+
+```
 
