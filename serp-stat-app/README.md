@@ -720,3 +720,116 @@ for (let value of list) {
 }
 ```
 
+
+## Promises
+
+```
+/*
+ * Class
+ * Instead of registering a callback in the call to an async function, the function returns a promise
+ * 1. Event handlers
+ * 2. Callbacks
+ * 3. Reactive programming
+ * 4. Chaining Promises
+ * http://www.benmvp.com/learning-es6-promises/
+ */
+
+class Pencil {
+	constructor(id, content, owner) {
+		this.id = id;
+		this.content = content;
+		this.owner = owner;
+	}
+}
+
+class ColorPencil extends Pencil {
+	constructor(id, content, owner, color='#ff0000') {
+		// super constructor must be called first!
+		super(id, content, owner);
+		this.color = color;
+	}
+}
+
+let colorPencil = new ColorPencil();
+console.log(colorPencil.color);
+
+/*
+ * Class - abstract class
+ * Unfortunately, ES6 classes don’t yet leverage the abstract keyword to make abstract base classes
+ */
+class InheritanceError extends Error { }
+class Computer {
+	  constructor() {
+		if (new.target === Computer) {
+			throw new InheritanceError('Computer cannot be directly constructed.')
+		}
+	}
+}
+class Laptop extends Computer {
+
+}
+let computer = new Computer();			   // error!
+let laptop = new Laptop();   // ok
+
+
+/*
+ * Class - Instance methods
+ */
+class ColorPen extends Pen {
+	constructor(id, content, owner, color='#ff0000') {
+		// super constructor must be called first!
+		super(id, content, owner);
+		this.color = color;
+	}
+
+	// Instance Method
+	['to' + 'String']() { // computed method names are supported
+		// Override `toString()`, but call
+		// parent/super version first
+		return `${super.toString()}
+			Color: ${this.color}`;
+	}
+}
+
+/*
+ * Class - Static methods
+ */
+class Note {
+	constructor(id, content, owner) {
+		this.id = id;
+		this.content = content;
+		this.owner = owner;
+	}
+
+	static add(...properties) {
+ 
+ console.log(properties);
+ 
+		// `this` will be the class on
+		// which `add()` was called increment counter
+		++this._idCounter;
+
+		let id = `note${this._idCounter}`;
+
+		// construct a new instance of the note passing in the
+		// arguments after the ID. This is so subclasses can
+		// get all of the arguments needed
+		let note = new this(id, ...properties);
+
+		// add note to the lookup by ID
+		this._noteLookup[id] = note;
+
+		return note;
+	}
+
+	static get(id) {
+	  	return this._noteLookup[id];
+	}
+}
+
+Note._idCounter = -1;
+Note._noteLookup = {};
+
+```
+
+
