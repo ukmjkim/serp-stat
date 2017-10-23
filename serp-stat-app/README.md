@@ -11,7 +11,22 @@
 * Arrow Function
 * Block level scoping with let and const
 * Destructuring
+* Parameter Handling
+* Spread Operator
+* Enhanced object literals
+* Template literals & tagged templates
+* Promises
+* for-of loop
+* Classes
+* New Collections
+* Iterators & Iterables
+* Generators as Iterators
+* 12 tricks for ES6 fun
 
+* Modules
+* Object.assign()
+* Array.from()
+* Proxies
 
 ### Arrow Function
 
