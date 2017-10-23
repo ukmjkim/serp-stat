@@ -542,7 +542,7 @@ console.log(car.value);
 
 ## Template literals & tagged templates
 
-```
+```javascript
 /*
  * Template literals & tagged templates
  * 1. Simple template literal. `He said, "It's your fault!"`
