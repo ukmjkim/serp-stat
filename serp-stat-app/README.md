@@ -432,6 +432,7 @@ function func(requiredParam = throwIfMissing()) {
 ```
 
 ## Spread Operator
+While rest parameters use the rest operator to combine zero or more parameters into a single array parameter, the spread operator does just the opposite. It separates an array into zero or more parameters.
 
 ```javascript
 /*
