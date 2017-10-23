@@ -490,4 +490,54 @@ console.log(rest, second, first);
 console.log([11, 10, ...list]);
 ```
 
+## Enhanced object literals
+ECMAScript 6 makes declaring object literals even more succinct by providing shorthand syntax for initializing properties from variables and defining function methods. It also enables the ability to have computed property keys in an object literal definition.
+
+```javascript
+/*
+ * Enhanced object literals
+ * 1. Property value shorthand
+ * 2. Computed property keys
+ * 3. Method definition shorthand
+ */
+
+function getCar(make, model, value) {
+	return {
+		// with property value shorthand
+		// syntax, you can omit the property
+		// value if key matches variable
+		// name
+		make,  // same as make: make
+		model, // same as model: model
+		value, // same as value: value
+
+		// computed values now work with
+		// object literals
+		['make' + make]: true,
+
+		// Method definition shorthand syntax
+		// omits `function` keyword & colon
+		depreciate() {
+			this.value -= 2500;
+		}
+	};
+}
+
+let car = getCar('Kia', 'Sorento', 40000);
+
+// output: {
+//     make: 'Kia',
+//     model:'Sorento',
+//     value: 40000,
+//     makeKia: true,
+//     depreciate: function()
+// }
+console.log(car);
+
+car.depreciate();
+
+// output: 37500
+console.log(car.value);
+```
+
 
