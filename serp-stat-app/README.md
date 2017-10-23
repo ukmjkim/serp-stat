@@ -712,7 +712,7 @@ fetch('/json/data.json')
 
 ## for-of operator
 
-```
+```javascript
 let list = [8, 3, 11, 9, 6];
 
 for (let value of list) {
@@ -721,9 +721,9 @@ for (let value of list) {
 ```
 
 
-## Promises
+## Class
 
-```
+```javascript
 /*
  * Class
  * Instead of registering a callback in the call to an async function, the function returns a promise
@@ -831,5 +831,184 @@ Note._idCounter = -1;
 Note._noteLookup = {};
 
 ```
+
+## New Collections
+
+```javascript
+/*
+ * New Collections
+ * 1. Set
+ * 2. Map
+ * 3. WeakSet
+ * 4. WeakMap
+ * http://www.benmvp.com/learning-es6-promises/
+ */
+
+/*
+ * Set
+ */
+let set = new Set([true, 'Ben', 5]);
+
+set.add(false).add('Ilegbodu').add(25).add(true);
+
+// output: 6
+console.log(set.size);
+
+// output: true
+console.log(set.has('Ben'));
+
+/*
+ * Set - dedupe example
+ */
+function dedupe(array) {
+    return [...new Set(array)];
+}
+
+let noDupesArray = dedupe([1, 2, 1, 4, 7, 3, 1]);
+
+// output: [1, 2, 4, 7, 3]
+console.log(noDupesArray);
+
+
+/*
+ * Set - intersection example
+ */
+function intersection(setA, setB) {
+    return new Set([...setA].filter(item => setB.has(item)));
+}
+
+let setIntersection = intersection(
+    new Set(['a', 'b', 'c', 'd']),
+    new Set(['d', 'e', 'f', 'g'])
+);
+
+// output: 1
+console.log(setIntersection.size);
+
+/*
+ * Set - difference example
+ */
+function difference(setA, setB) {
+    return new Set([...setA].filter(item => !setB.has(item)));
+}
+
+let setDifference = difference(
+    new Set(['a', 'b', 'c', 'd']),
+    new Set(['d', 'e', 'f', 'g'])
+);
+
+// output: 3
+console.log(setDifference.size);
+
+
+/*
+ * Map
+ */
+let map = new Map();
+
+map.set('foo', 'bar');
+map.set(true, 'Ben'); // non-strings can be keys
+
+// output: Ben
+console.log(map.get(true));
+
+// output: 2
+console.log(map.size);
+
+
+class Player {
+	constructor(name) {
+  	this.name = name;
+  }
+}
+
+/*
+ * Map - Object Key Example
+ */
+let steph = new Player('Stephen Curry');
+let kobe = new Player('Kobe Bryant');
+let lebron = new Player('LeBron James');
+let allStarVotes = new Map();
+
+allStarVotes.set(steph, 50)
+    .set(kobe, 0)
+    .set(lebron, 22);
+
+// output: 50
+console.log(allStarVotes.get(steph));
+
+// output: false
+console.log(allStarVotes.has('Kevin Durant'));
+
+allStarVotes.delete(kobe);
+
+// output: 2
+console.log(allStarVotes.size);
+for (let [player, count] of allStarVotes) {
+    console.log(`${player.name} (${count})`);
+}
+
+allStarVotes.clear();
+
+// output: 0
+console.log(allStarVotes.size);
+
+
+
+/*
+ * Map - merge raw data with Map objects
+ */
+let durant = new Player('Kevin Durant');
+let cp3 = new Player('Chris Paul');
+let theBrow = new Player('Anthony Davis');
+
+let russell = new Player('Russell Westbrook');
+let carmelo = new Player('Carmelo Anthony');
+
+let moreAllStarVotes = new Map([
+    [durant, 20],
+    [cp3, 5],
+    [theBrow, 10]
+]);
+let rawData = [
+    [russell, 12],
+    [carmelo, 15]
+];
+
+let mergedMap = new Map([...allStarVotes, ...moreAllStarVotes, ...rawData]);
+console.log(mergedMap);
+
+
+
+/*
+ * WeakMap - It’s not iterable. Only accessiable by key
+ * NO : .size(), .clear(), .entries(), .keys(), .values() or .forEach()
+ */
+let stephC = new Player('Stephen Curry');
+let kobeB = new Player('Kobe Bryant');
+let lebronJ = new Player('LeBron James');
+let allStarVotesWeak = new WeakMap();
+
+allStarVotesWeak.set(stephC, 50)
+    .set(kobeB, 0)
+    .set(lebronJ, 22);
+
+// output: 50
+console.log(allStarVotesWeak.get(stephC));
+
+// output: false
+console.log(allStarVotesWeak.has('Kevin Durant'));
+
+allStarVotesWeak.delete(kobeB);
+
+
+/*
+ * WeakSet - A WeakSet is basically the combination of a Set and a WeakMap.
+ * NO : .size(), .clear(), .entries(), .keys(), .values() or .forEach()
+ */
+
+```
+
+
 
 
