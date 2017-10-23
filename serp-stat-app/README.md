@@ -8,20 +8,20 @@
 
 
 ## ES6
-* Arrow Function
-* Block level scoping with let and const
-* Destructuring
-* Parameter Handling
-* Spread Operator
-* Enhanced object literals
-* Template literals & tagged templates
-* Promises
-* for-of loop
-* Classes
-* New Collections
-* Iterators & Iterables
-* Generators as Iterators
-* 12 tricks for ES6 fun
+* Arrow Function: http://www.benmvp.com/learning-es6-arrow-functions/
+* Block level scoping with let and const: http://www.benmvp.com/learning-es6-block-level-scoping-let-const/
+* Destructuring: http://www.benmvp.com/learning-es6-destructuring/
+* Parameter Handling: http://www.benmvp.com/learning-es6-parameter-handling/
+* Spread Operator: http://www.benmvp.com/learning-es6-parameter-handling/#spread-operator
+* Enhanced object literals: http://www.benmvp.com/learning-es6-enhanced-object-literals/
+* Template literals & tagged templates: http://www.benmvp.com/learning-es6-template-literals-tagged-templates/
+* Promises: http://www.benmvp.com/learning-es6-promises/
+* for-of loop: http://www.benmvp.com/learning-es6-for-of-loop/
+* Classes: http://www.benmvp.com/learning-es6-classes/
+* New Collections: http://www.benmvp.com/learning-es6-new-collections/
+* Iterators & Iterables: http://www.benmvp.com/learning-es6-generators-as-iterators/
+* Generators as Iterators: http://www.benmvp.com/learning-es6-generators-as-iterators/ 
+* 12 tricks for ES6 fun: http://www.benmvp.com/learning-es6-12-tricks-for-es6-fun/
 
 * Modules
 * Object.assign()
@@ -721,7 +721,7 @@ for (let value of list) {
 ```
 
 
-## Class
+## Classes
 
 ```javascript
 /*
