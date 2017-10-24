@@ -45,9 +45,6 @@ public class TagStat {
 	@Column(name = "GOOGLE_TOP_TEN_KEYWORDS")
 	private Integer googleTopTenKeywords = null;
 
-	@Column(name = "UNTRACKED_KEYWORDS")
-	private Integer untrackedKeywords = null;
-
 	@Column(name = "GOOGLE_AVERAGE")
 	private Float googleAverage = null;
 
@@ -134,14 +131,6 @@ public class TagStat {
 
 	public void setGoogleTopTenKeywords(Integer googleTopTenKeywords) {
 		this.googleTopTenKeywords = googleTopTenKeywords;
-	}
-
-	public Integer getUntrackedKeywords() {
-		return untrackedKeywords;
-	}
-
-	public void setUntrackedKeywords(Integer untrackedKeywords) {
-		this.untrackedKeywords = untrackedKeywords;
 	}
 
 	public Float getGoogleAverage() {

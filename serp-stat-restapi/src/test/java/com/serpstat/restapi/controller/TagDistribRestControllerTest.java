@@ -24,12 +24,10 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.serpstat.restapi.exception.TagNotFoundException;
-import com.serpstat.restapi.exception.TagSearchVolumeNotFoundException;
 import com.serpstat.restapi.exception.TagDistribNotFoundException;
 import com.serpstat.restapi.exception.TagDistribNotUniqueInTagException;
 import com.serpstat.restapi.model.Tag;
 import com.serpstat.restapi.model.TagDistrib;
-import com.serpstat.restapi.model.TagSearchVolume;
 import com.serpstat.restapi.service.TagService;
 import com.serpstat.restapi.service.TagDistribService;
 

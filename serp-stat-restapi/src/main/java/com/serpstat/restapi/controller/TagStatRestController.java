@@ -1,6 +1,8 @@
 package com.serpstat.restapi.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +22,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.serpstat.restapi.exception.SiteStatNotFoundException;
 import com.serpstat.restapi.exception.TagNotFoundException;
 import com.serpstat.restapi.exception.TagStatNotFoundException;
 import com.serpstat.restapi.exception.TagStatNotUniqueInTagException;
 import com.serpstat.restapi.model.ExceptionInfo;
-import com.serpstat.restapi.model.SiteStat;
 import com.serpstat.restapi.model.Tag;
 import com.serpstat.restapi.model.TagStat;
 import com.serpstat.restapi.service.TagService;
@@ -88,8 +88,12 @@ public class TagStatRestController {
 		logger.debug("{}", tagStat);
 		tagStatService.saveTagStat(tagStat);
 
+		Map<String, Long> pathIds = new HashMap<>();
+		pathIds.put("tagId", tagStat.getTagId());
+		pathIds.put("id", tagStat.getId());
+
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/tag/{tagId}/stat/{id}").buildAndExpand(tagStat.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/tag/{tagId}/stat/{id}").buildAndExpand(pathIds).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
@@ -112,7 +116,8 @@ public class TagStatRestController {
 		}
 
 		tagStatService.updateTagStat(tagStat);
-		return new ResponseEntity<TagStat>(tagStat, HttpStatus.OK);
+		TagStat entity = tagStatService.findById(tagStat.getId());
+		return new ResponseEntity<TagStat>(entity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/tag/{tagId}/stat/{id}", method = RequestMethod.DELETE)

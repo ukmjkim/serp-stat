@@ -23,11 +23,9 @@ import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.serpstat.restapi.exception.SiteStatNotFoundException;
 import com.serpstat.restapi.exception.TagNotFoundException;
 import com.serpstat.restapi.exception.TagStatNotFoundException;
 import com.serpstat.restapi.exception.TagStatNotUniqueInTagException;
-import com.serpstat.restapi.model.SiteStat;
 import com.serpstat.restapi.model.Tag;
 import com.serpstat.restapi.model.TagStat;
 import com.serpstat.restapi.service.TagService;

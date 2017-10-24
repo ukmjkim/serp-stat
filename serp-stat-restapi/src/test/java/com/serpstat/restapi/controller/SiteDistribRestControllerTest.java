@@ -26,11 +26,9 @@ import org.testng.annotations.Test;
 import com.serpstat.restapi.exception.SiteDistribNotFoundException;
 import com.serpstat.restapi.exception.SiteDistribNotUniqueInSiteException;
 import com.serpstat.restapi.exception.SiteNotFoundException;
-import com.serpstat.restapi.exception.SiteSearchVolumeNotFoundException;
 import com.serpstat.restapi.model.User;
 import com.serpstat.restapi.model.Site;
 import com.serpstat.restapi.model.SiteDistrib;
-import com.serpstat.restapi.model.SiteSearchVolume;
 import com.serpstat.restapi.service.SiteService;
 import com.serpstat.restapi.service.SiteDistribService;
 

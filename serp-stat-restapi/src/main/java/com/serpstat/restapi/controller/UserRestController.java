@@ -93,7 +93,8 @@ public class UserRestController {
 		}
 
 		userService.updateUser(user);
-		return new ResponseEntity<User>(currentUser, HttpStatus.OK);
+		User entity = userService.findById(user.getId());
+		return new ResponseEntity<User>(entity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/user/{id}", method = RequestMethod.DELETE)
@@ -140,7 +141,8 @@ public class UserRestController {
 		}
 
 		userApiService.updateUserAPI(userApi);
-		return new ResponseEntity<UserAPI>(currentUserApi, HttpStatus.OK);
+		UserAPI entity = userApiService.findById(userApi.getId());
+		return new ResponseEntity<UserAPI>(entity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/user/{userId}/userapi/{id}", method = RequestMethod.DELETE)
@@ -192,7 +194,8 @@ public class UserRestController {
 		}
 
 		siteService.updateSite(site);
-		return new ResponseEntity<Site>(currentSite, HttpStatus.OK);
+		Site entity = siteService.findById(site.getId());
+		return new ResponseEntity<Site>(entity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/user/{userId}/site/{id}", method = RequestMethod.DELETE)

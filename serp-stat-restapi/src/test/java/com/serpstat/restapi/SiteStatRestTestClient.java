@@ -161,6 +161,6 @@ public class SiteStatRestTestClient {
 		getSiteStat(1, 1);
 		getSiteStat(1, 2);
 		updateSiteStat(1, 1, 20170101);
-		deleteSiteStat(1, 1);
+		deleteSiteStat(1, 2);
 	}
 }

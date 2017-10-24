@@ -120,6 +120,56 @@ public class UserRestTestClient {
 		}
 	}
 
+	private static void updateUser() {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing updateUser API----------------- ");
+
+		User user = new User();
+		user.setId(7L);
+		user.setLogin("sarah");
+		user.setNiceName("Sarah Lee");
+		user.setPassword("password");
+		user.setEmail("sarah@gmail.com");
+		Instant instant = Instant.now();
+		user.setCreatedAt(Date.from(instant));
+		user.setDeleted(0);
+
+		System.out.println(user);
+
+		HttpEntity<Object> request = new HttpEntity<Object>(user, getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI + "/user/7",
+				HttpMethod.PUT, request, Object.class);
+		if (response.getStatusCode() == HttpStatus.OK) {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println(
+					"Site : id =" + map.get("id") 
+					+ ", nicename =" + map.get("nicename")
+					+ ", updated_at =" + map.get("updatedAt"));
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode=" + map.get("errorCode") + ", message=" + map.get("message"));
+		}
+	}
+
+	private static void deleteUser() {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing deleteUser API----------------- ");
+
+		HttpEntity<Object> request = new HttpEntity<Object>(getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI + "/user/7",
+				HttpMethod.DELETE, request, Object.class);
+		if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode=" + map.get("errorCode") + ", message=" + map.get("message"));
+		}
+	}
+
 	private static void addUserAPI() {
 		System.out.println("=======================================================");
 		System.out.println("---- Testing addUserAPI API----------------- ");
@@ -145,6 +195,53 @@ public class UserRestTestClient {
 			URI uri = headers.getLocation();
 			String urlStr = uri.toASCIIString();
 			System.out.println("Location: " + urlStr);
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode=" + map.get("errorCode") + ", message=" + map.get("message"));
+		}
+	}
+
+	private static void updateUserAPI() {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing updateUserAPI API----------------- ");
+
+		UserAPI userAPI = new UserAPI();
+		userAPI.setId(3);
+		userAPI.setApiKey("b7fa7429eb36a6335b714ecabfa1f84dccafce1b");
+		userAPI.setIps("");
+		userAPI.setCount(0);
+		userAPI.setApiLimit(1000);
+
+		System.out.println(userAPI);
+
+		HttpEntity<Object> request = new HttpEntity<Object>(userAPI, getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI + "/user/7/userapi/3",
+				HttpMethod.PUT, request, Object.class);
+		if (response.getStatusCode() == HttpStatus.OK) {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println(
+					"Site : id =" + map.get("id") 
+					+ ", api_key =" + map.get("apiKey")
+					+ ", updated_at =" + map.get("updatedAt"));
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode=" + map.get("errorCode") + ", message=" + map.get("message"));
+		}
+	}
+
+	private static void deleteUserAPI() {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing deleteUserAPI API----------------- ");
+
+		HttpEntity<Object> request = new HttpEntity<Object>(getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI + "/user/7/userapi/3",
+				HttpMethod.DELETE, request, Object.class);
+		if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
 		} else {
 			@SuppressWarnings("unchecked")
 			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
@@ -186,6 +283,59 @@ public class UserRestTestClient {
 		}
 	}
 
+	private static void updateSite() {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing updateSite API----------------- ");
+
+		Site site = new Site();
+		site.setId(2L);
+		site.setTitle("wayfair.ca");
+		site.setUrl("www.wayfair.ca");
+		site.setTracking(1);
+		site.setDropWWWPrefix(1);
+		site.setDropDirectories(0);
+		site.setContactEmail("admin@wayfair.ca");
+		Instant instant = Instant.now();
+		java.sql.Date date = new java.sql.Date(Date.from(instant).getTime());
+		site.setCreatedAt(date);
+		site.setDeleted(0);
+
+		System.out.println(site);
+
+		HttpEntity<Object> request = new HttpEntity<Object>(site, getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI + "/user/7/site/2",
+				HttpMethod.PUT, request, Object.class);
+		if (response.getStatusCode() == HttpStatus.OK) {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println(
+					"Site : id =" + map.get("id") 
+					+ ", title =" + map.get("title")
+					+ ", updated_at =" + map.get("updatedAt"));
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode=" + map.get("errorCode") + ", message=" + map.get("message"));
+		}
+	}
+
+	private static void deleteSite() {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing deleteSite API----------------- ");
+
+		HttpEntity<Object> request = new HttpEntity<Object>(getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI + "/user/7/site/2",
+				HttpMethod.DELETE, request, Object.class);
+		if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode=" + map.get("errorCode") + ", message=" + map.get("message"));
+		}
+	}
+
 	public static void main(String[] args) {
 		listAllUsers();
 		getUser(1);
@@ -193,5 +343,11 @@ public class UserRestTestClient {
 		createUser();
 		addUserAPI();
 		addSite();
+		updateSite();
+		updateUserAPI();
+		updateUser();
+		deleteSite();
+		deleteUserAPI();
+		deleteUser();
 	}
 }

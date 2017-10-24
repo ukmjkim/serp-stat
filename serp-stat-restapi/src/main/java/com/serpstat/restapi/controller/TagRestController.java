@@ -69,7 +69,8 @@ public class TagRestController {
 		}
 
 		tagService.updateTag(tag);
-		return new ResponseEntity<Tag>(currentTag, HttpStatus.OK);
+		Tag entity = tagService.findById(tag.getId());
+		return new ResponseEntity<Tag>(entity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/tag/{id}", method = RequestMethod.DELETE)

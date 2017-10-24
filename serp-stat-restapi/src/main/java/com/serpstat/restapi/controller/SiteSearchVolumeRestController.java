@@ -1,6 +1,8 @@
 package com.serpstat.restapi.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,11 +25,9 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.serpstat.restapi.exception.SiteNotFoundException;
 import com.serpstat.restapi.exception.SiteSearchVolumeNotFoundException;
 import com.serpstat.restapi.exception.SiteSearchVolumeNotUniqueInSiteException;
-import com.serpstat.restapi.exception.SiteStatNotFoundException;
 import com.serpstat.restapi.model.ExceptionInfo;
 import com.serpstat.restapi.model.Site;
 import com.serpstat.restapi.model.SiteSearchVolume;
-import com.serpstat.restapi.model.SiteStat;
 import com.serpstat.restapi.service.SiteService;
 import com.serpstat.restapi.service.SiteSearchVolumeService;
 
@@ -88,8 +88,14 @@ public class SiteSearchVolumeRestController {
 		logger.debug("{}", siteSearchVolume);
 		siteSearchVolumeService.saveSiteSearchVolume(siteSearchVolume);
 
+		Map<String, Long> pathIds = new HashMap<>();
+		pathIds.put("siteId", siteSearchVolume.getSiteId());
+		pathIds.put("id", siteSearchVolume.getId());
+
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/site/{siteId}/searchvolume/{id}").buildAndExpand(siteSearchVolume.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/site/{siteId}/searchvolume/{id}")
+				.buildAndExpand(pathIds)
+				.toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
@@ -112,7 +118,8 @@ public class SiteSearchVolumeRestController {
 		}
 
 		siteSearchVolumeService.updateSiteSearchVolume(siteSearchVolume);
-		return new ResponseEntity<SiteSearchVolume>(siteSearchVolume, HttpStatus.OK);
+		SiteSearchVolume entity = siteSearchVolumeService.findById(siteSearchVolume.getId());
+		return new ResponseEntity<SiteSearchVolume>(entity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/site/{siteId}/searchvolume/{id}", method = RequestMethod.DELETE)

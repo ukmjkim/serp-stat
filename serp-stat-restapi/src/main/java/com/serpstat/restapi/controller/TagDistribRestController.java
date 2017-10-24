@@ -1,6 +1,8 @@
 package com.serpstat.restapi.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +24,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.serpstat.restapi.exception.TagNotFoundException;
 import com.serpstat.restapi.exception.TagNotUniqueInSiteException;
-import com.serpstat.restapi.exception.TagSearchVolumeNotFoundException;
 import com.serpstat.restapi.exception.TagDistribNotFoundException;
 import com.serpstat.restapi.exception.TagDistribNotUniqueInTagException;
 import com.serpstat.restapi.model.ExceptionInfo;
 import com.serpstat.restapi.model.Tag;
 import com.serpstat.restapi.model.TagDistrib;
-import com.serpstat.restapi.model.TagSearchVolume;
 import com.serpstat.restapi.service.TagService;
 import com.serpstat.restapi.service.TagDistribService;
 
@@ -90,8 +90,12 @@ public class TagDistribRestController {
 		logger.debug("{}", tagDistrib);
 		tagDistribService.saveTagDistrib(tagDistrib);
 
+		Map<String, Long> pathIds = new HashMap<>();
+		pathIds.put("tagId", tagDistrib.getTagId());
+		pathIds.put("id", tagDistrib.getId());
+
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/tag/{tagId}/distrib/{id}").buildAndExpand(tagDistrib.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/tag/{tagId}/distrib/{id}").buildAndExpand(pathIds).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
@@ -115,7 +119,8 @@ public class TagDistribRestController {
 		}
 
 		tagDistribService.updateTagDistrib(tagDistrib);
-		return new ResponseEntity<TagDistrib>(tagDistrib, HttpStatus.OK);
+		TagDistrib entity = tagDistribService.findById(tagDistrib.getId());
+		return new ResponseEntity<TagDistrib>(entity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/tag/{tagId}/distrib/{id}", method = RequestMethod.DELETE)

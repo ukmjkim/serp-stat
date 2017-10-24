@@ -77,13 +77,60 @@ public class TagRestTestClient {
 		}
 	}
 
+	private static void updateTag(long id) {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing updateTag API----------------- ");
+
+		Tag tag = new Tag();
+		tag.setId(id);
+		tag.setSiteId(1L);
+		tag.setTag("Top10 Performer");
+
+		System.out.println(tag);
+
+		HttpEntity<Object> request = new HttpEntity<Object>(tag, getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI + "/tag/" + id, HttpMethod.PUT, request,
+				Object.class);
+		if (response.getStatusCode() == HttpStatus.OK) {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println(
+					"Tag : id =" + map.get("id") 
+					+ ", site_id =" + map.get("siteId")
+					+ ", tag =" + map.get("tag")
+					+ ", updated_at =" + map.get("updatedAt"));
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode=" + map.get("errorCode") + ", message=" + map.get("message"));
+		}
+	}
+
+	private static void deleteTag(long id) {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing deleteSiteStat API----------------- ");
+
+		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI + "/tag/" + id, HttpMethod.DELETE, request,
+				Object.class);
+		if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode=" + map.get("errorCode") + ", message=" + map.get("message"));
+		}
+	}
 	public static void main(String[] args) {
-		createTag("Favorites");
-		createTag("Seasonal Target");
-		createTag("Region Target");
-		createTag("Top Revenue");
-		createTag("New Business");
-		createTag("Red Ocean");
-		getTag(lastCreatedId);
+		createTag("Favorites111");
+//		createTag("Seasonal Target");
+//		createTag("Region Target");
+//		createTag("Top Revenue");
+//		createTag("New Business");
+//		createTag("Red Ocean");
+		getTag(1);
+		updateTag(1);
+		deleteTag(8);
 	}
 }

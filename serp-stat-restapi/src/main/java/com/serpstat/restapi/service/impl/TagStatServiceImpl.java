@@ -48,7 +48,6 @@ public class TagStatServiceImpl implements TagStatService {
 			entity.setRankingKeywords(tagStat.getRankingKeywords());
 			entity.setTotalKeywords(tagStat.getTotalKeywords());
 			entity.setTrackedKeywords(tagStat.getTrackedKeywords());
-			entity.setUntrackedKeywords(tagStat.getUntrackedKeywords());
 		}
 	}
 

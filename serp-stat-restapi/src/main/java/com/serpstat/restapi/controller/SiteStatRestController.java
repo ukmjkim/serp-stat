@@ -1,6 +1,8 @@
 package com.serpstat.restapi.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,8 +88,12 @@ public class SiteStatRestController {
 		logger.debug("{}", siteStat);
 		siteStatService.saveSiteStat(siteStat);
 
+		Map<String, Long> pathIds = new HashMap<>();
+		pathIds.put("siteId", siteStat.getSiteId());
+		pathIds.put("id", siteStat.getId());
+
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/site/{siteId}/stat/{id}").buildAndExpand(siteStat.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/site/{siteId}/stat/{id}").buildAndExpand(pathIds).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 

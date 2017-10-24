@@ -1,6 +1,8 @@
 package com.serpstat.restapi.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,13 +23,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.serpstat.restapi.exception.SiteNotFoundException;
-import com.serpstat.restapi.exception.SiteSearchVolumeNotFoundException;
 import com.serpstat.restapi.exception.SiteDistribNotFoundException;
 import com.serpstat.restapi.exception.SiteDistribNotUniqueInSiteException;
 import com.serpstat.restapi.model.ExceptionInfo;
 import com.serpstat.restapi.model.Site;
 import com.serpstat.restapi.model.SiteDistrib;
-import com.serpstat.restapi.model.SiteSearchVolume;
 import com.serpstat.restapi.service.SiteService;
 import com.serpstat.restapi.service.SiteDistribService;
 
@@ -88,8 +88,12 @@ public class SiteDistribRestController {
 		logger.debug("{}", siteDistrib);
 		siteDistribService.saveSiteDistrib(siteDistrib);
 
+		Map<String, Long> pathIds = new HashMap<>();
+		pathIds.put("siteId", siteDistrib.getSiteId());
+		pathIds.put("id", siteDistrib.getId());
+
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/site/{siteId}/distrib/{id}").buildAndExpand(siteDistrib.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/site/{siteId}/distrib/{id}").buildAndExpand(pathIds).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
@@ -112,7 +116,8 @@ public class SiteDistribRestController {
 		}
 
 		siteDistribService.updateSiteDistrib(siteDistrib);
-		return new ResponseEntity<SiteDistrib>(siteDistrib, HttpStatus.OK);
+		SiteDistrib entity = siteDistribService.findById(siteDistrib.getId());
+		return new ResponseEntity<SiteDistrib>(entity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/site/{siteId}/distrib/{id}", method = RequestMethod.DELETE)

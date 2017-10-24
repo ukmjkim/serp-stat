@@ -1,6 +1,8 @@
 package com.serpstat.restapi.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,11 +26,9 @@ import com.serpstat.restapi.exception.TagNotFoundException;
 import com.serpstat.restapi.exception.TagNotUniqueInSiteException;
 import com.serpstat.restapi.exception.TagSearchVolumeNotFoundException;
 import com.serpstat.restapi.exception.TagSearchVolumeNotUniqueInTagException;
-import com.serpstat.restapi.exception.TagStatNotFoundException;
 import com.serpstat.restapi.model.ExceptionInfo;
 import com.serpstat.restapi.model.Tag;
 import com.serpstat.restapi.model.TagSearchVolume;
-import com.serpstat.restapi.model.TagStat;
 import com.serpstat.restapi.service.TagService;
 import com.serpstat.restapi.service.TagSearchVolumeService;
 
@@ -90,8 +90,12 @@ public class TagSearchVolumeRestController {
 		logger.debug("{}", tagSearchVolume);
 		tagSearchVolumeService.saveTagSearchVolume(tagSearchVolume);
 
+		Map<String, Long> pathIds = new HashMap<>();
+		pathIds.put("tagId", tagSearchVolume.getTagId());
+		pathIds.put("id", tagSearchVolume.getId());
+
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/tag/{tagId}/searchvolume/{id}").buildAndExpand(tagSearchVolume.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/tag/{tagId}/searchvolume/{id}").buildAndExpand(pathIds).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
@@ -114,7 +118,8 @@ public class TagSearchVolumeRestController {
 		}
 
 		tagSearchVolumeService.updateTagSearchVolume(tagSearchVolume);
-		return new ResponseEntity<TagSearchVolume>(tagSearchVolume, HttpStatus.OK);
+		TagSearchVolume entity = tagSearchVolumeService.findById(tagSearchVolume.getId());
+		return new ResponseEntity<TagSearchVolume>(entity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/tag/{tagId}/searchvolume/{id}", method = RequestMethod.DELETE)

@@ -26,10 +26,8 @@ import org.testng.annotations.Test;
 import com.serpstat.restapi.exception.TagNotFoundException;
 import com.serpstat.restapi.exception.TagSearchVolumeNotFoundException;
 import com.serpstat.restapi.exception.TagSearchVolumeNotUniqueInTagException;
-import com.serpstat.restapi.exception.TagStatNotFoundException;
 import com.serpstat.restapi.model.Tag;
 import com.serpstat.restapi.model.TagSearchVolume;
-import com.serpstat.restapi.model.TagStat;
 import com.serpstat.restapi.service.TagService;
 import com.serpstat.restapi.service.TagSearchVolumeService;
 
