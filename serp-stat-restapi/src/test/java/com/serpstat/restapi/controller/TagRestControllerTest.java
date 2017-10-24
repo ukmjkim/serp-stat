@@ -48,7 +48,7 @@ public class TagRestControllerTest {
 	}
 
 	@Test
-	public void getUser() {
+	public void getTag() {
 		Tag tag = tags.get(0);
 		when(tagService.findById(anyLong())).thenReturn(tag);
 		ResponseEntity<Tag> response;
@@ -63,7 +63,7 @@ public class TagRestControllerTest {
 	}
 
 	@Test
-	public void createUserWithConflict() {
+	public void createTagWithConflict() {
 		UriComponentsBuilder ucBuilder = UriComponentsBuilder.newInstance();
 		doNothing().when(tagService).saveTag(any(Tag.class));
 		when(tagService.isTagUnique(anyLong(), anyLong(), anyString())).thenReturn(false);

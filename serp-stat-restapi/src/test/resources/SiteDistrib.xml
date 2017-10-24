@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <site_distribs id="1" SITE_ID="1" CRAWL_DATE="20170101" ONE="1000" TWO="1000" THREE="1000"/>
+    <site_distribs id="2" SITE_ID="1" CRAWL_DATE="20170102" ONE="1000" TWO="1000" THREE="1000" />
+    <site_distribs id="3" SITE_ID="1" CRAWL_DATE="20170103" ONE="1000" TWO="1000" THREE="1000" />
+    <site_distribs id="4" SITE_ID="1" CRAWL_DATE="20170104" ONE="1000" TWO="1000" THREE="1000"/>
+    <site_distribs id="5" SITE_ID="1" CRAWL_DATE="20170105" ONE="1000" TWO="1000" THREE="1000" />
+    <site_distribs id="6" SITE_ID="1" CRAWL_DATE="20170106" ONE="1000" TWO="1000" THREE="1000" />
+    <site_distribs id="7" SITE_ID="1" CRAWL_DATE="20170107" ONE="1000" TWO="1000" THREE="1000" />
+</dataset>

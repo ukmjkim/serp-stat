@@ -21,7 +21,6 @@ import org.mockito.Spy;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;

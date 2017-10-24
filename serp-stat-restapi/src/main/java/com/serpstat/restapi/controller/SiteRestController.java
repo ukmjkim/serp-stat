@@ -17,14 +17,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.serpstat.restapi.exception.SiteNotFoundException;
-import com.serpstat.restapi.exception.SiteTitleNotUniqueException;
-import com.serpstat.restapi.exception.UserAPINotFoundException;
-import com.serpstat.restapi.exception.UserLoginNotUniqueException;
-import com.serpstat.restapi.exception.UserNotFoundException;
 import com.serpstat.restapi.model.ExceptionInfo;
 import com.serpstat.restapi.model.Site;
 import com.serpstat.restapi.model.SiteTags;
-import com.serpstat.restapi.model.Tag;
 import com.serpstat.restapi.service.SiteService;
 import com.serpstat.restapi.service.TagService;
 

@@ -21,7 +21,7 @@ public class SiteRestTestClient {
 		return headers;
 	}
 
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private static void listAllSites() {
 		System.out.println("=======================================================");
 		System.out.println("Testing listAllSites API-----------");
@@ -62,6 +62,7 @@ public class SiteRestTestClient {
 		}
 	}
 
+	@SuppressWarnings("rawtypes")
 	private static void listAllTagsBySiteId(long siteId) {
 		System.out.println("=======================================================");
 		System.out.println("Testing listAllTagsBySiteId API-----------");
