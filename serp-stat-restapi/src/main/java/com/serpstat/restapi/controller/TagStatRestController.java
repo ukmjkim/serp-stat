@@ -89,12 +89,12 @@ public class TagStatRestController {
 		tagStatService.saveTagStat(tagStat);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/tag/{tagId}/stat").buildAndExpand(tagStat.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/tag/{tagId}/stat/{id}").buildAndExpand(tagStat.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/tag/{tagId}/stat", method = RequestMethod.PUT)
-	public ResponseEntity<TagStat> updateTagStat(@PathVariable("tagId") long tagId, @RequestBody TagStat tagStat)
+	@RequestMapping(value = "/tag/{tagId}/stat/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<TagStat> updateTagStat(@PathVariable("tagId") long tagId, @PathVariable("id") long id, @RequestBody TagStat tagStat)
 			throws TagNotFoundException, TagStatNotFoundException {
 		logger.info("Fetching Tag with id {}", tagStat.getTagId());
 		Tag tag = tagService.findById(tagStat.getTagId());
@@ -116,7 +116,7 @@ public class TagStatRestController {
 	}
 
 	@RequestMapping(value = "/tag/{tagId}/stat/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<TagStat> deleteTagStat(@PathVariable("id") long id) throws TagStatNotFoundException {
+	public ResponseEntity<TagStat> deleteTagStat(@PathVariable("tagId") long tagId, @PathVariable("id") long id) throws TagStatNotFoundException {
 		logger.info("Fetching & Deleting Tag Stat with id {}", id);
 		TagStat tagStat = tagStatService.findById(id);
 		if (tagStat == null) {

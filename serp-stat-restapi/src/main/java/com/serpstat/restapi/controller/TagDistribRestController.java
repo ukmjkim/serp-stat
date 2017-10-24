@@ -91,12 +91,13 @@ public class TagDistribRestController {
 		tagDistribService.saveTagDistrib(tagDistrib);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/tag/{tagId}/distrib").buildAndExpand(tagDistrib.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/tag/{tagId}/distrib/{id}").buildAndExpand(tagDistrib.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/tag/{tagId}/distrib", method = RequestMethod.PUT)
+	@RequestMapping(value = "/tag/{tagId}/distrib/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<TagDistrib> updateTagDistrib(@PathVariable("tagId") long tagId,
+			@PathVariable("id") long id,
 			@RequestBody TagDistrib tagDistrib) throws TagNotFoundException, TagDistribNotFoundException {
 		logger.info("Fetching Tag with id {}", tagDistrib.getTagId());
 		Tag tag = tagService.findById(tagDistrib.getTagId());
@@ -118,7 +119,7 @@ public class TagDistribRestController {
 	}
 
 	@RequestMapping(value = "/tag/{tagId}/distrib/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<TagDistrib> deleteTagDistrib(@PathVariable("id") long id) throws TagDistribNotFoundException {
+	public ResponseEntity<TagDistrib> deleteTagDistrib(@PathVariable("tagId") long tagId, @PathVariable("id") long id) throws TagDistribNotFoundException {
 		logger.info("Fetching & Deleting Tag Distrib with id {}", id);
 		TagDistrib tagDistrib = tagDistribService.findById(id);
 		if (tagDistrib == null) {

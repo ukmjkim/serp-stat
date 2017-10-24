@@ -142,7 +142,7 @@ public class SiteSearchVolumeRestControllerTest {
 		when(siteSearchVolumeService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<SiteSearchVolume> response;
 		try {
-			response = siteSearchVolumeController.updateSiteSearchVolume(siteSearchVolume.getSiteId(), siteSearchVolume);
+			response = siteSearchVolumeController.updateSiteSearchVolume(siteSearchVolume.getSiteId(), siteSearchVolume.getId(), siteSearchVolume);
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
 			verify(siteService, atLeastOnce()).findById(anyLong());
 			verify(siteSearchVolumeService, atLeastOnce()).findById(anyLong());
@@ -161,7 +161,7 @@ public class SiteSearchVolumeRestControllerTest {
 		when(siteSearchVolumeService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<SiteSearchVolume> response;
 		try {
-			response = siteSearchVolumeController.updateSiteSearchVolume(siteSearchVolume.getSiteId(), siteSearchVolume);
+			response = siteSearchVolumeController.updateSiteSearchVolume(siteSearchVolume.getSiteId(), siteSearchVolume.getId(), siteSearchVolume);
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 			verify(siteService, atLeastOnce()).findById(anyLong());
 			verify(siteSearchVolumeService, atLeastOnce()).findById(anyLong());
@@ -181,7 +181,7 @@ public class SiteSearchVolumeRestControllerTest {
 		when(siteSearchVolumeService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<SiteSearchVolume> response;
 		try {
-			response = siteSearchVolumeController.deleteSiteSearchVolume(siteSearchVolume.getId());
+			response = siteSearchVolumeController.deleteSiteSearchVolume(siteSearchVolume.getSiteId(), siteSearchVolume.getId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
 		} catch (SiteSearchVolumeNotFoundException e) {
 
@@ -195,7 +195,7 @@ public class SiteSearchVolumeRestControllerTest {
 		when(siteSearchVolumeService.findById(anyLong())).thenReturn(siteSearchVolume);
 		ResponseEntity<SiteSearchVolume> response;
 		try {
-			response = siteSearchVolumeController.deleteSiteSearchVolume(siteSearchVolume.getId());
+			response = siteSearchVolumeController.deleteSiteSearchVolume(siteSearchVolume.getSiteId(), siteSearchVolume.getId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
 		} catch (SiteSearchVolumeNotFoundException e) {
 			// TODO Auto-generated catch block

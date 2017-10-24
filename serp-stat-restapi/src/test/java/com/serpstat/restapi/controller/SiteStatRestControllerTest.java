@@ -140,7 +140,7 @@ public class SiteStatRestControllerTest {
 		when(siteStatService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<SiteStat> response;
 		try {
-			response = siteStatController.updateSiteStat(siteStat.getSiteId(), siteStat);
+			response = siteStatController.updateSiteStat(siteStat.getSiteId(), siteStat.getId(), siteStat);
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
 			verify(siteService, atLeastOnce()).findById(anyLong());
 			verify(siteStatService, atLeastOnce()).findById(anyLong());
@@ -159,7 +159,7 @@ public class SiteStatRestControllerTest {
 		when(siteStatService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<SiteStat> response;
 		try {
-			response = siteStatController.updateSiteStat(siteStat.getSiteId(), siteStat);
+			response = siteStatController.updateSiteStat(siteStat.getSiteId(), siteStat.getId(), siteStat);
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 			verify(siteService, atLeastOnce()).findById(anyLong());
 			verify(siteStatService, atLeastOnce()).findById(anyLong());
@@ -179,7 +179,7 @@ public class SiteStatRestControllerTest {
 		when(siteStatService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<SiteStat> response;
 		try {
-			response = siteStatController.deleteSiteStat(siteStat.getId());
+			response = siteStatController.deleteSiteStat(siteStat.getSiteId(), siteStat.getId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
 		} catch (SiteStatNotFoundException e) {
 
@@ -193,7 +193,7 @@ public class SiteStatRestControllerTest {
 		when(siteStatService.findById(anyLong())).thenReturn(siteStat);
 		ResponseEntity<SiteStat> response;
 		try {
-			response = siteStatController.deleteSiteStat(siteStat.getId());
+			response = siteStatController.deleteSiteStat(siteStat.getSiteId(), siteStat.getId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
 		} catch (SiteStatNotFoundException e) {
 			// TODO Auto-generated catch block

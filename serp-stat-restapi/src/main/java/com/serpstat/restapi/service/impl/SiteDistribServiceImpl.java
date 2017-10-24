@@ -3,11 +3,15 @@ package com.serpstat.restapi.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.serpstat.restapi.dao.SiteDistribDao;
 import com.serpstat.restapi.model.SiteDistrib;
 import com.serpstat.restapi.service.SiteDistribService;
 
+@Service("siteDistribService")
+@Transactional
 public class SiteDistribServiceImpl implements SiteDistribService {
 	@Autowired
 	SiteDistribDao dao;

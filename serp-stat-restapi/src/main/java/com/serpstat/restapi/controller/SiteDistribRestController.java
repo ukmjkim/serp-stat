@@ -41,7 +41,7 @@ public class SiteDistribRestController {
 	@Autowired
 	SiteDistribService siteDistribService;
 
-	@RequestMapping(value = "/site/{siteId}/searchvolume/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/site/{siteId}/distrib/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<SiteDistrib> getSiteDistrib(@PathVariable("siteId") long siteId, @PathVariable("id") long id) throws SiteDistribNotFoundException {
 		logger.info("Fetching Site Stat with id {}", id);
 		SiteDistrib siteDistrib = siteDistribService.findById(id);
@@ -89,12 +89,12 @@ public class SiteDistribRestController {
 		siteDistribService.saveSiteDistrib(siteDistrib);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/site/{siteId}/distrib").buildAndExpand(siteDistrib.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/site/{siteId}/distrib/{id}").buildAndExpand(siteDistrib.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/site/{siteId}/distrib", method = RequestMethod.PUT)
-	public ResponseEntity<SiteDistrib> updateSiteDistrib(@PathVariable("siteId") long siteId, @RequestBody SiteDistrib siteDistrib)
+	@RequestMapping(value = "/site/{siteId}/distrib/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<SiteDistrib> updateSiteDistrib(@PathVariable("siteId") long siteId, @PathVariable("id") long id, @RequestBody SiteDistrib siteDistrib)
 			throws SiteNotFoundException, SiteDistribNotFoundException {
 		logger.info("Fetching Site with id {}", siteDistrib.getSiteId());
 		Site site = siteService.findById(siteDistrib.getSiteId());
@@ -116,7 +116,7 @@ public class SiteDistribRestController {
 	}
 
 	@RequestMapping(value = "/site/{siteId}/distrib/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<SiteDistrib> deleteSiteDistrib(@PathVariable("id") long id) throws SiteDistribNotFoundException {
+	public ResponseEntity<SiteDistrib> deleteSiteDistrib(@PathVariable("siteId") long siteId, @PathVariable("id") long id) throws SiteDistribNotFoundException {
 		logger.info("Fetching & Deleting Site Distrib with id {}", id);
 		SiteDistrib siteDistrib = siteDistribService.findById(id);
 		if (siteDistrib == null) {

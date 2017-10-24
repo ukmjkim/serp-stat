@@ -141,7 +141,7 @@ public class TagDistribRestControllerTest {
 		when(tagDistribService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<TagDistrib> response;
 		try {
-			response = tagDistribController.updateTagDistrib(tagDistrib.getTagId(), tagDistrib);
+			response = tagDistribController.updateTagDistrib(tagDistrib.getTagId(), tagDistrib.getId(), tagDistrib);
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
 			verify(tagService, atLeastOnce()).findById(anyLong());
 			verify(tagDistribService, atLeastOnce()).findById(anyLong());
@@ -160,7 +160,7 @@ public class TagDistribRestControllerTest {
 		when(tagDistribService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<TagDistrib> response;
 		try {
-			response = tagDistribController.updateTagDistrib(tagDistrib.getTagId(), tagDistrib);
+			response = tagDistribController.updateTagDistrib(tagDistrib.getTagId(), tagDistrib.getId(), tagDistrib);
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 			verify(tagService, atLeastOnce()).findById(anyLong());
 			verify(tagDistribService, atLeastOnce()).findById(anyLong());
@@ -180,7 +180,7 @@ public class TagDistribRestControllerTest {
 		when(tagDistribService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<TagDistrib> response;
 		try {
-			response = tagDistribController.deleteTagDistrib(tagDistrib.getId());
+			response = tagDistribController.deleteTagDistrib(tagDistrib.getTagId(), tagDistrib.getId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
 		} catch (TagDistribNotFoundException e) {
 
@@ -194,7 +194,7 @@ public class TagDistribRestControllerTest {
 		when(tagDistribService.findById(anyLong())).thenReturn(tagDistrib);
 		ResponseEntity<TagDistrib> response;
 		try {
-			response = tagDistribController.deleteTagDistrib(tagDistrib.getId());
+			response = tagDistribController.deleteTagDistrib(tagDistrib.getTagId(), tagDistrib.getId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
 		} catch (TagDistribNotFoundException e) {
 			// TODO Auto-generated catch block

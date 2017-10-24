@@ -142,7 +142,7 @@ public class SiteDistribRestControllerTest {
 		when(siteDistribService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<SiteDistrib> response;
 		try {
-			response = siteDistribController.updateSiteDistrib(siteDistrib.getSiteId(), siteDistrib);
+			response = siteDistribController.updateSiteDistrib(siteDistrib.getSiteId(), siteDistrib.getId(), siteDistrib);
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
 			verify(siteService, atLeastOnce()).findById(anyLong());
 			verify(siteDistribService, atLeastOnce()).findById(anyLong());
@@ -161,7 +161,7 @@ public class SiteDistribRestControllerTest {
 		when(siteDistribService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<SiteDistrib> response;
 		try {
-			response = siteDistribController.updateSiteDistrib(siteDistrib.getSiteId(), siteDistrib);
+			response = siteDistribController.updateSiteDistrib(siteDistrib.getSiteId(), siteDistrib.getId(), siteDistrib);
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 			verify(siteService, atLeastOnce()).findById(anyLong());
 			verify(siteDistribService, atLeastOnce()).findById(anyLong());
@@ -181,7 +181,7 @@ public class SiteDistribRestControllerTest {
 		when(siteDistribService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<SiteDistrib> response;
 		try {
-			response = siteDistribController.deleteSiteDistrib(siteDistrib.getId());
+			response = siteDistribController.deleteSiteDistrib(siteDistrib.getSiteId(), siteDistrib.getId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
 		} catch (SiteDistribNotFoundException e) {
 
@@ -195,7 +195,7 @@ public class SiteDistribRestControllerTest {
 		when(siteDistribService.findById(anyLong())).thenReturn(siteDistrib);
 		ResponseEntity<SiteDistrib> response;
 		try {
-			response = siteDistribController.deleteSiteDistrib(siteDistrib.getId());
+			response = siteDistribController.deleteSiteDistrib(siteDistrib.getSiteId(), siteDistrib.getId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
 		} catch (SiteDistribNotFoundException e) {
 			// TODO Auto-generated catch block

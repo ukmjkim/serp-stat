@@ -141,7 +141,7 @@ public class TagSearchVolumeRestControllerTest {
 		when(tagSearchVolumeService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<TagSearchVolume> response;
 		try {
-			response = tagSearchVolumeController.updateTagSearchVolume(tagSearchVolume.getTagId(), tagSearchVolume);
+			response = tagSearchVolumeController.updateTagSearchVolume(tagSearchVolume.getTagId(), tagSearchVolume.getId(), tagSearchVolume);
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
 			verify(tagService, atLeastOnce()).findById(anyLong());
 			verify(tagSearchVolumeService, atLeastOnce()).findById(anyLong());
@@ -160,7 +160,7 @@ public class TagSearchVolumeRestControllerTest {
 		when(tagSearchVolumeService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<TagSearchVolume> response;
 		try {
-			response = tagSearchVolumeController.updateTagSearchVolume(tagSearchVolume.getTagId(), tagSearchVolume);
+			response = tagSearchVolumeController.updateTagSearchVolume(tagSearchVolume.getTagId(), tagSearchVolume.getId(), tagSearchVolume);
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 			verify(tagService, atLeastOnce()).findById(anyLong());
 			verify(tagSearchVolumeService, atLeastOnce()).findById(anyLong());
@@ -180,7 +180,7 @@ public class TagSearchVolumeRestControllerTest {
 		when(tagSearchVolumeService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<TagSearchVolume> response;
 		try {
-			response = tagSearchVolumeController.deleteTagSearchVolume(tagSearchVolume.getId());
+			response = tagSearchVolumeController.deleteTagSearchVolume(tagSearchVolume.getTagId(), tagSearchVolume.getId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
 		} catch (TagSearchVolumeNotFoundException e) {
 
@@ -194,7 +194,7 @@ public class TagSearchVolumeRestControllerTest {
 		when(tagSearchVolumeService.findById(anyLong())).thenReturn(tagSearchVolume);
 		ResponseEntity<TagSearchVolume> response;
 		try {
-			response = tagSearchVolumeController.deleteTagSearchVolume(tagSearchVolume.getId());
+			response = tagSearchVolumeController.deleteTagSearchVolume(tagSearchVolume.getTagId(), tagSearchVolume.getId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
 		} catch (TagSearchVolumeNotFoundException e) {
 			// TODO Auto-generated catch block

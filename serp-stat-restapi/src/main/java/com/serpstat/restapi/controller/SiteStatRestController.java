@@ -87,12 +87,12 @@ public class SiteStatRestController {
 		siteStatService.saveSiteStat(siteStat);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/site/{siteId}/stat").buildAndExpand(siteStat.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/site/{siteId}/stat/{id}").buildAndExpand(siteStat.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/site/{siteId}/stat", method = RequestMethod.PUT)
-	public ResponseEntity<SiteStat> updateSiteStat(@PathVariable("siteId") long siteId, @RequestBody SiteStat siteStat)
+	@RequestMapping(value = "/site/{siteId}/stat/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<SiteStat> updateSiteStat(@PathVariable("siteId") long siteId, @PathVariable("id") long id, @RequestBody SiteStat siteStat)
 			throws SiteNotFoundException, SiteStatNotFoundException {
 		logger.info("Fetching Site with id {}", siteStat.getSiteId());
 		Site site = siteService.findById(siteStat.getSiteId());
@@ -110,11 +110,12 @@ public class SiteStatRestController {
 		}
 
 		siteStatService.updateSiteStat(siteStat);
-		return new ResponseEntity<SiteStat>(siteStat, HttpStatus.OK);
+		SiteStat entity = siteStatService.findById(siteStat.getId());
+		return new ResponseEntity<SiteStat>(entity, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/site/{siteId}/stat/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<SiteStat> deleteSiteStat(@PathVariable("id") long id) throws SiteStatNotFoundException {
+	public ResponseEntity<SiteStat> deleteSiteStat(@PathVariable("siteId") long siteId, @PathVariable("id") long id) throws SiteStatNotFoundException {
 		logger.info("Fetching & Deleting Site Stat with id {}", id);
 		SiteStat siteStat = siteStatService.findById(id);
 		if (siteStat == null) {

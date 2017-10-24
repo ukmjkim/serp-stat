@@ -3,11 +3,15 @@ package com.serpstat.restapi.service.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.serpstat.restapi.dao.TagSearchVolumeDao;
 import com.serpstat.restapi.model.TagSearchVolume;
 import com.serpstat.restapi.service.TagSearchVolumeService;
 
+@Service("tagSearchVolumeService")
+@Transactional
 public class TagSearchVolumeServiceImpl implements TagSearchVolumeService {
 	@Autowired
 	TagSearchVolumeDao dao;

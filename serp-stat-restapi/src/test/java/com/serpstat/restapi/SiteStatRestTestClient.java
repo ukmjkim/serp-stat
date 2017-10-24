@@ -14,9 +14,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.serpstat.restapi.model.SiteStat;
-import com.serpstat.restapi.model.Tag;
 
 /* Run As > Java Application */
 public class SiteStatRestTestClient {
@@ -49,19 +49,23 @@ public class SiteStatRestTestClient {
 	}
 
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	private static void listSiteStat(long siteId) {
+	private static void listSiteStat(long siteId, int fromDate, int toDate) {
 		System.out.println("=======================================================");
 		System.out.println("Testing listSiteStat API-----------");
+
+		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(REST_SERVICE_URI + "/site/" + siteId + "/stat")
+		        .queryParam("fromDate", fromDate)
+		        .queryParam("toDate", toDate);
+
 		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
 		RestTemplate restTemplate = new RestTemplate();
-		ResponseEntity<List> response = restTemplate.exchange(REST_SERVICE_URI + "/site/" + siteId + "/stat", HttpMethod.GET, request,
-				List.class);
+		ResponseEntity<List> response = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET, request, List.class);
 
-		List<LinkedHashMap<String, Object>> sitesMap = response.getBody();
+		List<LinkedHashMap<String, Object>> siteStatsMap = response.getBody();
 
-		if (sitesMap != null) {
-			System.out.println("count: " + sitesMap.size());
-			for (LinkedHashMap<String, Object> map : sitesMap) {
+		if (siteStatsMap != null) {
+			System.out.println("count: " + siteStatsMap.size());
+			for (LinkedHashMap<String, Object> map : siteStatsMap) {
 				System.out.println(
 						"Site Stat : id=" + map.get("id") + ", site_id=" + map.get("siteId") + ", crawl_date=" + map.get("crawlDate"));
 			}
@@ -101,11 +105,62 @@ public class SiteStatRestTestClient {
 		}
 	}
 
+	private static void updateSiteStat(long siteId, long id, int crawlDate) {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing updateSiteStat API----------------- ");
+
+		SiteStat siteStat = new SiteStat();
+		siteStat.setId(id);
+		siteStat.setSiteId(siteId);
+		siteStat.setCrawlDate(crawlDate);
+		siteStat.setTotalKeywords(100);
+		Instant instant = Instant.now();
+		siteStat.setCreatedAt(Date.from(instant));
+
+		System.out.println(siteStat);
+
+		HttpEntity<Object> request = new HttpEntity<Object>(siteStat, getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI + "/site/" + siteId + "/stat/" + id, HttpMethod.PUT, request,
+				Object.class);
+		if (response.getStatusCode() == HttpStatus.OK) {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println(
+					"Site Stat : id =" + map.get("id") 
+					+ ", site_id =" + map.get("siteId")
+					+ ", crawl_date =" + map.get("crawlDate")
+					+ ", updated_at =" + map.get("updatedAt"));
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode=" + map.get("errorCode") + ", message=" + map.get("message"));
+		}
+	}
+
+	private static void deleteSiteStat(long siteId, long id) {
+		System.out.println("=======================================================");
+		System.out.println("---- Testing deleteSiteStat API----------------- ");
+
+		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(REST_SERVICE_URI + "/site/" + siteId + "/stat/" + id, HttpMethod.DELETE, request,
+				Object.class);
+		if (response.getStatusCode() == HttpStatus.NO_CONTENT) {
+		} else {
+			@SuppressWarnings("unchecked")
+			LinkedHashMap<String, Object> map = (LinkedHashMap<String, Object>) response.getBody();
+			System.out.println("errorCode=" + map.get("errorCode") + ", message=" + map.get("message"));
+		}
+	}
+
 	public static void main(String[] args) {
 		createSiteStat(1, 20170101);
 		createSiteStat(1, 20170102);
-		listSiteStat(1);
+		listSiteStat(1, 20170101, 20171231);
 		getSiteStat(1, 1);
 		getSiteStat(1, 2);
+		updateSiteStat(1, 1, 20170101);
+		deleteSiteStat(1, 1);
 	}
 }

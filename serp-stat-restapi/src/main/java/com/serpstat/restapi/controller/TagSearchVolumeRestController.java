@@ -91,12 +91,12 @@ public class TagSearchVolumeRestController {
 		tagSearchVolumeService.saveTagSearchVolume(tagSearchVolume);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/tag/{tagId}/searchvolume").buildAndExpand(tagSearchVolume.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/tag/{tagId}/searchvolume/{id}").buildAndExpand(tagSearchVolume.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/tag/{tagId}/searchvolume", method = RequestMethod.PUT)
-	public ResponseEntity<TagSearchVolume> updateTagSearchVolume(@PathVariable("tagId") long tagId, @RequestBody TagSearchVolume tagSearchVolume)
+	@RequestMapping(value = "/tag/{tagId}/searchvolume/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<TagSearchVolume> updateTagSearchVolume(@PathVariable("tagId") long tagId, @PathVariable("id") long id, @RequestBody TagSearchVolume tagSearchVolume)
 			throws TagNotFoundException, TagSearchVolumeNotFoundException {
 		logger.info("Fetching Tag with id {}", tagSearchVolume.getTagId());
 		Tag tag = tagService.findById(tagSearchVolume.getTagId());
@@ -118,7 +118,7 @@ public class TagSearchVolumeRestController {
 	}
 
 	@RequestMapping(value = "/tag/{tagId}/searchvolume/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<TagSearchVolume> deleteTagSearchVolume(@PathVariable("id") long id) throws TagSearchVolumeNotFoundException {
+	public ResponseEntity<TagSearchVolume> deleteTagSearchVolume(@PathVariable("tagId") long tagId, @PathVariable("id") long id) throws TagSearchVolumeNotFoundException {
 		logger.info("Fetching & Deleting Tag SearchVolume with id {}", id);
 		TagSearchVolume tagSearchVolume = tagSearchVolumeService.findById(id);
 		if (tagSearchVolume == null) {

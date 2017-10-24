@@ -89,12 +89,12 @@ public class SiteSearchVolumeRestController {
 		siteSearchVolumeService.saveSiteSearchVolume(siteSearchVolume);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/site/{siteId}/searchvolume").buildAndExpand(siteSearchVolume.getId()).toUri());
+		headers.setLocation(ucBuilder.path("/site/{siteId}/searchvolume/{id}").buildAndExpand(siteSearchVolume.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
-	@RequestMapping(value = "/site/{siteId}/searchvolume", method = RequestMethod.PUT)
-	public ResponseEntity<SiteSearchVolume> updateSiteSearchVolume(@PathVariable("siteId") long siteId, @RequestBody SiteSearchVolume siteSearchVolume)
+	@RequestMapping(value = "/site/{siteId}/searchvolume/{id}", method = RequestMethod.PUT)
+	public ResponseEntity<SiteSearchVolume> updateSiteSearchVolume(@PathVariable("siteId") long siteId, @PathVariable("id") long id, @RequestBody SiteSearchVolume siteSearchVolume)
 			throws SiteNotFoundException, SiteSearchVolumeNotFoundException {
 		logger.info("Fetching Site with id {}", siteSearchVolume.getSiteId());
 		Site site = siteService.findById(siteSearchVolume.getSiteId());
@@ -116,7 +116,7 @@ public class SiteSearchVolumeRestController {
 	}
 
 	@RequestMapping(value = "/site/{siteId}/searchvolume/{id}", method = RequestMethod.DELETE)
-	public ResponseEntity<SiteSearchVolume> deleteSiteSearchVolume(@PathVariable("id") long id) throws SiteSearchVolumeNotFoundException {
+	public ResponseEntity<SiteSearchVolume> deleteSiteSearchVolume(@PathVariable("siteId") long siteId, @PathVariable("id") long id) throws SiteSearchVolumeNotFoundException {
 		logger.info("Fetching & Deleting Site Search Volume with id {}", id);
 		SiteSearchVolume siteSearchVolume = siteSearchVolumeService.findById(id);
 		if (siteSearchVolume == null) {

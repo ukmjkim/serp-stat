@@ -141,7 +141,7 @@ public class TagStatRestControllerTest {
 		when(tagStatService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<TagStat> response;
 		try {
-			response = tagStatController.updateTagStat(tagStat.getTagId(), tagStat);
+			response = tagStatController.updateTagStat(tagStat.getTagId(), tagStat.getId(), tagStat);
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
 			verify(tagService, atLeastOnce()).findById(anyLong());
 			verify(tagStatService, atLeastOnce()).findById(anyLong());
@@ -160,7 +160,7 @@ public class TagStatRestControllerTest {
 		when(tagStatService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<TagStat> response;
 		try {
-			response = tagStatController.updateTagStat(tagStat.getTagId(), tagStat);
+			response = tagStatController.updateTagStat(tagStat.getTagId(), tagStat.getId(), tagStat);
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 			verify(tagService, atLeastOnce()).findById(anyLong());
 			verify(tagStatService, atLeastOnce()).findById(anyLong());
@@ -180,7 +180,7 @@ public class TagStatRestControllerTest {
 		when(tagStatService.findById(anyLong())).thenReturn(null);
 		ResponseEntity<TagStat> response;
 		try {
-			response = tagStatController.deleteTagStat(tagStat.getId());
+			response = tagStatController.deleteTagStat(tagStat.getTagId(), tagStat.getId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NOT_FOUND);
 		} catch (TagStatNotFoundException e) {
 
@@ -194,7 +194,7 @@ public class TagStatRestControllerTest {
 		when(tagStatService.findById(anyLong())).thenReturn(tagStat);
 		ResponseEntity<TagStat> response;
 		try {
-			response = tagStatController.deleteTagStat(tagStat.getId());
+			response = tagStatController.deleteTagStat(tagStat.getTagId(), tagStat.getId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.NO_CONTENT);
 		} catch (TagStatNotFoundException e) {
 			// TODO Auto-generated catch block
