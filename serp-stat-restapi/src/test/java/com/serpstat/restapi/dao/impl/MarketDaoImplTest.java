@@ -1,5 +1,7 @@
 package com.serpstat.restapi.dao.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -24,12 +26,22 @@ public class MarketDaoImplTest extends EntityPopulatedDataDaoImplTest {
 
 	@Test
 	public void save() {
-		int currentCount = marketDao.findAll().size();
+		List<Market> markets = marketDao.findAll();
+		int currentCount = markets.size();
+
+		int max = 1;
+		for (Market market : markets) {
+			if (max < market.getId()) {
+				max = market.getId();
+			}
+		}
 
 		Market market = new Market();
-		market.setId(currentCount);
+		market.setId(max + 1);
 		market.setRegion("region");
 		market.setLang("lang");
+		market.setRegionName("regionName");
+		market.setLangName("langName");
 		marketDao.save(market);
 		Assert.assertEquals(marketDao.findAll().size(), currentCount + 1);
 	}

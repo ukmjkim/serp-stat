@@ -1,5 +1,7 @@
 package com.serpstat.restapi.dao.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -24,10 +26,18 @@ public class DeviceDaoImplTest extends EntityPopulatedDataDaoImplTest {
 
 	@Test
 	public void save() {
-		int currentCount = deviceDao.findAll().size();
+		List<Device> devices = deviceDao.findAll();
+		int currentCount = devices.size();
+
+		int max = 1;
+		for (Device device : devices) {
+			if (max < device.getId()) {
+				max = device.getId();
+			}
+		}
 
 		Device device = new Device();
-		device.setId(currentCount);
+		device.setId(max + 1);
 		device.setName("test");
 		deviceDao.save(device);
 		Assert.assertEquals(deviceDao.findAll().size(), currentCount + 1);
