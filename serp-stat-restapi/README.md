@@ -50,3 +50,29 @@ public ResponseEntity<User> getUser(@PathVariable("id") long id) throws UserNotF
 https://www.concretepage.com/spring-4/spring-4-rest-cors-integration-using-crossorigin-annotation-xml-filter-example
 
 
+## File Upload
+1. pom.xml to solve tomcat loading error: org/apache/commons/fileupload/FileItemFactory
+```java
+<dependency>
+   <groupId>commons-fileupload</groupId>
+   <artifactId>commons-fileupload</artifactId>
+   <version>1.3.3</version>
+   <scope>runtime</scope>
+</dependency>
+```
+2. multipartResolver in App Configuration
+```java
+@Bean(name="multipartResolver")
+public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver resolver = new CommonsMultipartResolver();
+    resolver.setMaxUploadSize(5242880); // set the size limit
+    return resolver;
+}
+```
+3. Controller (refer to KeywordRestController)
+4. testing
+```bash
+$ curl -F file=@"//Users//MijungKimMacPro//keyword.xml" http://localhost:8080/serp-stat-restapi/keyword/upload/
+```
+
+
