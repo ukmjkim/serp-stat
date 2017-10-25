@@ -14,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBean;
@@ -41,14 +40,6 @@ public class HibernateTestConfiguration {
 		dataSource.setUsername("sa");
 		dataSource.setPassword("");
 
-		// init schema and data
-		/*
-		 * Resource initSchema = new ClassPathResource("scripts/schema-h2.sql");
-		 * Resource initData = new ClassPathResource("scripts/data-h2.sql");
-		 * DatabasePopulator databasePopulator = new
-		 * ResourceDatabasePopulator(initSchema, initData);
-		 * DatabasePopulatorUtils.execute(databasePopulator, dataSource);
-		 */
 		return dataSource;
 	}
 
