@@ -76,3 +76,5 @@ $ curl -F file=@"//Users//MijungKimMacPro//keyword.xml" http://localhost:8080/se
 ```
 
 
+## Bulk Insertion Reference Chain Issue
+
