@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +29,16 @@ import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.serpstat.restapi.exception.SiteNotFoundException;
+import com.serpstat.restapi.model.CSVKeyword;
+import com.serpstat.restapi.model.Device;
 import com.serpstat.restapi.model.ExceptionInfo;
 import com.serpstat.restapi.model.Keyword;
+import com.serpstat.restapi.model.Market;
 import com.serpstat.restapi.model.Site;
 import com.serpstat.restapi.model.SiteTags;
+import com.serpstat.restapi.service.DeviceService;
 import com.serpstat.restapi.service.KeywordService;
+import com.serpstat.restapi.service.MarketService;
 import com.serpstat.restapi.service.SiteService;
 import com.serpstat.restapi.service.TagService;
 
@@ -50,6 +57,12 @@ public class SiteRestController {
 
 	@Autowired
 	KeywordService keywordService;
+
+	@Autowired
+	DeviceService deviceService;
+
+	@Autowired
+	MarketService marketService;
 
 	@RequestMapping(value = "/site/", method = RequestMethod.GET)
 	public ResponseEntity<List<Site>> listAllSites() {
@@ -82,8 +95,8 @@ public class SiteRestController {
 	}
 
 	@RequestMapping(value = "/site/{id}/keyword/upload", method = RequestMethod.POST)
-	public ResponseEntity<?> upload(@PathVariable("id") long id, @RequestParam("file") MultipartFile uploadFile)
-			throws Exception {
+	public ResponseEntity<Map<String, String>> upload(@PathVariable("id") long id,
+			@RequestParam("file") MultipartFile uploadFile) throws Exception {
 		logger.info("Fetching Site with id {}", id);
 		Site site = siteService.findById(id);
 		if (site == null) {
@@ -92,18 +105,19 @@ public class SiteRestController {
 		}
 
 		if (uploadFile.isEmpty()) {
-			return new ResponseEntity<>("please select a file!", HttpStatus.OK);
+			Map<String, String> result = Collections.singletonMap("message", "please select a file!");
+			return new ResponseEntity<>(result, HttpStatus.OK);
 		} else {
 			try {
 				String fileName = saveUploadedFile(uploadFile);
 				logger.info("keyword file uploaded {}", fileName);
-				storeUploadedKeyword(id, fileName);
+				int successCount = storeUploadedKeyword(id, fileName);
+				Map<String, String> result = Collections.singletonMap("message", successCount + " keyword uploaded");
+				return new ResponseEntity<Map<String, String>>(result, HttpStatus.OK);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 			}
-
-			return new ResponseEntity<Object>(HttpStatus.OK);
 		}
 	}
 
@@ -114,7 +128,7 @@ public class SiteRestController {
 		return UPLOADED_FOLDER + file.getOriginalFilename();
 	}
 
-	private void storeUploadedKeyword(long siteId, String fileName) throws Exception {
+	private int storeUploadedKeyword(long siteId, String fileName) throws Exception {
 		logger.info("storeUploadedKeyword {}", fileName);
 
 		File file = new File(fileName);
@@ -122,20 +136,44 @@ public class SiteRestController {
 		CsvMapper mapper = new CsvMapper();
 		CsvSchema schema = CsvSchema.emptySchema().withHeader().withColumnSeparator(DELIMITER);
 
+		int successCount = 0;
 		try {
-			MappingIterator<Keyword> mi = mapper.readerFor(Keyword.class).with(schema).readValues(file);
+			MappingIterator<CSVKeyword> mi = mapper.readerFor(CSVKeyword.class).with(schema).readValues(file);
 			while (mi.hasNext()) {
-				Keyword keyword = mi.next();
-				keyword.setSiteId(siteId);
+				CSVKeyword csvKeyword = mi.next();
+				Keyword keyword = createKeyword(siteId, csvKeyword);
+
 				logger.info("keyword {}", keyword);
 				if (!(keywordService.isKeywordInSiteUnique(keyword.getSiteId(), keyword.getKeyword()))) {
-					logger.debug("A Keyword with siteId {} already exist", keyword.getSiteId());
+					logger.debug("A Keyword with siteId {}, keyword {} already exist", keyword.getSiteId(),
+							keyword.getKeyword());
+				} else {
+					keywordService.saveKeyword(keyword);
+					successCount++;
 				}
-				keywordService.saveKeyword(keyword);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+		return successCount;
+	}
+
+	private Keyword createKeyword(Long siteId, CSVKeyword csvKeyword) {
+		Device device = deviceService.findById(csvKeyword.getDeviceId());
+		Market market = marketService.findById(csvKeyword.getMarketId());
+
+		Keyword keyword = new Keyword();
+		keyword.setSiteId(siteId);
+		keyword.setKeyword(csvKeyword.getKeyword());
+		keyword.setTranslation(csvKeyword.getTranslation());
+		keyword.setChecksum(csvKeyword.getChecksum());
+		keyword.setTracking(csvKeyword.getTracking());
+		keyword.setLocation(csvKeyword.getLocation());
+		keyword.setDevice(device);
+		keyword.setMarket(market);
+
+		return keyword;
 	}
 
 	@ExceptionHandler({ SiteNotFoundException.class, Exception.class })

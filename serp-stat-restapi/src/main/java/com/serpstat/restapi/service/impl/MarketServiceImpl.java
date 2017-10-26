@@ -8,10 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.serpstat.restapi.dao.MarketDao;
 import com.serpstat.restapi.model.Market;
+import com.serpstat.restapi.service.MarketService;
 
 @Service("marketService")
 @Transactional
-public class MarketServiceImpl {
+public class MarketServiceImpl implements MarketService {
 	@Autowired
 	MarketDao dao;
 

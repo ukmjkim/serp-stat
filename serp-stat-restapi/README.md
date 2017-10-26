@@ -77,4 +77,5 @@ $ curl -F file=@"//Users//MijungKimMacPro//keyword.xml" http://localhost:8080/se
 
 
 ## Bulk Insertion Reference Chain Issue
-
+1. Creating CSVKeyword model and assign the value to repository Keyword model to prevent reference chain issue.
+ 

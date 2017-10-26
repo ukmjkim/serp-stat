@@ -1,4 +1,469 @@
 keyword,translation,tracking,deviceId,location,marketId
-keyword1,,1,1,,1
-keyword2,,1,1,,1
-keyword3,,1,1,,1
+furniture livingroom sale,,1,1,,1
+furniture livingroom free,,1,1,,1
+furniture livingroom off,,1,1,,1
+furniture livingroom special offer,,1,1,,1
+furniture livingroom holiday sale,,1,1,,1
+furniture livingroom clearance,,1,1,,1
+furniture diningroom sale,,1,1,,1
+furniture diningroom free,,1,1,,1
+furniture diningroom off,,1,1,,1
+furniture diningroom special offer,,1,1,,1
+furniture diningroom holiday sale,,1,1,,1
+furniture diningroom clearance,,1,1,,1
+furniture patio sale,,1,1,,1
+furniture patio free,,1,1,,1
+furniture patio off,,1,1,,1
+furniture patio special offer,,1,1,,1
+furniture patio holiday sale,,1,1,,1
+furniture patio clearance,,1,1,,1
+furniture garden sale,,1,1,,1
+furniture garden free,,1,1,,1
+furniture garden off,,1,1,,1
+furniture garden special offer,,1,1,,1
+furniture garden holiday sale,,1,1,,1
+furniture garden clearance,,1,1,,1
+furniture bedroom sale,,1,1,,1
+furniture bedroom free,,1,1,,1
+furniture bedroom off,,1,1,,1
+furniture bedroom special offer,,1,1,,1
+furniture bedroom holiday sale,,1,1,,1
+furniture bedroom clearance,,1,1,,1
+furniture bathroom sale,,1,1,,1
+furniture bathroom free,,1,1,,1
+furniture bathroom off,,1,1,,1
+furniture bathroom special offer,,1,1,,1
+furniture bathroom holiday sale,,1,1,,1
+furniture bathroom clearance,,1,1,,1
+rug livingroom sale,,1,1,,1
+rug livingroom free,,1,1,,1
+rug livingroom off,,1,1,,1
+rug livingroom special offer,,1,1,,1
+rug livingroom holiday sale,,1,1,,1
+rug livingroom clearance,,1,1,,1
+rug diningroom sale,,1,1,,1
+rug diningroom free,,1,1,,1
+rug diningroom off,,1,1,,1
+rug diningroom special offer,,1,1,,1
+rug diningroom holiday sale,,1,1,,1
+rug diningroom clearance,,1,1,,1
+rug patio sale,,1,1,,1
+rug patio free,,1,1,,1
+rug patio off,,1,1,,1
+rug patio special offer,,1,1,,1
+rug patio holiday sale,,1,1,,1
+rug patio clearance,,1,1,,1
+rug garden sale,,1,1,,1
+rug garden free,,1,1,,1
+rug garden off,,1,1,,1
+rug garden special offer,,1,1,,1
+rug garden holiday sale,,1,1,,1
+rug garden clearance,,1,1,,1
+rug bedroom sale,,1,1,,1
+rug bedroom free,,1,1,,1
+rug bedroom off,,1,1,,1
+rug bedroom special offer,,1,1,,1
+rug bedroom holiday sale,,1,1,,1
+rug bedroom clearance,,1,1,,1
+rug bathroom sale,,1,1,,1
+rug bathroom free,,1,1,,1
+rug bathroom off,,1,1,,1
+rug bathroom special offer,,1,1,,1
+rug bathroom holiday sale,,1,1,,1
+rug bathroom clearance,,1,1,,1
+bed livingroom sale,,1,1,,1
+bed livingroom free,,1,1,,1
+bed livingroom off,,1,1,,1
+bed livingroom special offer,,1,1,,1
+bed livingroom holiday sale,,1,1,,1
+bed livingroom clearance,,1,1,,1
+bed diningroom sale,,1,1,,1
+bed diningroom free,,1,1,,1
+bed diningroom off,,1,1,,1
+bed diningroom special offer,,1,1,,1
+bed diningroom holiday sale,,1,1,,1
+bed diningroom clearance,,1,1,,1
+bed patio sale,,1,1,,1
+bed patio free,,1,1,,1
+bed patio off,,1,1,,1
+bed patio special offer,,1,1,,1
+bed patio holiday sale,,1,1,,1
+bed patio clearance,,1,1,,1
+bed garden sale,,1,1,,1
+bed garden free,,1,1,,1
+bed garden off,,1,1,,1
+bed garden special offer,,1,1,,1
+bed garden holiday sale,,1,1,,1
+bed garden clearance,,1,1,,1
+bed bedroom sale,,1,1,,1
+bed bedroom free,,1,1,,1
+bed bedroom off,,1,1,,1
+bed bedroom special offer,,1,1,,1
+bed bedroom holiday sale,,1,1,,1
+bed bedroom clearance,,1,1,,1
+bed bathroom sale,,1,1,,1
+bed bathroom free,,1,1,,1
+bed bathroom off,,1,1,,1
+bed bathroom special offer,,1,1,,1
+bed bathroom holiday sale,,1,1,,1
+bed bathroom clearance,,1,1,,1
+bath livingroom sale,,1,1,,1
+bath livingroom free,,1,1,,1
+bath livingroom off,,1,1,,1
+bath livingroom special offer,,1,1,,1
+bath livingroom holiday sale,,1,1,,1
+bath livingroom clearance,,1,1,,1
+bath diningroom sale,,1,1,,1
+bath diningroom free,,1,1,,1
+bath diningroom off,,1,1,,1
+bath diningroom special offer,,1,1,,1
+bath diningroom holiday sale,,1,1,,1
+bath diningroom clearance,,1,1,,1
+bath patio sale,,1,1,,1
+bath patio free,,1,1,,1
+bath patio off,,1,1,,1
+bath patio special offer,,1,1,,1
+bath patio holiday sale,,1,1,,1
+bath patio clearance,,1,1,,1
+bath garden sale,,1,1,,1
+bath garden free,,1,1,,1
+bath garden off,,1,1,,1
+bath garden special offer,,1,1,,1
+bath garden holiday sale,,1,1,,1
+bath garden clearance,,1,1,,1
+bath bedroom sale,,1,1,,1
+bath bedroom free,,1,1,,1
+bath bedroom off,,1,1,,1
+bath bedroom special offer,,1,1,,1
+bath bedroom holiday sale,,1,1,,1
+bath bedroom clearance,,1,1,,1
+bath bathroom sale,,1,1,,1
+bath bathroom free,,1,1,,1
+bath bathroom off,,1,1,,1
+bath bathroom special offer,,1,1,,1
+bath bathroom holiday sale,,1,1,,1
+bath bathroom clearance,,1,1,,1
+deco livingroom sale,,1,1,,1
+deco livingroom free,,1,1,,1
+deco livingroom off,,1,1,,1
+deco livingroom special offer,,1,1,,1
+deco livingroom holiday sale,,1,1,,1
+deco livingroom clearance,,1,1,,1
+deco diningroom sale,,1,1,,1
+deco diningroom free,,1,1,,1
+deco diningroom off,,1,1,,1
+deco diningroom special offer,,1,1,,1
+deco diningroom holiday sale,,1,1,,1
+deco diningroom clearance,,1,1,,1
+deco patio sale,,1,1,,1
+deco patio free,,1,1,,1
+deco patio off,,1,1,,1
+deco patio special offer,,1,1,,1
+deco patio holiday sale,,1,1,,1
+deco patio clearance,,1,1,,1
+deco garden sale,,1,1,,1
+deco garden free,,1,1,,1
+deco garden off,,1,1,,1
+deco garden special offer,,1,1,,1
+deco garden holiday sale,,1,1,,1
+deco garden clearance,,1,1,,1
+deco bedroom sale,,1,1,,1
+deco bedroom free,,1,1,,1
+deco bedroom off,,1,1,,1
+deco bedroom special offer,,1,1,,1
+deco bedroom holiday sale,,1,1,,1
+deco bedroom clearance,,1,1,,1
+deco bathroom sale,,1,1,,1
+deco bathroom free,,1,1,,1
+deco bathroom off,,1,1,,1
+deco bathroom special offer,,1,1,,1
+deco bathroom holiday sale,,1,1,,1
+deco bathroom clearance,,1,1,,1
+pillows livingroom sale,,1,1,,1
+pillows livingroom free,,1,1,,1
+pillows livingroom off,,1,1,,1
+pillows livingroom special offer,,1,1,,1
+pillows livingroom holiday sale,,1,1,,1
+pillows livingroom clearance,,1,1,,1
+pillows diningroom sale,,1,1,,1
+pillows diningroom free,,1,1,,1
+pillows diningroom off,,1,1,,1
+pillows diningroom special offer,,1,1,,1
+pillows diningroom holiday sale,,1,1,,1
+pillows diningroom clearance,,1,1,,1
+pillows patio sale,,1,1,,1
+pillows patio free,,1,1,,1
+pillows patio off,,1,1,,1
+pillows patio special offer,,1,1,,1
+pillows patio holiday sale,,1,1,,1
+pillows patio clearance,,1,1,,1
+pillows garden sale,,1,1,,1
+pillows garden free,,1,1,,1
+pillows garden off,,1,1,,1
+pillows garden special offer,,1,1,,1
+pillows garden holiday sale,,1,1,,1
+pillows garden clearance,,1,1,,1
+pillows bedroom sale,,1,1,,1
+pillows bedroom free,,1,1,,1
+pillows bedroom off,,1,1,,1
+pillows bedroom special offer,,1,1,,1
+pillows bedroom holiday sale,,1,1,,1
+pillows bedroom clearance,,1,1,,1
+pillows bathroom sale,,1,1,,1
+pillows bathroom free,,1,1,,1
+pillows bathroom off,,1,1,,1
+pillows bathroom special offer,,1,1,,1
+pillows bathroom holiday sale,,1,1,,1
+pillows bathroom clearance,,1,1,,1
+holiday livingroom sale,,1,1,,1
+holiday livingroom free,,1,1,,1
+holiday livingroom off,,1,1,,1
+holiday livingroom special offer,,1,1,,1
+holiday livingroom holiday sale,,1,1,,1
+holiday livingroom clearance,,1,1,,1
+holiday diningroom sale,,1,1,,1
+holiday diningroom free,,1,1,,1
+holiday diningroom off,,1,1,,1
+holiday diningroom special offer,,1,1,,1
+holiday diningroom holiday sale,,1,1,,1
+holiday diningroom clearance,,1,1,,1
+holiday patio sale,,1,1,,1
+holiday patio free,,1,1,,1
+holiday patio off,,1,1,,1
+holiday patio special offer,,1,1,,1
+holiday patio holiday sale,,1,1,,1
+holiday patio clearance,,1,1,,1
+holiday garden sale,,1,1,,1
+holiday garden free,,1,1,,1
+holiday garden off,,1,1,,1
+holiday garden special offer,,1,1,,1
+holiday garden holiday sale,,1,1,,1
+holiday garden clearance,,1,1,,1
+holiday bedroom sale,,1,1,,1
+holiday bedroom free,,1,1,,1
+holiday bedroom off,,1,1,,1
+holiday bedroom special offer,,1,1,,1
+holiday bedroom holiday sale,,1,1,,1
+holiday bedroom clearance,,1,1,,1
+holiday bathroom sale,,1,1,,1
+holiday bathroom free,,1,1,,1
+holiday bathroom off,,1,1,,1
+holiday bathroom special offer,,1,1,,1
+holiday bathroom holiday sale,,1,1,,1
+holiday bathroom clearance,,1,1,,1
+deco livingroom sale,,1,1,,1
+deco livingroom free,,1,1,,1
+deco livingroom off,,1,1,,1
+deco livingroom special offer,,1,1,,1
+deco livingroom holiday sale,,1,1,,1
+deco livingroom clearance,,1,1,,1
+deco diningroom sale,,1,1,,1
+deco diningroom free,,1,1,,1
+deco diningroom off,,1,1,,1
+deco diningroom special offer,,1,1,,1
+deco diningroom holiday sale,,1,1,,1
+deco diningroom clearance,,1,1,,1
+deco patio sale,,1,1,,1
+deco patio free,,1,1,,1
+deco patio off,,1,1,,1
+deco patio special offer,,1,1,,1
+deco patio holiday sale,,1,1,,1
+deco patio clearance,,1,1,,1
+deco garden sale,,1,1,,1
+deco garden free,,1,1,,1
+deco garden off,,1,1,,1
+deco garden special offer,,1,1,,1
+deco garden holiday sale,,1,1,,1
+deco garden clearance,,1,1,,1
+deco bedroom sale,,1,1,,1
+deco bedroom free,,1,1,,1
+deco bedroom off,,1,1,,1
+deco bedroom special offer,,1,1,,1
+deco bedroom holiday sale,,1,1,,1
+deco bedroom clearance,,1,1,,1
+deco bathroom sale,,1,1,,1
+deco bathroom free,,1,1,,1
+deco bathroom off,,1,1,,1
+deco bathroom special offer,,1,1,,1
+deco bathroom holiday sale,,1,1,,1
+deco bathroom clearance,,1,1,,1
+lighting livingroom sale,,1,1,,1
+lighting livingroom free,,1,1,,1
+lighting livingroom off,,1,1,,1
+lighting livingroom special offer,,1,1,,1
+lighting livingroom holiday sale,,1,1,,1
+lighting livingroom clearance,,1,1,,1
+lighting diningroom sale,,1,1,,1
+lighting diningroom free,,1,1,,1
+lighting diningroom off,,1,1,,1
+lighting diningroom special offer,,1,1,,1
+lighting diningroom holiday sale,,1,1,,1
+lighting diningroom clearance,,1,1,,1
+lighting patio sale,,1,1,,1
+lighting patio free,,1,1,,1
+lighting patio off,,1,1,,1
+lighting patio special offer,,1,1,,1
+lighting patio holiday sale,,1,1,,1
+lighting patio clearance,,1,1,,1
+lighting garden sale,,1,1,,1
+lighting garden free,,1,1,,1
+lighting garden off,,1,1,,1
+lighting garden special offer,,1,1,,1
+lighting garden holiday sale,,1,1,,1
+lighting garden clearance,,1,1,,1
+lighting bedroom sale,,1,1,,1
+lighting bedroom free,,1,1,,1
+lighting bedroom off,,1,1,,1
+lighting bedroom special offer,,1,1,,1
+lighting bedroom holiday sale,,1,1,,1
+lighting bedroom clearance,,1,1,,1
+lighting bathroom sale,,1,1,,1
+lighting bathroom free,,1,1,,1
+lighting bathroom off,,1,1,,1
+lighting bathroom special offer,,1,1,,1
+lighting bathroom holiday sale,,1,1,,1
+lighting bathroom clearance,,1,1,,1
+storage livingroom sale,,1,1,,1
+storage livingroom free,,1,1,,1
+storage livingroom off,,1,1,,1
+storage livingroom special offer,,1,1,,1
+storage livingroom holiday sale,,1,1,,1
+storage livingroom clearance,,1,1,,1
+storage diningroom sale,,1,1,,1
+storage diningroom free,,1,1,,1
+storage diningroom off,,1,1,,1
+storage diningroom special offer,,1,1,,1
+storage diningroom holiday sale,,1,1,,1
+storage diningroom clearance,,1,1,,1
+storage patio sale,,1,1,,1
+storage patio free,,1,1,,1
+storage patio off,,1,1,,1
+storage patio special offer,,1,1,,1
+storage patio holiday sale,,1,1,,1
+storage patio clearance,,1,1,,1
+storage garden sale,,1,1,,1
+storage garden free,,1,1,,1
+storage garden off,,1,1,,1
+storage garden special offer,,1,1,,1
+storage garden holiday sale,,1,1,,1
+storage garden clearance,,1,1,,1
+storage bedroom sale,,1,1,,1
+storage bedroom free,,1,1,,1
+storage bedroom off,,1,1,,1
+storage bedroom special offer,,1,1,,1
+storage bedroom holiday sale,,1,1,,1
+storage bedroom clearance,,1,1,,1
+storage bathroom sale,,1,1,,1
+storage bathroom free,,1,1,,1
+storage bathroom off,,1,1,,1
+storage bathroom special offer,,1,1,,1
+storage bathroom holiday sale,,1,1,,1
+storage bathroom clearance,,1,1,,1
+organization livingroom sale,,1,1,,1
+organization livingroom free,,1,1,,1
+organization livingroom off,,1,1,,1
+organization livingroom special offer,,1,1,,1
+organization livingroom holiday sale,,1,1,,1
+organization livingroom clearance,,1,1,,1
+organization diningroom sale,,1,1,,1
+organization diningroom free,,1,1,,1
+organization diningroom off,,1,1,,1
+organization diningroom special offer,,1,1,,1
+organization diningroom holiday sale,,1,1,,1
+organization diningroom clearance,,1,1,,1
+organization patio sale,,1,1,,1
+organization patio free,,1,1,,1
+organization patio off,,1,1,,1
+organization patio special offer,,1,1,,1
+organization patio holiday sale,,1,1,,1
+organization patio clearance,,1,1,,1
+organization garden sale,,1,1,,1
+organization garden free,,1,1,,1
+organization garden off,,1,1,,1
+organization garden special offer,,1,1,,1
+organization garden holiday sale,,1,1,,1
+organization garden clearance,,1,1,,1
+organization bedroom sale,,1,1,,1
+organization bedroom free,,1,1,,1
+organization bedroom off,,1,1,,1
+organization bedroom special offer,,1,1,,1
+organization bedroom holiday sale,,1,1,,1
+organization bedroom clearance,,1,1,,1
+organization bathroom sale,,1,1,,1
+organization bathroom free,,1,1,,1
+organization bathroom off,,1,1,,1
+organization bathroom special offer,,1,1,,1
+organization bathroom holiday sale,,1,1,,1
+organization bathroom clearance,,1,1,,1
+outdoor livingroom sale,,1,1,,1
+outdoor livingroom free,,1,1,,1
+outdoor livingroom off,,1,1,,1
+outdoor livingroom special offer,,1,1,,1
+outdoor livingroom holiday sale,,1,1,,1
+outdoor livingroom clearance,,1,1,,1
+outdoor diningroom sale,,1,1,,1
+outdoor diningroom free,,1,1,,1
+outdoor diningroom off,,1,1,,1
+outdoor diningroom special offer,,1,1,,1
+outdoor diningroom holiday sale,,1,1,,1
+outdoor diningroom clearance,,1,1,,1
+outdoor patio sale,,1,1,,1
+outdoor patio free,,1,1,,1
+outdoor patio off,,1,1,,1
+outdoor patio special offer,,1,1,,1
+outdoor patio holiday sale,,1,1,,1
+outdoor patio clearance,,1,1,,1
+outdoor garden sale,,1,1,,1
+outdoor garden free,,1,1,,1
+outdoor garden off,,1,1,,1
+outdoor garden special offer,,1,1,,1
+outdoor garden holiday sale,,1,1,,1
+outdoor garden clearance,,1,1,,1
+outdoor bedroom sale,,1,1,,1
+outdoor bedroom free,,1,1,,1
+outdoor bedroom off,,1,1,,1
+outdoor bedroom special offer,,1,1,,1
+outdoor bedroom holiday sale,,1,1,,1
+outdoor bedroom clearance,,1,1,,1
+outdoor bathroom sale,,1,1,,1
+outdoor bathroom free,,1,1,,1
+outdoor bathroom off,,1,1,,1
+outdoor bathroom special offer,,1,1,,1
+outdoor bathroom holiday sale,,1,1,,1
+outdoor bathroom clearance,,1,1,,1
+dining livingroom sale,,1,1,,1
+dining livingroom free,,1,1,,1
+dining livingroom off,,1,1,,1
+dining livingroom special offer,,1,1,,1
+dining livingroom holiday sale,,1,1,,1
+dining livingroom clearance,,1,1,,1
+dining diningroom sale,,1,1,,1
+dining diningroom free,,1,1,,1
+dining diningroom off,,1,1,,1
+dining diningroom special offer,,1,1,,1
+dining diningroom holiday sale,,1,1,,1
+dining diningroom clearance,,1,1,,1
+dining patio sale,,1,1,,1
+dining patio free,,1,1,,1
+dining patio off,,1,1,,1
+dining patio special offer,,1,1,,1
+dining patio holiday sale,,1,1,,1
+dining patio clearance,,1,1,,1
+dining garden sale,,1,1,,1
+dining garden free,,1,1,,1
+dining garden off,,1,1,,1
+dining garden special offer,,1,1,,1
+dining garden holiday sale,,1,1,,1
+dining garden clearance,,1,1,,1
+dining bedroom sale,,1,1,,1
+dining bedroom free,,1,1,,1
+dining bedroom off,,1,1,,1
+dining bedroom special offer,,1,1,,1
+dining bedroom holiday sale,,1,1,,1
+dining bedroom clearance,,1,1,,1
+dining bathroom sale,,1,1,,1
+dining bathroom free,,1,1,,1
+dining bathroom off,,1,1,,1
+dining bathroom special offer,,1,1,,1
+dining bathroom holiday sale,,1,1,,1
+dining bathroom clearance,,1,1,,1
