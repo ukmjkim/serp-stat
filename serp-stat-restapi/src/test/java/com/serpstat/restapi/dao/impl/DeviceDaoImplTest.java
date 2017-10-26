@@ -25,6 +25,11 @@ public class DeviceDaoImplTest extends EntityPopulatedDataDaoImplTest {
 	}
 
 	@Test
+	public void findByName() {
+		Assert.assertEquals(deviceDao.findByName("desktop").getName(), "desktop");
+	}
+
+	@Test
 	public void save() {
 		List<Device> devices = deviceDao.findAll();
 		int currentCount = devices.size();

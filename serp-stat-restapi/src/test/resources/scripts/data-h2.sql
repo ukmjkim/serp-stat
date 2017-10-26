@@ -8,6 +8,9 @@ INSERT INTO `markets` (`id`, `region`, `lang`, `region_name`, `lang_name`)
 VALUES
     (1,'US','en','','');
 
+INSERT INTO `keywords` (`id`, `site_id`, `keyword`, `translation`, `checksum`, `tracking`, `created_at`, `updated_at`, `device_id`, `location`, `deleted`, `market_id`)
+VALUES
+    (1,1,'furniture livingroom sale','','',1,'2017-10-25','2017-10-25',1,'',0,1);
 
 INSERT INTO `site_distribs` (`id`, `site_id`, `crawl_date`, `one`, `two`, `three`, `four`, `five`, `six_to_ten`, `eleven_to_twenty`, `twenty_one_to_thirty`, `thirty_one_to_forty`, `forty_one_to_fifty`, `fifty_one_to_hundred`, `non_ranking`, `created_at`, `updated_at`)
 VALUES

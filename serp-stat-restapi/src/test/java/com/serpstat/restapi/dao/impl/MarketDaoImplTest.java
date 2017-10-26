@@ -25,6 +25,11 @@ public class MarketDaoImplTest extends EntityPopulatedDataDaoImplTest {
 	}
 
 	@Test
+	public void findByRegionAneLang() {
+		Assert.assertEquals(marketDao.findByRegionAneLang("US", "en").getRegion(), "US");
+	}
+
+	@Test
 	public void save() {
 		List<Market> markets = marketDao.findAll();
 		int currentCount = markets.size();

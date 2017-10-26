@@ -161,11 +161,11 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.20.1</version>
 				<configuration>
-					<excludes>
+					<!--excludes>
 						<exclude>**/configuration/*</exclude>
 						<exclude>**/controller/*</exclude>
 						<exclude>**/service/impl/*</exclude>
-					</excludes>
+					</excludes-->
 				</configuration>
 			</plugin>
 			<plugin>

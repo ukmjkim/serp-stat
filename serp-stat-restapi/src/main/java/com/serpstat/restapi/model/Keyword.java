@@ -143,6 +143,22 @@ public class Keyword {
 		this.updatedAt = updatedAt;
 	}
 
+	public Device getDevice() {
+		return device;
+	}
+
+	public void setDevice(Device device) {
+		this.device = device;
+	}
+
+	public Market getMarket() {
+		return market;
+	}
+
+	public void setMarket(Market market) {
+		this.market = market;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

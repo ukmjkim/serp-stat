@@ -21,7 +21,7 @@ public class KeywordDaoImpl extends AbstractDao<Long, Keyword> implements Keywor
 	public List<Keyword> findAllBySiteId(long siteId) {
 		Criteria criteria = createEntityCriteria();
 		criteria.add(Restrictions.eq("siteId", siteId));
-		criteria.addOrder(Order.asc("title"));
+		criteria.addOrder(Order.asc("keyword"));
 		criteria.setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
 		return (List<Keyword>) criteria.list();
 	}

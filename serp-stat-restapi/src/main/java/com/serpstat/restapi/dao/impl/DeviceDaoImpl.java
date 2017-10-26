@@ -17,6 +17,12 @@ public class DeviceDaoImpl extends AbstractDao<Integer, Device> implements Devic
 		return getByKey(id);
 	}
 
+	public Device findByName(String name) {
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("name", name));
+		return (Device) criteria.uniqueResult();
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Device> findAll() {
 		Criteria criteria = createEntityCriteria();

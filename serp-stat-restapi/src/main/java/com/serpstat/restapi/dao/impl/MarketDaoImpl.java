@@ -17,6 +17,13 @@ public class MarketDaoImpl extends AbstractDao<Integer, Market> implements Marke
 		return getByKey(id);
 	}
 
+	public Market findByRegionAneLang(String region, String lang) {
+		Criteria criteria = createEntityCriteria();
+		criteria.add(Restrictions.eq("region", region));
+		criteria.add(Restrictions.eq("lang", lang));
+		return (Market) criteria.uniqueResult();
+	}
+
 	@SuppressWarnings("unchecked")
 	public List<Market> findAll() {
 		Criteria criteria = createEntityCriteria();
