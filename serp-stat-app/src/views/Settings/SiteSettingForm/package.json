@@ -1,0 +1,6 @@
+{
+  "name": "SiteSettingForm",
+  "version": "1.0.1",
+  "private": true,
+  "main": "./SiteSettingForm.js"
+}
