@@ -1,0 +1,6 @@
+{
+  "name": "SiteSettings",
+  "version": "1.0.1",
+  "private": true,
+  "main": "./SiteSettings.js"
+}

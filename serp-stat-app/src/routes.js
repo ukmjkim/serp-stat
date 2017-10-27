@@ -3,8 +3,8 @@ export const routes = {
   '/dashboard': 'Dashboard',
   '/site/[0-9]$': 'Site Dashboard',
   '/site/[0-9]/tag/[0-9]$': 'Tag Dashboard',
-  '/keyword': 'Keyword',
-  '/settings': 'Settings',
+  '/site/[0-9]/keyword': 'Keyword',
+  '/site/[0-9]/settings': 'Settings',
 };
 
 export const findRouteInfo = (path) => {

@@ -48,9 +48,9 @@ class Full extends Component {
               <Switch>
                 <Route path="/dashboard" name="Dashboard" component={Dashboard}/>
                 <Route path="/site/:site/tag/:tag" name="TagDashboard" component={TagDashboard}/>
+                <Route path="/site/:site/keyword" name="Keyword" component={Keyword}/>
+                <Route path="/site/:site/settings" name="Settings" component={Settings}/>
                 <Route path="/site/:site" name="SiteDashboard" component={SiteDashboard}/>
-                <Route path="/keyword" name="Keyword" component={Keyword}/>
-                <Route path="/settings" name="Settings" component={Settings}/>
                 <Redirect from="/" to="/dashboard"/>
               </Switch>
             </Container>

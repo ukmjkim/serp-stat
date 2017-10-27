@@ -3,6 +3,8 @@ import {
   Badge, DropdownItem, DropdownMenu, DropdownToggle, Nav, NavbarBrand, NavbarToggler, NavDropdown, NavItem, NavLink
 } from 'reactstrap';
 
+import SiteKeyword from "./SiteKeyword";
+import SiteSettings from "./SiteSettings";
 import SiteDropdown from "./SiteDropdown";
 
 class Header extends Component {
@@ -54,10 +56,10 @@ class Header extends Component {
             <NavLink href="#/dashboard">Dashboard</NavLink>
           </NavItem>
           <NavItem className="px-4">
-            <NavLink href="#/keyword">Keyword</NavLink>
+            <SiteKeyword {...this.props}/>
           </NavItem>
           <NavItem className="px-4">
-            <NavLink href="#/settings">Settings</NavLink>
+            <SiteSettings {...this.props}/>
           </NavItem>
           <NavItem className="px-4">
             <SiteDropdown {...this.props}/>
