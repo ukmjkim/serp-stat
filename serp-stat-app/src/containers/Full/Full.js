@@ -19,17 +19,16 @@ import TagDashboard from '../../views/TagDashboard/';
 import Keyword from '../../views/Keyword/';
 import Settings from '../../views/Settings/';
 
-import { userFetchData } from "../../actions/user"
+import { fetchUser } from "../../actions/user"
 
 class Full extends Component {
   componentDidMount() {
-    this.props.fetchData(1);
+    this.props.fetchUser(1);
   }
 
   render() {
-    const { user } = this.props;
-
-    if (user === undefined || user.id == null) {
+    const { user } = this.props.activeUser;
+    if (user === undefined || user == null) {
       return (
         <div className="app">
           Loading...
@@ -64,23 +63,19 @@ class Full extends Component {
 }
 
 Sidebar.propTypes = {
-    fetchData: PropTypes.func.isRequired,
-    user: PropTypes.object.isRequired,
-    hasErrored: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    fetchUser: PropTypes.func.isRequired,
+    activeUser: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
-    user: state.user,
-    hasErrored: state.userHasErrored,
-    isLoading: state.userIsLoading
+    activeUser: state.user.activeUser
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: (id) => dispatch(userFetchData(id))
+    fetchUser: (id) => dispatch(fetchUser(id))
   }
 };
 

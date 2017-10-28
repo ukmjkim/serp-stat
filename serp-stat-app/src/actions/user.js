@@ -1,50 +1,56 @@
 import axios from "axios";
+import { ROOT_URL } from './_const.js'
+import { fetchSites } from './sites.js'
 
-export function userIsLoading(bool) {
-  return {
-    type: "USER_FETCH",
-    isLoading: bool
-  }
-}
-export function userHasErrored(bool, err) {
-  return {
-    type: "USER_FETCH_REJECTED",
-    hasErrored: bool,
-    error: err
-  }
-}
-export function userDataSuccess(payload) {
-  return {
-    type: "USER_FETCH_FULFILLED",
-    isFetched: true,
-    payload
-  }
-}
-export function userFetchData(id) {
+//Fetch user
+export const FETCH_USER = 'FETCH_USER';
+export const FETCH_USER_FULFILLED = 'FETCH_USER_FULFILLED';
+export const FETCH_USER_REJECTED = 'FETCH_USER_REJECTED';
+export const RESET_ACTIVE_USER = 'RESET_ACTIVE_USER';
+
+// ===========================================================================
+// User
+// ===========================================================================
+export function fetchUser(userId) {
   return (dispatch) => {
     const config = {
       method: 'get',
-      url: "http://localhost:8080/serp-stat-restapi/user/" + id + "/",
+      url: `${ROOT_URL}/user/${userId}/`,
       headers: {
         "Content-Type": "application/json; charset=UTF-8"
       },
     };
 
-    dispatch(userIsLoading(true));
     axios.request(config)
       .then((response) => {
-        dispatch(userDataSuccess(response.data));
+        dispatch(fetchUserSuccess(response.data));
+        if (response.data.sites.length > 0) {
+          dispatch(fetchSites(response.data.sites[0].id));
+        }
       })
-      .catch((err) => {
-        dispatch(userHasErrored(true, err));
+      .catch((error) => {
+        dispatch(fetchUserFailure(error));
       })
   }
 }
 
-export function setUser(id) {
+export function fetchUserSuccess(payload) {
   return {
-    type: 'SET_USER',
-    payload: id,
+    type: FETCH_USER_FULFILLED,
+    payload
+  }
+}
+
+export function fetchUserFailure(error) {
+  return {
+    type: FETCH_USER_REJECTED,
+    payload: error
+  }
+}
+
+export function resetActiveUser() {
+  return {
+    type: RESET_ACTIVE_USER
   }
 }
 

@@ -1,33 +1,25 @@
-export function userIsLoading(state = false, action) {
-  switch (action.type) {
-    case "USER_FETCH": {
-      return action.isLoading;
-    }
-    default:
-      return state;
+import {
+	FETCH_USER, FETCH_USER_FULFILLED, FETCH_USER_REJECTED, RESET_ACTIVE_USER,
+} from '../actions/user';
+
+const INITIAL_STATE =
+			{ activeUser:{user:null, error:null, loading: false} };
+
+export default function reducer(state=INITIAL_STATE, action) {
+	let error;
+  switch(action.type) {
+	case FETCH_USER:
+    return { ...state, activeUser:{...state.activeUser, loading: true}};
+  case FETCH_USER_FULFILLED:
+    return { ...state, activeUser: {user: action.payload, error:null, loading: false}};
+  case FETCH_USER_REJECTED:
+    error = action.payload || {message: action.payload.message};
+    return { ...state, activeUser: {user: null, error:error, loading:false}};
+  case RESET_ACTIVE_USER:
+    return { ...state, activeUser: {user: null, error:null, loading: false}};
+	default:
+    return state;
   }
-}
-export function userHasErrored(state = false, action) {
-  switch (action.type) {
-    case "USER_FETCH_REJECTED": {
-      return action.hasErrored;
-    }
-    default:
-      return state;
-  }
-}
-export function user(state = {
-  id: null,
-  login: null,
-  nicename: null
-}, action) {
-  switch (action.type) {
-      case "USER_FETCH_FULFILLED": {
-        return action.payload;
-      }
-      default:
-        return state;
-    }
 }
 
 /*

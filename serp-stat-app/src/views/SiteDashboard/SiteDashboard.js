@@ -207,7 +207,6 @@ export default class SiteDashboard extends Component {
     this.state = {
       dropdownOpen: false
     };
-      console.log("Dashboard");
   }
 
   toggle() {
@@ -217,8 +216,6 @@ export default class SiteDashboard extends Component {
   }
 
   render() {
-      console.log("this.props");
-      console.log(this.props.match.params.tag);
       const title = "Site Dashboard: " + this.props.match.params.site;
       return (
         <div className="animated fadeIn">

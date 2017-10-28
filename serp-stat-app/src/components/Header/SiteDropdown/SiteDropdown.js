@@ -5,10 +5,9 @@ import { Route, Link } from 'react-router-dom';
 
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap";
 
-import { sitesFetchData } from "../../../actions/sites"
-import { sitesSelected } from "../../../actions/sites"
+import { fetchSites } from "../../../actions/sites"
+import { fetchSite } from "../../../actions/sites"
 
-// https://reacttraining.com/react-router/web/example/modal-gallery
 class SiteDropdown extends Component {
   constructor(props) {
     super(props);
@@ -22,10 +21,6 @@ class SiteDropdown extends Component {
     };
   }
 
-  componentDidMount() {
-    this.props.fetchData(1);
-  }
-
   toggle() {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
@@ -37,10 +32,11 @@ class SiteDropdown extends Component {
       dropdownOpen: !this.state.dropdownOpen,
       redirect: true
     });
-    this.props.selectSite(site);
+    this.props.fetchSite(site.id);
   }
   render() {
-    if (this.props.sites === undefined || this.props.sites.length == 0) {
+    const { sites } = this.props.sitesList;
+    if (sites == null || sites === undefined || sites.length == 0) {
       return (
         <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
           <DropdownToggle caret>
@@ -50,12 +46,14 @@ class SiteDropdown extends Component {
       );
     }
 
-    const { sites } = this.props;
-
-    const mappedSites = sites.map(site =>
-      <DropdownItem key={site.id}  onClick={ (e) => this.select(e, site) }>
-        <Link to={site.link}>{site.title}</Link>
-      </DropdownItem>
+    const mappedSites = sites.map(site => {
+        const siteLink = `/site/${site.id}`;
+        return (
+          <DropdownItem key={site.id}  onClick={ (e) => this.select(e, site) }>
+            <Link to={siteLink}>{site.title}</Link>
+          </DropdownItem>
+        )
+      }
     )
     return (
       <Dropdown isOpen={this.state.dropdownOpen} toggle={this.toggle}>
@@ -71,26 +69,25 @@ class SiteDropdown extends Component {
 }
 
 SiteDropdown.propTypes = {
-    fetchData: PropTypes.func.isRequired,
-    selectSite: PropTypes.func.isRequired,
-    sites: PropTypes.array.isRequired,
-    hasErrored: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired
+    fetchSites: PropTypes.func.isRequired,
+    fetchSite: PropTypes.func.isRequired,
+    sitesList: PropTypes.object.isRequired,
+    activeSite: PropTypes.object.isRequired,
+    activeUser: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
-    sitesSelected: state.sitesSelected,
-    sites: state.sites,
-    hasErrored: state.sitesHasErrored,
-    isLoading: state.sitesIsLoading
+    activeUser: state.user.activeUser,
+    sitesList: state.sites.sitesList,
+    activeSite: state.sites.activeSite
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: (id) => dispatch(sitesFetchData(id)),
-    selectSite: (site) => dispatch(sitesSelected(site))
+    fetchSites: (userId) => dispatch(fetchSites(userId)),
+    fetchSite: (site) => dispatch(fetchSite(site))
   }
 };
 

@@ -5,37 +5,36 @@ import { Route, Link } from 'react-router-dom';
 
 import { NavLink } from "reactstrap";
 
-import { sitesSelected } from "../../../actions/sites"
-
 class SiteKeyword extends Component {
   constructor(props) {
     super(props);
   }
 
   componentDidMount() {
-    if (this.props.sitesSelected) {
+    if (this.props.activeSite) {
       console.log("SiteKeyword:componentDidMount");
       console.log(this.props);
     }
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if ((!this.props.sitesSelected && nextProps.sitesSelected) ||
-        (this.props.sitesSelected != nextProps.sitesSelected)) {
+    if ((!this.props.activeSite && nextProps.activeSite) ||
+        (this.props.activeSite != nextProps.activeSite)) {
         console.log("SiteKeyword:componentWillUpdate");
       console.log(nextProps);
     }
   }
 
   render() {
-    if (this.props.sitesSelected === null || this.props.sitesSelected == undefined) {
+    const { site } = this.props.activSite;
+
+    if (site === undefined || site == null) {
       return (
         <div>loading...</div>
       );
     }
 
-    const { sitesSelected } = this.props;
-    const mappedSite = "#/site/"+sitesSelected.id+"/keyword";
+    const mappedSite = `#/site/${site.id}/keyword`;
 
     return (
       <NavLink href={mappedSite}>Keyword</NavLink>
@@ -45,7 +44,7 @@ class SiteKeyword extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    sitesSelected: state.sitesSelected,
+    activSite: state.sites.activeSite
   }
 };
 

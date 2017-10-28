@@ -7,20 +7,20 @@ import {Badge, Nav, NavItem, NavLink as RsNavLink} from 'reactstrap';
 import isExternal from 'is-url-external';
 import classNames from 'classnames';
 
-import { sitesSelected } from "../../../actions/sites"
-import { tagsFetchData } from "../../../actions/tags"
+import { fetchSite } from "../../../actions/sites"
+import { fetchTags } from "../../../actions/tags"
 
 class TagList extends Component {
   componentDidMount() {
-    if (this.props.sitesSelected) {
-      this.props.fetchData(this.props.sitesSelected);
+    if (!(this.props.activeSite === undefined || this.props.activeSite.site == null)) {
+      this.props.fetchTags(this.props.activeSite.site.id);
     }
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if ((!this.props.sitesSelected && nextProps.sitesSelected) ||
-        (this.props.sitesSelected != nextProps.sitesSelected)) {
-      nextProps.fetchData(nextProps.sitesSelected.id);
+    if ((!this.props.activeSite && nextProps.activeSite) ||
+        (this.props.activeSite != nextProps.activeSite)) {
+      nextProps.fetchTags(nextProps.activeSite.site.id);
     }
   }
 
@@ -40,7 +40,7 @@ class TagList extends Component {
   //   return this.props.location.pathname.indexOf(routeName) > -1 ? "nav nav-second-level collapse in" : "nav nav-second-level collapse";
   // }
 
-  generateSidebar(props) {
+  generateSidebar(site, tags) {
     const header = [{
       name: 'Dashboard',
       url: '/dashboard',
@@ -48,7 +48,7 @@ class TagList extends Component {
     },
     {
       title: true,
-      name: props.sitesSelected.title,
+      name: site.title,
       wrapper: {
         element: '',
         attributes: {}
@@ -60,12 +60,12 @@ class TagList extends Component {
       return {
         name: item.tag,
         key: item.id,
-        url: '/site/' + props.sitesSelected.id + '/tag/'+item.id,
+        url: `/site/${site.id}/tag/${item.id}`,
         icon: 'icon-puzzle'
       }
     };
 
-    const tags = props.tags.map((tag, index) => tagMap(tag, index));
+    const tagList = tags.map((tag, index) => tagMap(tag, index));
     const tail = [
       {
         name: 'Customer Service',
@@ -82,22 +82,27 @@ class TagList extends Component {
       }
     ];
 
-    const body = header.concat(tags);
+    const body = header.concat(tagList);
     const items = body.concat(tail);
 
     return items;
   }
 
   render() {
+    const { site } = this.props.activeSite;
+    const { tags } = this.props.tagsList;
     const props = this.props;
     const activeRoute = this.activeRoute;
     const handleClick = this.handleClick;
 
-    if (!props.hasFetched) {
+    if (site === undefined || (!site)) {
+      return <div>Loading....</div>;
+    }
+    if (!tags) {
       return <div>Loading....</div>;
     }
 
-    const items = this.generateSidebar(props);
+    const items = this.generateSidebar(site, tags);
 
 
     // badge addon to NavItem
@@ -172,27 +177,21 @@ class TagList extends Component {
 }
 
 TagList.propTypes = {
-    sitesSelected: PropTypes.object,
-    fetchData: PropTypes.func.isRequired,
-    tags: PropTypes.array.isRequired,
-    hasErrored: PropTypes.bool.isRequired,
-    hasFetched: PropTypes.bool.isRequired,
-    isLoading: PropTypes.bool.isRequired
+  fetchTags: PropTypes.func.isRequired,
+  tagsList: PropTypes.object.isRequired,
+  activeSite: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
-    sitesSelected: state.sitesSelected,
-    tags: state.tags,
-    hasErrored: state.tagsHasErrored,
-    hasFetched: state.tagsHasFetched,
-    isLoading: state.tagsIsLoading
+    activeSite: state.sites.activeSite,
+    tagsList: state.tags.tagsList,
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchData: (siteId) => dispatch(tagsFetchData(siteId))
+    fetchTags: (siteId) => dispatch(fetchTags(siteId))
   }
 };
 
