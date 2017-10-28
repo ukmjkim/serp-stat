@@ -11,15 +11,35 @@ import { fetchSite } from "../../../actions/sites"
 import { fetchTags } from "../../../actions/tags"
 
 class TagList extends Component {
+  // constructor(props) {
+  //   super(props);
+  //   if (props.activeSite === undefined || props.activeSite.site == null) {
+  //     const siteId = props.location.pathname;
+  //     if (siteId) {
+  //       props.fetchSite(siteId);
+  //       props.fetchTags(siteId);
+  //     }
+  //   } else {
+  //     props.fetchTags(props.activeSite.site.id);
+  //   }
+  // }
+
   componentDidMount() {
-    if (!(this.props.activeSite === undefined || this.props.activeSite.site == null)) {
+    if (this.props.activeSite === undefined || this.props.activeSite.site == null) {
+      // const siteId = this.props.match.params.site;
+      // if (siteId) {
+      //   this.props.fetchSite(siteId);
+      //   this.props.fetchTags(siteId);
+      // }
+    } else {
       this.props.fetchTags(this.props.activeSite.site.id);
     }
   }
 
   componentWillUpdate(nextProps, nextState) {
     if (nextProps.activeSite.site) {
-      if (!this.props.tagsList.tags) {
+      if ((this.props.activeSite.site == null) ||
+        (this.props.activeSite.site != null && this.props.activeSite.site.id != nextProps.activeSite.site.id)) {
         nextProps.fetchTags(nextProps.activeSite.site.id);
       }
     }

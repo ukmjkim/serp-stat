@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { Container } from 'reactstrap';
@@ -23,6 +23,18 @@ import { fetchUser } from "../../actions/user"
 import { fetchSites } from "../../actions/sites"
 import { fetchSite } from "../../actions/sites"
 
+function matchURI(path, uri) {
+  const keys = [];
+  const pattern = toRegex(path, keys);
+  const match = pattern.exec(uri);
+  if (!match) return null;
+  const params = Object.create(null);
+  for (let i = 1; i < match.length; i++) {
+    params[keys[i - 1].name] =
+      match[i] !== undefined ? match[i] : undefined;
+  }
+  return params;
+}
 class Full extends Component {
   componentDidMount() {
     this.props.fetchUser(1);
@@ -32,13 +44,18 @@ class Full extends Component {
     if (nextProps.activeUser.user) {
       if (this.props.activeUser.user == null && nextProps.activeUser.user != null) {
         nextProps.fetchSites(nextProps.activeUser.user.id);
-        // nextProps.fetchSite(nextProps.activeSite.site);
       }
     }
     if (nextProps.sitesList.sites) {
       if (this.props.sitesList.sites == null && nextProps.sitesList.sites != null) {
         if (nextProps.sitesList.sites.length > 0) {
-          nextProps.fetchSite(nextProps.sitesList.sites[0].id);
+          const resultRe = nextProps.location.pathname.match(/\d+/);
+          if (resultRe) {
+            const siteId = resultRe[0];
+            nextProps.fetchSite(siteId);
+          } else {
+            nextProps.fetchSite(nextProps.sitesList.sites[0].id);
+          }
         }
       }
     }
@@ -53,7 +70,14 @@ class Full extends Component {
         </div>
       );
     }
-
+    const { site } = this.props.activeSite;
+    if (site === undefined || site == null) {
+      return (
+        <div className="app">
+          Loading...
+        </div>
+      );
+    }
     return (
       <div className="app">
         <Header {...this.props}/>
@@ -63,7 +87,7 @@ class Full extends Component {
             <Breadcrumb />
             <Container fluid>
               <Switch>
-                <Route path="/dashboard" name="Dashboard" component={Dashboard}/>
+                <Route exact path="/dashboard" name="Dashboard" component={Dashboard}/>
                 <Route path="/site/:site/tag/:tag" name="TagDashboard" component={TagDashboard}/>
                 <Route path="/site/:site/keyword" name="Keyword" component={Keyword}/>
                 <Route path="/site/:site/settings" name="Settings" component={Settings}/>
@@ -86,12 +110,14 @@ Sidebar.propTypes = {
     fetchSite: PropTypes.func.isRequired,
     activeUser: PropTypes.object.isRequired,
     sitesList: PropTypes.object.isRequired,
+    activeSite: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     activeUser: state.user.activeUser,
     sitesList: state.sites.sitesList,
+    activeSite: state.sites.activeSite,
   }
 };
 
