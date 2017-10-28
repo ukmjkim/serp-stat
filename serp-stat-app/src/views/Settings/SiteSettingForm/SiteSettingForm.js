@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Field, reduxForm } from 'redux-form';
+import { connect } from 'react-redux'
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 import {
   Col,
   Form,
@@ -10,8 +11,9 @@ import {
   InputGroup
 } from 'reactstrap';
 
+import { updateSite } from "../../../actions/sites"
+
 import { FIELDS } from './_fields';
-import submit from './_submit';
 
 const renderInput = field =>
   <div className="controls">
@@ -22,6 +24,12 @@ const renderInput = field =>
      field.meta.error &&
      <FormText className="help-block">{field.meta.error}</FormText>}
   </div>
+
+function submit(values, dispatch) {
+  console.log("======================================= SiteSettingForm");
+console.log(values);
+  dispatch(updateSite(values.id, values, sessionStorage.getItem('jwtToken')));
+}
 
 class SiteSettingForm extends Component {
   constructor(props) {
@@ -88,6 +96,19 @@ function validate(values) {
 
   return errors;
 }
+
+const mapStateToProps = (state) => {
+  return {
+    activeSite: state.sites.activeSite
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    updateSite: (site) => dispatch(updateSite(site))
+  }
+};
+SiteSettingForm = connect(mapStateToProps, mapDispatchToProps)(SiteSettingForm);
 
 export default reduxForm({
   form: 'siteSettingSubmit',

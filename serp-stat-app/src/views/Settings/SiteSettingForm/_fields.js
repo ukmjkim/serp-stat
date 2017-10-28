@@ -1,4 +1,11 @@
 export const FIELDS = new Map([
+  ["id", {
+    type: 'input',
+    label: 'ID for Site',
+    validate: (key, value) => {
+      return { response: true };
+    }
+  }],
   ["title", {
     type: 'input',
     label: 'Title for Site',

@@ -24,9 +24,6 @@ export function fetchUser(userId) {
     axios.request(config)
       .then((response) => {
         dispatch(fetchUserSuccess(response.data));
-        if (response.data.sites.length > 0) {
-          dispatch(fetchSites(response.data.sites[0].id));
-        }
       })
       .catch((error) => {
         dispatch(fetchUserFailure(error));

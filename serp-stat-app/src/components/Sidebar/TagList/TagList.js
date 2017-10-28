@@ -18,9 +18,10 @@ class TagList extends Component {
   }
 
   componentWillUpdate(nextProps, nextState) {
-    if ((!this.props.activeSite && nextProps.activeSite) ||
-        (this.props.activeSite != nextProps.activeSite)) {
-      nextProps.fetchTags(nextProps.activeSite.site.id);
+    if (nextProps.activeSite.site) {
+      if (!this.props.tagsList.tags) {
+        nextProps.fetchTags(nextProps.activeSite.site.id);
+      }
     }
   }
 

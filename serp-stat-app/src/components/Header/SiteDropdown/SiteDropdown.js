@@ -7,6 +7,7 @@ import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from "reactstrap
 
 import { fetchSites } from "../../../actions/sites"
 import { fetchSite } from "../../../actions/sites"
+import { resetUpdatedSite } from "../../../actions/sites"
 
 class SiteDropdown extends Component {
   constructor(props) {
@@ -19,6 +20,17 @@ class SiteDropdown extends Component {
       dropdownOpen: false,
       value : "Home"
     };
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.updatedSite.site) {
+      if (this.props.updatedSite.site == null && nextProps.updatedSite.site != null) {
+        nextProps.fetchSites(nextProps.activeUser.user.id);
+        if (nextProps.activeSite.site) {
+          nextProps.fetchSite(nextProps.activeSite.site.id);
+        }
+      }
+    }
   }
 
   toggle() {
@@ -71,23 +83,27 @@ class SiteDropdown extends Component {
 SiteDropdown.propTypes = {
     fetchSites: PropTypes.func.isRequired,
     fetchSite: PropTypes.func.isRequired,
+    resetUpdatedSite: PropTypes.func.isRequired,
+    activeUser: PropTypes.object.isRequired,
     sitesList: PropTypes.object.isRequired,
     activeSite: PropTypes.object.isRequired,
-    activeUser: PropTypes.object.isRequired
+    updatedSite: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => {
   return {
     activeUser: state.user.activeUser,
     sitesList: state.sites.sitesList,
-    activeSite: state.sites.activeSite
+    activeSite: state.sites.activeSite,
+    updatedSite: state.sites.updatedSite
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchSites: (userId) => dispatch(fetchSites(userId)),
-    fetchSite: (site) => dispatch(fetchSite(site))
+    fetchSite: (site) => dispatch(fetchSite(site)),
+    resetUpdatedSite: () => dispatch(resetUpdatedSite())
   }
 };
 

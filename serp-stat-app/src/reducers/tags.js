@@ -8,7 +8,7 @@ import {
 
 const INITIAL_STATE =
 			{
-				tagsList: {tags: [], error:null, loading: false},
+				tagsList: {tags: null, error:null, loading: false},
 				newTag:{tag:null, error: null, loading: false},
 				activeTag:{tag:null, error:null, loading: false},
 				deletedTag: {tag: null, error:null, loading: false},
@@ -19,7 +19,7 @@ export default function reducer(state=INITIAL_STATE, action) {
   switch(action.type) {
 	case FETCH_TAGS:
 		// start fetching tags and set loading = true
-  	return { ...state, tagsList: {tags:[], error: null, loading: true} };
+  	return { ...state, tagsList: {tags:null, error: null, loading: true} };
   case FETCH_TAGS_FULFILLED:
 		// return list of tags and make loading = false
     return { ...state, tagsList: {tags: action.payload, error:null, loading: false} };
@@ -27,10 +27,10 @@ export default function reducer(state=INITIAL_STATE, action) {
 		// return error and make loading = false
 		// 2nd one is network or server down errors
     error = action.payload || {message: action.payload.message};
-    return { ...state, tagsList: {tags: [], error: error, loading: false} };
+    return { ...state, tagsList: {tags: null, error: error, loading: false} };
   case RESET_TAGS:
 		// reset tagsList to initial state
-    return { ...state, tagsList: {tags: [], error:null, loading: false} };
+    return { ...state, tagsList: {tags: null, error:null, loading: false} };
 
   case FETCH_TAG:
     return { ...state, activeTag:{...state.activeTag, loading: true}};

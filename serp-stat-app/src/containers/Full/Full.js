@@ -20,10 +20,28 @@ import Keyword from '../../views/Keyword/';
 import Settings from '../../views/Settings/';
 
 import { fetchUser } from "../../actions/user"
+import { fetchSites } from "../../actions/sites"
+import { fetchSite } from "../../actions/sites"
 
 class Full extends Component {
   componentDidMount() {
     this.props.fetchUser(1);
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (nextProps.activeUser.user) {
+      if (this.props.activeUser.user == null && nextProps.activeUser.user != null) {
+        nextProps.fetchSites(nextProps.activeUser.user.id);
+        // nextProps.fetchSite(nextProps.activeSite.site);
+      }
+    }
+    if (nextProps.sitesList.sites) {
+      if (this.props.sitesList.sites == null && nextProps.sitesList.sites != null) {
+        if (nextProps.sitesList.sites.length > 0) {
+          nextProps.fetchSite(nextProps.sitesList.sites[0].id);
+        }
+      }
+    }
   }
 
   render() {
@@ -64,18 +82,24 @@ class Full extends Component {
 
 Sidebar.propTypes = {
     fetchUser: PropTypes.func.isRequired,
+    fetchSites: PropTypes.func.isRequired,
+    fetchSite: PropTypes.func.isRequired,
     activeUser: PropTypes.object.isRequired,
+    sitesList: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
-    activeUser: state.user.activeUser
+    activeUser: state.user.activeUser,
+    sitesList: state.sites.sitesList,
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchUser: (id) => dispatch(fetchUser(id))
+    fetchUser: (id) => dispatch(fetchUser(id)),
+    fetchSites: (id) => dispatch(fetchSites(id)),
+    fetchSite: (id) => dispatch(fetchSite(id))
   }
 };
 
