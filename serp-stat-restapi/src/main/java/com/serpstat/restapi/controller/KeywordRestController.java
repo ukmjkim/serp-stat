@@ -1,5 +1,6 @@
 package com.serpstat.restapi.controller;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -66,6 +68,39 @@ public class KeywordRestController {
 		List<Keyword> keywords = keywordService.findAllBySiteId(siteId);
 
 		return new ResponseEntity<List<Keyword>>(keywords, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/site/{siteId}/keyword", params = { "offset",
+			"size" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<Keyword>> listKeywordPaginated(@PathVariable("siteId") long siteId,
+			@RequestParam("offset") int offset, @RequestParam("size") int size) throws SiteNotFoundException {
+		logger.info("Fetching Site with id {}", siteId);
+		Site site = siteService.findById(siteId);
+		if (site == null) {
+			logger.info("Site with id {} not found", siteId);
+			throw new SiteNotFoundException("Site with id not found");
+		}
+
+		logger.info("Fetching Keyword with siteId {}", siteId);
+		List<Keyword> keywords = keywordService.findPagenatedBySiteId(siteId, offset, size);
+
+		return new ResponseEntity<List<Keyword>>(keywords, HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/site/{siteId}/keyword/count", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<Map<String, String>> fetchTotalCount(@PathVariable("siteId") long siteId)
+			throws SiteNotFoundException {
+		logger.info("Fetching Site with id {}", siteId);
+		Site site = siteService.findById(siteId);
+		if (site == null) {
+			logger.info("Site with id {} not found", siteId);
+			throw new SiteNotFoundException("Site with id not found");
+		}
+
+		logger.info("Fetching Keyword with siteId {}", siteId);
+		int totalCount = keywordService.findTotalCountBySiteId(siteId);
+		Map<String, String> result = Collections.singletonMap("totalCount", Integer.toString(totalCount));
+		return new ResponseEntity<Map<String, String>>(result, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/site/{siteId}/keyword", method = RequestMethod.POST)

@@ -54,6 +54,16 @@ public class KeywordServiceImplTest {
 		Assert.assertEquals(keywordService.findAllBySiteId(1), keywords);
 	}
 
+	public void findPagenatedBySiteId() {
+		when(dao.findPagenatedBySiteId(anyLong(), anyInt(), anyInt())).thenReturn(keywords);
+		Assert.assertEquals(keywordService.findPagenatedBySiteId(1, 0, 500).size(), keywords.size());
+	}
+
+	public void findTotalCountBySiteId() {
+		when(dao.findTotalCountBySiteId(anyLong())).thenReturn(432);
+		Assert.assertEquals(keywordService.findTotalCountBySiteId(1), 432);
+	}
+
 	@Test
 	public void findBySiteIdAndKeyword() {
 		Keyword keyword = keywords.get(0);

@@ -9,6 +9,10 @@ public interface KeywordService {
 
 	List<Keyword> findAllBySiteId(long siteId);
 
+	List<Keyword> findPagenatedBySiteId(long siteId, int firstResult, int maxResults);
+
+	int findTotalCountBySiteId(long siteId);
+
 	Keyword findBySiteIdAndKeyword(long siteId, String keyword);
 
 	void saveKeyword(Keyword keyword);

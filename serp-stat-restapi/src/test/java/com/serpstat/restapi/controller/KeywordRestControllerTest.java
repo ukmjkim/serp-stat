@@ -1,6 +1,7 @@
 package com.serpstat.restapi.controller;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.atLeastOnce;
@@ -10,6 +11,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -86,6 +88,40 @@ public class KeywordRestControllerTest {
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
 			verify(siteService, atLeastOnce()).findById(anyLong());
 			verify(keywordService, atLeastOnce()).findAllBySiteId(anyLong());
+		} catch (SiteNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void listKeywordPaginated() {
+		Keyword keyword = keywords.get(0);
+		when(siteService.findById(anyLong())).thenReturn(site);
+		when(keywordService.findPagenatedBySiteId(anyLong(), anyInt(), anyInt())).thenReturn(keywords);
+		ResponseEntity<List<Keyword>> response;
+		try {
+			response = keywordController.listKeywordPaginated(keyword.getSiteId(), 0, 500);
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+			verify(siteService, atLeastOnce()).findById(anyLong());
+			verify(keywordService, atLeastOnce()).findPagenatedBySiteId(anyLong(), anyInt(), anyInt());
+		} catch (SiteNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void fetchTotalCount() {
+		Keyword keyword = keywords.get(0);
+		when(siteService.findById(anyLong())).thenReturn(site);
+		when(keywordService.findTotalCountBySiteId(anyLong())).thenReturn(1);
+		ResponseEntity<Map<String, String>> response;
+		try {
+			response = keywordController.fetchTotalCount(keyword.getSiteId());
+			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);
+			verify(siteService, atLeastOnce()).findById(anyLong());
+			verify(keywordService, atLeastOnce()).findTotalCountBySiteId(anyLong());
 		} catch (SiteNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -234,14 +270,14 @@ public class KeywordRestControllerTest {
 		market.setLangName("langName");
 
 		Keyword keyword1 = new Keyword();
-		keyword1.setId(1L);
+		keyword1.setId(1001L);
 		keyword1.setSiteId(1L);
 		keyword1.setKeyword("new keyword1");
 		keyword1.setDevice(device);
 		keyword1.setMarket(market);
 
 		Keyword keyword2 = new Keyword();
-		keyword2.setId(2L);
+		keyword2.setId(1002L);
 		keyword2.setSiteId(1L);
 		keyword2.setKeyword("new keyword2");
 		keyword2.setDevice(device);

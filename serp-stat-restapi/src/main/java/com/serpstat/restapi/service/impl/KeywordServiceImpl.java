@@ -24,6 +24,14 @@ public class KeywordServiceImpl implements KeywordService {
 		return dao.findAllBySiteId(siteId);
 	}
 
+	public List<Keyword> findPagenatedBySiteId(long siteId, int firstResult, int maxResults) {
+		return dao.findPagenatedBySiteId(siteId, firstResult, maxResults);
+	}
+
+	public int findTotalCountBySiteId(long siteId) {
+		return dao.findTotalCountBySiteId(siteId);
+	}
+
 	public Keyword findBySiteIdAndKeyword(long siteId, String keyword) {
 		return dao.findBySiteIdAndKeyword(siteId, keyword);
 	}

@@ -17,13 +17,23 @@ public class KeywordDaoImplTest extends EntityPopulatedDataDaoImplTest {
 
 	@Test
 	public void findById() {
-		Assert.assertNotNull(keywordDao.findById(1));
+		Assert.assertNotNull(keywordDao.findById(10));
 		Assert.assertNull(keywordDao.findById(1000));
 	}
 
 	@Test
 	public void findAllBySiteId() {
-		Assert.assertEquals(keywordDao.findAllBySiteId(1L).size(), 1);
+		Assert.assertEquals(keywordDao.findAllBySiteId(1L).size(), 432);
+	}
+
+	@Test
+	public void findPagenatedBySiteId() {
+		Assert.assertEquals(keywordDao.findPagenatedBySiteId(1L, 15, 5).size(), 5);
+	}
+
+	@Test
+	public void findTotalCountBySiteId() {
+		Assert.assertEquals(keywordDao.findTotalCountBySiteId(1L), 432);
 	}
 
 	@Test
@@ -67,7 +77,7 @@ public class KeywordDaoImplTest extends EntityPopulatedDataDaoImplTest {
 	@Test
 	public void deleteById() {
 		int currentCount = keywordDao.findAllBySiteId(1L).size();
-		keywordDao.deleteById(1);
+		keywordDao.deleteById(10L);
 		Assert.assertEquals(keywordDao.findAllBySiteId(1L).size(), currentCount - 1);
 	}
 }

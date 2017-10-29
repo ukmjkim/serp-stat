@@ -62,14 +62,60 @@ public class KeywordRestTestClient {
 		ResponseEntity<List> response = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET, request,
 				List.class);
 
-		List<LinkedHashMap<String, Object>> siteStatsMap = response.getBody();
+		List<LinkedHashMap<String, Object>> keywordsMap = response.getBody();
 
-		if (siteStatsMap != null) {
-			System.out.println("count: " + siteStatsMap.size());
-			for (LinkedHashMap<String, Object> map : siteStatsMap) {
+		if (keywordsMap != null) {
+			System.out.println("count: " + keywordsMap.size());
+			for (LinkedHashMap<String, Object> map : keywordsMap) {
 				System.out.println("Keyword : id=" + map.get("id") + ", site_id=" + map.get("siteId") + ", keyword="
 						+ map.get("keyword"));
 			}
+		} else {
+			System.out.println("No keyword exist ----------------");
+		}
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private static void listKeywordPaginated(long siteId, int offset, int size) {
+		System.out.println("=======================================================");
+		System.out.println("Testing listKeywordPaginated API-----------");
+
+		UriComponentsBuilder builder = UriComponentsBuilder
+				.fromHttpUrl(REST_SERVICE_URI + "/site/" + siteId + "/keyword");
+		builder.queryParam("offset", offset).queryParam("size", size);
+		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<List> response = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET, request,
+				List.class);
+
+		List<LinkedHashMap<String, Object>> keywordsMap = response.getBody();
+
+		if (keywordsMap != null) {
+			System.out.println("count: " + keywordsMap.size());
+			for (LinkedHashMap<String, Object> map : keywordsMap) {
+				System.out.println("Keyword : id=" + map.get("id") + ", site_id=" + map.get("siteId") + ", keyword="
+						+ map.get("keyword"));
+			}
+		} else {
+			System.out.println("No keyword exist ----------------");
+		}
+	}
+
+	@SuppressWarnings({ "unchecked" })
+	private static void fetchTotalCount(long siteId) {
+		System.out.println("=======================================================");
+		System.out.println("Testing fetchTotalCount API-----------");
+
+		UriComponentsBuilder builder = UriComponentsBuilder
+				.fromHttpUrl(REST_SERVICE_URI + "/site/" + siteId + "/keyword/count");
+		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
+		RestTemplate restTemplate = new RestTemplate();
+		ResponseEntity<Object> response = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET,
+				request, Object.class);
+
+		LinkedHashMap<String, String> map = (LinkedHashMap<String, String>) response.getBody();
+		if (map != null) {
+			System.out.println("totalCount : " + map.get("totalCount"));
 		} else {
 			System.out.println("No keyword exist ----------------");
 		}
@@ -184,5 +230,8 @@ public class KeywordRestTestClient {
 		getKeyword(1, 2);
 		updateKeyword(1, 1);
 		deleteKeyword(1, 1);
+		listKeywordPaginated(1, 0, 5);
+		listKeywordPaginated(1, 5, 5);
+		fetchTotalCount(1L);
 	}
 }
