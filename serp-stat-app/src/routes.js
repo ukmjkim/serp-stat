@@ -26,3 +26,23 @@ export const findRouteInfo = (path) => {
   };
   return null;
 }
+
+export const getPaths = (pathname) => {
+  const paths = [];
+  const route = findRouteInfo("/");
+  if (route != null) {
+    paths.push(route);
+  }
+  if (pathname === '/') return paths;
+
+  pathname.split('/').reduce((prev, curr, index) => {
+    const currPath = `${prev}/${curr}`;
+    const route = findRouteInfo(currPath);
+    if (route != null) {
+      paths.push(route);
+    }
+    return currPath;
+  });
+
+  return paths;
+};
