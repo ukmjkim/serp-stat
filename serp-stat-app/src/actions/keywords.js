@@ -5,7 +5,7 @@ import { ROOT_URL } from './_const.js'
 export const FETCH_KEYWORDS = 'FETCH_KEYWORDS';
 export const FETCH_KEYWORDS_FULFILLED = 'FETCH_KEYWORDS_FULFILLED';
 export const FETCH_KEYWORDS_REJECTED = 'FETCH_KEYWORDS_REJECTED';
-export const RESET_KEYWORD = 'RESET_KEYWORD';
+export const RESET_KEYWORDS = 'RESET_KEYWORD';
 
 //Fetch keyword
 export const FETCH_KEYWORD = 'FETCH_KEYWORD';
@@ -41,6 +41,8 @@ export const RESET_DELETED_KEYWORD = 'RESET_DELETED_KEYWORD';
 // Keywords
 // ===========================================================================
 export function fetchKeywords(siteId) {
+  console.log("============================== fetchKeywords");
+  console.log(`${ROOT_URL}/site/${siteId}/keyword`);
   return (dispatch) => {
     const config = {
       method: 'get',
@@ -52,7 +54,7 @@ export function fetchKeywords(siteId) {
 
     axios.request(config)
       .then((response) => {
-        dispatch(fetchKeywordsSuccess(response.data.keyword));
+        dispatch(fetchKeywordsSuccess(response.data));
       })
       .catch((error) => {
         dispatch(fetchKeywordsFailure(error));
@@ -74,9 +76,9 @@ export function fetchKeywordsFailure(error) {
   }
 }
 
-export function resetKeyword() {
+export function resetKeywords() {
   return {
-    type: RESET_KEYWORD
+    type: RESET_KEYWORDS
   }
 }
 

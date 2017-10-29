@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import PropTypes from "prop-types"
+import { connect } from "react-redux"
 import {
     Badge,
     Row,
@@ -12,13 +14,35 @@ import {
     PaginationLink
   } from 'reactstrap';
 
-export default class KeywordTable extends Component {
+import { fetchKeywords } from "../../../actions/keywords"
+
+
+class KeywordTable extends Component {
     constructor(props) {
       super(props);
     }
 
+    componentDidMount() {
+      if (this.props.activeSite) {
+console.log("======================================");
+console.log(this.props.activeSite.site.id);
+        this.props.fetchKeywords(this.props.activeSite.site.id);
+      }
+    }
 
     render() {
+      const { site } = this.props.activeSite;
+      if (!site) {
+        return (
+          <div>Loading...</div>
+        )
+      }
+      const { keywords } = this.props.keywordsList;
+      if (!keywords) {
+        return (
+          <div>Loading...</div>
+        )
+      }
 
       return (
         <div>
@@ -26,7 +50,7 @@ export default class KeywordTable extends Component {
             <Col>
             <Card>
                 <CardHeader>
-                <i className="fa fa-align-justify"></i> All Keywords
+                <i className="fa fa-align-justify"></i> All Keywords in {site.title}
                 </CardHeader>
                 <CardBody>
                 <Table hover bordered striped responsive size="sm">
@@ -101,3 +125,23 @@ export default class KeywordTable extends Component {
       )
     }
 }
+
+KeywordTable.propTypes = {
+    fetchKeywords: PropTypes.func.isRequired,
+    activeSite: PropTypes.object.isRequired,
+};
+
+const mapStateToProps = (state) => {
+  return {
+    activeSite: state.sites.activeSite,
+    keywordsList: state.keywords.keywordsList
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    fetchKeywords: (siteId) => dispatch(fetchKeywords(siteId)),
+  }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(KeywordTable);
