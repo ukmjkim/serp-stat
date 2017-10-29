@@ -37,6 +37,13 @@ class SiteSettingForm extends Component {
     this.state = {};
   }
 
+  componentDidUpdate() {
+    const { site } = this.props.activeSite;
+    if ((site) && (!this.props.initialized)) {
+      this.props.initialize(site);
+    }
+  }
+
   onSubmit(props) {
     alert('Settings Submitted');
   }
@@ -47,6 +54,7 @@ class SiteSettingForm extends Component {
     const fieldValue = fieldConfig[1];
 
     if (fieldValue.type == "checkbox") {
+      // const checkBoxValue = (fieldValue.value == "1") ? true : false;
       return (
         <FormGroup key={fieldKey} row>
           <Col md="3"><Label htmlFor="appendedInput">{fieldValue.label}</Label></Col>
@@ -69,8 +77,25 @@ class SiteSettingForm extends Component {
     }
   }
 
+  setCurrentValue(FIELDS, site) {
+    for (let [key, value] of FIELDS) {
+      let map = FIELDS.get(key);
+      map.value = site[`${key}`];
+    }
+  }
+
   render() {
     const { handleSubmit } = this.props;
+    const { site } = this.props.activeSite;
+
+    if (!site) {
+      return (
+        <div>Loading...</div>
+      )
+    }
+
+    this.setCurrentValue(FIELDS, site);
+    console.log(FIELDS);
 
     const fieldList = (fields) => {
       return Array.from( fields ).map( (val, key) => this.renderField(val, key) )

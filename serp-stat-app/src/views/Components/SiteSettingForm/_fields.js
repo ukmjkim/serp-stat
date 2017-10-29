@@ -28,7 +28,7 @@ export const FIELDS = new Map([
       }
     }
   }],
-  ["non_ranking_value", {
+  ["nonRankingValue", {
     type: 'input',
     label: 'Non Ranking Value',
     validate: (key, value) => {
@@ -42,21 +42,21 @@ export const FIELDS = new Map([
       return { response: true };
     }
   }],
-  ["treat_non_ranking_as", {
+  ["treatNonRankingAs", {
     type: 'checkbox',
     label: 'Non Ranking Null',
     validate: (key, value) => {
       return { response: true };
     }
   }],
-  ["drop_www_prefix", {
+  ["dropWWWPrefix", {
     type: 'checkbox',
     label: 'Drop WWW',
     validate: (key, value) => {
       return { response: true };
     }
   }],
-  ["drop_directories", {
+  ["dropDirectories", {
     type: 'checkbox',
     label: 'Drop Directories',
     validate: (key, value) => {

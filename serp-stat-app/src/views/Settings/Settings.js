@@ -8,8 +8,8 @@ import {
   CardBody
 } from 'reactstrap';
 
-import SiteSettingForm from "./SiteSettingForm";
-import SiteSettingButton from "./SiteSettingButton";
+import SiteSettingForm from "../Components/SiteSettingForm";
+import SiteSettingButton from "../Components/SiteSettingButton";
 
 class Settings extends Component {
   constructor(props) {
