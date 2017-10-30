@@ -81,7 +81,7 @@ public class KeywordRestTestClient {
 		System.out.println("Testing listKeywordPaginated API-----------");
 
 		UriComponentsBuilder builder = UriComponentsBuilder
-				.fromHttpUrl(REST_SERVICE_URI + "/site/" + siteId + "/keyword");
+				.fromHttpUrl(REST_SERVICE_URI + "/site/" + siteId + "/keyword/paginated");
 		builder.queryParam("offset", offset).queryParam("size", size);
 		HttpEntity<String> request = new HttpEntity<String>(getHeaders());
 		RestTemplate restTemplate = new RestTemplate();

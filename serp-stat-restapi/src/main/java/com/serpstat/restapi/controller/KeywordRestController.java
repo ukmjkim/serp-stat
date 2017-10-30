@@ -70,7 +70,7 @@ public class KeywordRestController {
 		return new ResponseEntity<List<Keyword>>(keywords, HttpStatus.OK);
 	}
 
-	@RequestMapping(value = "/site/{siteId}/keyword", params = { "offset",
+	@RequestMapping(value = "/site/{siteId}/keyword/paginated", params = { "offset",
 			"size" }, method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Keyword>> listKeywordPaginated(@PathVariable("siteId") long siteId,
 			@RequestParam("offset") int offset, @RequestParam("size") int size) throws SiteNotFoundException {
