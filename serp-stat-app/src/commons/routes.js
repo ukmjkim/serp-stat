@@ -1,3 +1,5 @@
+import queryString from 'query-string';
+
 export const routes = {
   '/': 'Home',
   '/dashboard': 'Dashboard',
@@ -46,3 +48,13 @@ export const getPaths = (pathname) => {
 
   return paths;
 };
+
+export const currentPage = (location) => {
+  const { search } = location;
+  const queryParameters = queryString.parse(search);
+  if ((queryParameters) && (queryParameters.page)) {
+    return parseInt(queryParameters.page);
+  } else {
+    return 1;
+  }
+}

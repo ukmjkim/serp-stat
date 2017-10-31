@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ROOT_URL } from './_const.js'
+import { ROOT_URL } from './../commons/const.js'
 
 //Tag list
 export const FETCH_TAGS = 'FETCH_TAGS';

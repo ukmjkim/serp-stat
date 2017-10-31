@@ -1,5 +1,7 @@
 import {
 	FETCH_KEYWORDS, FETCH_KEYWORDS_FULFILLED, FETCH_KEYWORDS_REJECTED, RESET_KEYWORDS,
+	FETCH_PAGINATED_KEYWORDS, FETCH_PAGINATED_KEYWORDS_FULFILLED, FETCH_PAGINATED_KEYWORDS_REJECTED, RESET_PAGINATED_KEYWORDS,
+	FETCH_KEYWORDS_COUNT, FETCH_KEYWORDS_COUNT_FULFILLED, FETCH_KEYWORDS_COUNT_REJECTED, RESET_KEYWORDS_COUNT,
 	FETCH_KEYWORD, FETCH_KEYWORD_FULFILLED, FETCH_KEYWORD_REJECTED, RESET_ACTIVE_KEYWORD,
 	CREATE_KEYWORD, CREATE_KEYWORD_FULFILLED,  CREATE_KEYWORD_REJECTED, RESET_NEW_KEYWORD,
 	VALIDATE_KEYWORD_FIELDS, VALIDATE_KEYWORD_FIELDS_FULFILLED, VALIDATE_KEYWORD_FIELDS_REJECTED, RESET_KEYWORD_FIELDS,
@@ -9,6 +11,8 @@ import {
 const INITIAL_STATE =
 			{
 				keywordsList: {keywords: null, error:null, loading: false},
+				keywordsPaginated: {keywords: null, error:null, loading: false},
+				keywordsCount: {count: null, error:null, loading: false},
 				newKeyword:{keyword:null, error: null, loading: false},
 				activeKeyword:{keyword:null, error:null, loading: false},
 				deletedKeyword: {keyword: null, error:null, loading: false},
@@ -31,6 +35,26 @@ export default function reducer(state=INITIAL_STATE, action) {
   case RESET_KEYWORDS:
 		// reset keywordsList to initial state
     return { ...state, keywordsList: {keywords: null, error:null, loading: false} };
+
+	case FETCH_PAGINATED_KEYWORDS:
+  	return { ...state, keywordsPaginated: {keywords:null, error: null, loading: true} };
+  case FETCH_PAGINATED_KEYWORDS_FULFILLED:
+    return { ...state, keywordsPaginated: {keywords: action.payload, error:null, loading: false} };
+  case FETCH_PAGINATED_KEYWORDS_REJECTED:
+    error = action.payload || {message: action.payload.message};
+    return { ...state, keywordsPaginated: {keywords: null, error: error, loading: false} };
+  case RESET_PAGINATED_KEYWORDS:
+    return { ...state, keywordsPaginated: {keywords: null, error:null, loading: false} };
+
+	case FETCH_KEYWORDS_COUNT:
+  	return { ...state, keywordsCount: {count:null, error: null, loading: true} };
+  case FETCH_KEYWORDS_COUNT_FULFILLED:
+    return { ...state, keywordsCount: {count: action.payload, error:null, loading: false} };
+  case FETCH_KEYWORDS_COUNT_REJECTED:
+    error = action.payload || {message: action.payload.message};
+    return { ...state, keywordsCount: {count: null, error: error, loading: false} };
+  case RESET_KEYWORDS_COUNT:
+    return { ...state, keywordsCount: {count: null, error:null, loading: false} };
 
   case FETCH_KEYWORD:
     return { ...state, activeKeyword:{...state.activeKeyword, loading: true}};

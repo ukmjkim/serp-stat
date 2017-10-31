@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Link } from 'react-router-dom';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
-import { routes, findRouteInfo, getPaths } from '../../routes';
+import { routes, findRouteInfo, getPaths } from '../../commons/routes';
 
 const findRouteName = url => routes[url];
 

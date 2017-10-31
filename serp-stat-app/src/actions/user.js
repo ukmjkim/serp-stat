@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ROOT_URL } from './_const.js'
+import { ROOT_URL } from './../commons/const.js'
 import { fetchSites } from './sites.js'
 
 //Fetch user

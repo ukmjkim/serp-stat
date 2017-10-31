@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import PropTypes from "prop-types"
-import { connect } from "react-redux"
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
     Badge,
     Row,
@@ -14,20 +14,33 @@ import {
     PaginationLink
   } from 'reactstrap';
 
-import { fetchKeywords } from "../../../actions/keywords"
+import { fetchPaginatedKeywords } from "../../../actions/keywords"
+import { resetPaginatedKeywords } from "../../../actions/keywords"
+
+import { KEYWORD_TABLE_PAGE_SIZE } from "../../../commons/const"
+import { KEYWORD_TABLE_PAGINATION_SIZE } from "../../../commons/const"
+import { currentPage } from "../../../commons/routes"
 
 
+// https://github.com/AdeleD/react-paginate/blob/master/react_components/PaginationBoxView.js#L64
+// How to use Pagination component
+// https://www.youtube.com/watch?v=2qxNVzmiR8Y
 class KeywordTable extends Component {
     constructor(props) {
       super(props);
     }
 
     componentDidMount() {
+      const page = currentPage(this.props.location);
+      const offset = (page-1) * KEYWORD_TABLE_PAGE_SIZE;
       if (this.props.activeSite) {
-console.log("======================================");
-console.log(this.props.activeSite.site.id);
-        this.props.fetchKeywords(this.props.activeSite.site.id);
+        this.props.fetchPaginatedKeywords(this.props.activeSite.site.id, offset, KEYWORD_TABLE_PAGE_SIZE);
       }
+    }
+
+    handlePageSelected(page) {
+      const offset = (page-1) * KEYWORD_TABLE_PAGE_SIZE;
+      this.props.fetchPaginatedKeywords(this.props.activeSite.site.id, offset, KEYWORD_TABLE_PAGE_SIZE);
     }
 
     render() {
@@ -37,110 +50,145 @@ console.log(this.props.activeSite.site.id);
           <div>Loading...</div>
         )
       }
-      const { keywords } = this.props.keywordsList;
+      const { keywords } = this.props.keywordsPaginated;
       if (!keywords) {
         return (
           <div>Loading...</div>
         )
       }
+      const { count } = this.props.keywordsCount;
+      if (!count) {
+        return (
+          <div>Loading...</div>
+        )
+      }
+      const keywordListMarkup = (keyword, index) => {
+        const badgeColor = keyword.tracking ? "success" : "secondary";
+        const tracking = keyword.tracking ? "Active" : "Inactive";
+        const createdAtTimeStamp = Math.round(parseInt(keyword.createdAt));
+        const createAt = (new Date(createdAtTimeStamp)).toUTCString();
+
+        return (
+          <tr key={index}>
+          <td>{keyword.keyword}</td>
+          <td>{createAt}</td>
+          <td>{keyword.device.name}</td>
+          <td>{`${keyword.market.region}_${keyword.market.lang}`}</td>
+          <td>
+              <Badge color={badgeColor}>{tracking}</Badge>
+          </td>
+          </tr>
+        )
+      };
+
+      const keywordList = (keywords) => {
+        return keywords.map( (keyword, index) => keywordListMarkup(keyword, index) );
+      };
+
+
+      const makePaginationMap = () => {
+        const { site } = this.props.activeSite;
+        const { totalCount } = this.props.keywordsCount.count;
+        const page = currentPage(this.props.location);
+
+        const pageMap = new Map();
+        if (page > 1) {
+          const prevPage = ((page-KEYWORD_TABLE_PAGINATION_SIZE) > 1) ? page-KEYWORD_TABLE_PAGINATION_SIZE : 1;
+          let pageItem = {
+            page: "Prev",
+            link: `#/site/${site.id}/keyword?page=${prevPage}`,
+            type: "previous"
+          };
+          pageMap.set(prevPage, pageItem)
+        }
+
+        const lastPage = ((totalCount % KEYWORD_TABLE_PAGE_SIZE) > 0)
+              ? (Math.round(totalCount / KEYWORD_TABLE_PAGE_SIZE))
+              : (Math.round(totalCount / KEYWORD_TABLE_PAGE_SIZE))-1;
+        const maxPage = ((page+KEYWORD_TABLE_PAGINATION_SIZE) > lastPage)
+              ? lastPage
+              : (page+KEYWORD_TABLE_PAGINATION_SIZE);
+
+        for (let i = page; i < maxPage; i++) {
+          let pageItem = {
+            page: i,
+            link: `#/site/${site.id}/keyword?page=${i}`,
+            type: "page"
+          };
+          pageMap.set(i, pageItem);
+        }
+        if (maxPage < lastPage) {
+          const nextPage = maxPage;
+          let pageItem = {
+            page: "Next",
+            link: `#/site/${site.id}/keyword?page=${nextPage}`,
+            type: "next"
+          };
+          pageMap.set(nextPage, pageItem)
+        }
+
+        return pageMap;
+      }
+
+      const paginationListMarkup = (key, value) => {
+        return (
+            <PaginationItem key={key}>
+              <PaginationLink onClick={this.handlePageSelected.bind(this, value.page)} href={value.link}>{value.page}</PaginationLink>
+            </PaginationItem>
+        )
+      };
+
+      const paginationList = () => {
+        const paginationMap = makePaginationMap();
+        return Array.from(paginationMap).map( ([key, value]) => paginationListMarkup(key, value) );
+      };
 
       return (
         <div>
-            <Row>
-            <Col>
-            <Card>
-                <CardHeader>
-                <i className="fa fa-align-justify"></i> All Keywords in {site.title}
-                </CardHeader>
-                <CardBody>
-                <Table hover bordered striped responsive size="sm">
-                    <thead>
-                    <tr>
-                    <th>Username</th>
-                    <th>Date registered</th>
-                    <th>Role</th>
-                    <th>Status</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                    <td>Vishnu Serghei</td>
-                    <td>2012/01/01</td>
-                    <td>Member</td>
-                    <td>
-                        <Badge color="success">Active</Badge>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>Zbyněk Phoibos</td>
-                    <td>2012/02/01</td>
-                    <td>Staff</td>
-                    <td>
-                        <Badge color="danger">Banned</Badge>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>Einar Randall</td>
-                    <td>2012/02/01</td>
-                    <td>Admin</td>
-                    <td>
-                        <Badge color="secondary">Inactive</Badge>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>Félix Troels</td>
-                    <td>2012/03/01</td>
-                    <td>Member</td>
-                    <td>
-                        <Badge color="warning">Pending</Badge>
-                    </td>
-                    </tr>
-                    <tr>
-                    <td>Aulus Agmundr</td>
-                    <td>2012/01/21</td>
-                    <td>Staff</td>
-                    <td>
-                        <Badge color="success">Active</Badge>
-                    </td>
-                    </tr>
-                    </tbody>
-                </Table>
-                <nav>
-                    <Pagination>
-                    <PaginationItem><PaginationLink previous href="#">Prev</PaginationLink></PaginationItem>
-                    <PaginationItem active>
-                        <PaginationLink href="#">1</PaginationLink>
-                    </PaginationItem>
-                    <PaginationItem><PaginationLink href="#">2</PaginationLink></PaginationItem>
-                    <PaginationItem><PaginationLink href="#">3</PaginationLink></PaginationItem>
-                    <PaginationItem><PaginationLink href="#">4</PaginationLink></PaginationItem>
-                    <PaginationItem><PaginationLink next href="#">Next</PaginationLink></PaginationItem>
-                    </Pagination>
-                </nav>
-                </CardBody>
-            </Card>
-            </Col>
-            </Row>
+          <Table hover bordered striped responsive size="sm">
+            <thead>
+              <tr>
+              <th>Keyword</th>
+              <th>Date registered</th>
+              <th>Device</th>
+              <th>Market</th>
+              <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {keywordList(keywords)}
+            </tbody>
+          </Table>
+          <nav>
+            <Pagination>
+            {paginationList()}
+            </Pagination>
+          </nav>
         </div>
       )
     }
 }
 
 KeywordTable.propTypes = {
-    fetchKeywords: PropTypes.func.isRequired,
+    fetchPaginatedKeywords: PropTypes.func.isRequired,
+    resetPaginatedKeywords: PropTypes.func.isRequired,
     activeSite: PropTypes.object.isRequired,
+    keywordsPaginated: PropTypes.object.isRequired,
+    keywordsCount: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = (state) => {
   return {
     activeSite: state.sites.activeSite,
-    keywordsList: state.keywords.keywordsList
+    keywordsPaginated: state.keywords.keywordsPaginated,
+    keywordsCount: state.keywords.keywordsCount,
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchKeywords: (siteId) => dispatch(fetchKeywords(siteId)),
+    fetchPaginatedKeywords: (siteId, offset, size) => dispatch(fetchPaginatedKeywords(siteId, offset, size)),
+    resetPaginatedKeywords: () => dispatch(resetPaginatedKeywords()),
   }
 };
 

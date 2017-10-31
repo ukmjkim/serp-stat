@@ -1,11 +1,23 @@
 import axios from "axios";
-import { ROOT_URL } from './_const.js'
+import { ROOT_URL } from './../commons/const.js'
 
 //Keyword list
 export const FETCH_KEYWORDS = 'FETCH_KEYWORDS';
 export const FETCH_KEYWORDS_FULFILLED = 'FETCH_KEYWORDS_FULFILLED';
 export const FETCH_KEYWORDS_REJECTED = 'FETCH_KEYWORDS_REJECTED';
-export const RESET_KEYWORDS = 'RESET_KEYWORD';
+export const RESET_KEYWORDS = 'RESET_KEYWORDS';
+
+//Keyword paginated list
+export const FETCH_PAGINATED_KEYWORDS = 'FETCH_PAGINATED_KEYWORDS';
+export const FETCH_PAGINATED_KEYWORDS_FULFILLED = 'FETCH_PAGINATED_KEYWORDS_FULFILLED';
+export const FETCH_PAGINATED_KEYWORDS_REJECTED = 'FETCH_PAGINATED_KEYWORDS_REJECTED';
+export const RESET_PAGINATED_KEYWORDS = 'RESET_PAGINATED_KEYWORDS';
+
+//Keyword Total Count
+export const FETCH_KEYWORDS_COUNT = 'FETCH_KEYWORDS_COUNT';
+export const FETCH_KEYWORDS_COUNT_FULFILLED = 'FETCH_KEYWORDS_COUNT_FULFILLED';
+export const FETCH_KEYWORDS_COUNT_REJECTED = 'FETCH_KEYWORDS_COUNT_REJECTED';
+export const RESET_KEYWORDS_COUNT = 'RESET_KEYWORDS_COUNT';
 
 //Fetch keyword
 export const FETCH_KEYWORD = 'FETCH_KEYWORD';
@@ -41,8 +53,6 @@ export const RESET_DELETED_KEYWORD = 'RESET_DELETED_KEYWORD';
 // Keywords
 // ===========================================================================
 export function fetchKeywords(siteId) {
-  console.log("============================== fetchKeywords");
-  console.log(`${ROOT_URL}/site/${siteId}/keyword`);
   return (dispatch) => {
     const config = {
       method: 'get',
@@ -79,6 +89,93 @@ export function fetchKeywordsFailure(error) {
 export function resetKeywords() {
   return {
     type: RESET_KEYWORDS
+  }
+}
+
+// ===========================================================================
+// Paginated Keywords
+// ===========================================================================
+export function fetchPaginatedKeywords(siteId, offset, size) {
+  return (dispatch) => {
+    const config = {
+      method: 'get',
+      url: `${ROOT_URL}/site/${siteId}/keyword/paginated?offset=${offset}&size=${size}`,
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    };
+
+    axios.request(config)
+      .then((response) => {
+        dispatch(fetchPaginatedKeywordsSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchPaginatedKeywordsFailure(error));
+      })
+  }
+}
+
+export function fetchPaginatedKeywordsSuccess(payload) {
+  return {
+    type: FETCH_PAGINATED_KEYWORDS_FULFILLED,
+    payload
+  }
+}
+
+export function fetchPaginatedKeywordsFailure(error) {
+  return {
+    type: FETCH_PAGINATED_KEYWORDS_REJECTED,
+    payload: error
+  }
+}
+
+export function resetPaginatedKeywords() {
+  return {
+    type: RESET_PAGINATED_KEYWORDS
+  }
+}
+
+
+// ===========================================================================
+// Keywords Count
+// ===========================================================================
+export function fetchKeywordsCount(siteId) {
+  return (dispatch) => {
+    const config = {
+      method: 'get',
+      url: `${ROOT_URL}/site/${siteId}/keyword/count`,
+      headers: {
+        "Content-Type": "application/json; charset=UTF-8"
+      },
+    };
+
+    axios.request(config)
+      .then((response) => {
+        dispatch(fetchKeywordsCountSuccess(response.data));
+      })
+      .catch((error) => {
+        dispatch(fetchKeywordsCountFailure(error));
+      })
+  }
+}
+
+export function fetchKeywordsCountSuccess(payload) {
+  return {
+    type: FETCH_KEYWORDS_COUNT_FULFILLED,
+    payload
+  }
+}
+
+export function fetchKeywordsCountFailure(error) {
+  return {
+    type: FETCH_KEYWORDS_COUNT_REJECTED,
+    payload: error
+  }
+}
+
+export function resetKeywordsCount() {
+  return {
+    type: RESET_KEYWORDS_COUNT
   }
 }
 

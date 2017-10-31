@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { ROOT_URL } from './_const.js'
+import { ROOT_URL } from './../commons/const.js'
 
 //Site list
 export const FETCH_SITES = 'FETCH_SITES';
