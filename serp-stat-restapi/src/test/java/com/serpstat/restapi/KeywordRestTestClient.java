@@ -113,7 +113,7 @@ public class KeywordRestTestClient {
 		ResponseEntity<Object> response = restTemplate.exchange(builder.build().encode().toUri(), HttpMethod.GET,
 				request, Object.class);
 
-		LinkedHashMap<String, String> map = (LinkedHashMap<String, String>) response.getBody();
+		LinkedHashMap<String, Integer> map = (LinkedHashMap<String, Integer>) response.getBody();
 		if (map != null) {
 			System.out.println("totalCount : " + map.get("totalCount"));
 		} else {

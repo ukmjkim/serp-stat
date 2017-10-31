@@ -116,7 +116,7 @@ public class KeywordRestControllerTest {
 		Keyword keyword = keywords.get(0);
 		when(siteService.findById(anyLong())).thenReturn(site);
 		when(keywordService.findTotalCountBySiteId(anyLong())).thenReturn(1);
-		ResponseEntity<Map<String, String>> response;
+		ResponseEntity<Map<String, Integer>> response;
 		try {
 			response = keywordController.fetchTotalCount(keyword.getSiteId());
 			Assert.assertEquals(response.getStatusCode(), HttpStatus.OK);

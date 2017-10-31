@@ -88,7 +88,7 @@ public class KeywordRestController {
 	}
 
 	@RequestMapping(value = "/site/{siteId}/keyword/count", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<Map<String, String>> fetchTotalCount(@PathVariable("siteId") long siteId)
+	public ResponseEntity<Map<String, Integer>> fetchTotalCount(@PathVariable("siteId") long siteId)
 			throws SiteNotFoundException {
 		logger.info("Fetching Site with id {}", siteId);
 		Site site = siteService.findById(siteId);
@@ -99,8 +99,8 @@ public class KeywordRestController {
 
 		logger.info("Fetching Keyword with siteId {}", siteId);
 		int totalCount = keywordService.findTotalCountBySiteId(siteId);
-		Map<String, String> result = Collections.singletonMap("totalCount", Integer.toString(totalCount));
-		return new ResponseEntity<Map<String, String>>(result, HttpStatus.OK);
+		Map<String, Integer> result = Collections.singletonMap("totalCount", new Integer(totalCount));
+		return new ResponseEntity<Map<String, Integer>>(result, HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/site/{siteId}/keyword", method = RequestMethod.POST)
