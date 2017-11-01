@@ -1,0 +1,30 @@
+
+//Tag list
+export const FETCH_TAGS = 'FETCH_TAGS';
+export const FETCH_TAGS_FULFILLED = 'FETCH_TAGS_FULFILLED';
+export const FETCH_TAGS_REJECTED = 'FETCH_TAGS_REJECTED';
+export const RESET_TAGS = 'RESET_TAGS';
+
+//Fetch tag
+export const FETCH_TAG = 'FETCH_TAG';
+export const FETCH_TAG_FULFILLED = 'FETCH_TAG_FULFILLED';
+export const FETCH_TAG_REJECTED = 'FETCH_TAG_REJECTED';
+export const RESET_ACTIVE_TAG = 'RESET_ACTIVE_TAG';
+
+//Create new tag
+export const CREATE_TAGS = 'CREATE_TAG';
+export const CREATE_TAGS_FULFILLED = 'CREATE_TAG_FULFILLED';
+export const CREATE_TAGS_REJECTED = 'CREATE_TAG_REJECTED';
+export const RESET_NEW_TAG = 'RESET_NEW_TAG';
+
+//Validate tag fields like Title, Categries on the server
+export const VALIDATE_TAG_FIELDS = 'VALIDATE_TAG_FIELDS';
+export const VALIDATE_TAG_FIELDS_FULFILLED = 'VALIDATE_TAG_FIELDS_FULFILLED';
+export const VALIDATE_TAG_FIELDS_REJECTED = 'VALIDATE_TAG_FIELDS_REJECTED';
+export const RESET_TAG_FIELDS = 'RESET_TAG_FIELDS';
+
+//Delete tag
+export const DELETE_TAG = 'DELETE_TAG';
+export const DELETE_TAG_FULFILLED = 'DELETE_TAG_FULFILLED';
+export const DELETE_TAG_REJECTED = 'DELETE_TAG_REJECTED';
+export const RESET_DELETED_TAG = 'RESET_DELETED_TAG';

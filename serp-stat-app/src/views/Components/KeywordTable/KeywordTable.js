@@ -17,8 +17,8 @@ import {
 import { fetchPaginatedKeywords } from "../../../actions/keywords"
 import { resetPaginatedKeywords } from "../../../actions/keywords"
 
-import { KEYWORD_TABLE_PAGE_SIZE } from "../../../commons/const"
-import { KEYWORD_TABLE_PAGINATION_SIZE } from "../../../commons/const"
+import { KEYWORD_TABLE_PAGE_SIZE } from "../../../constants/commons"
+import { KEYWORD_TABLE_PAGINATION_SIZE } from "../../../constants/commons"
 import { currentPage } from "../../../commons/routes"
 
 

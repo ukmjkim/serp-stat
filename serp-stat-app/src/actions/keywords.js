@@ -1,53 +1,6 @@
 import axios from "axios";
-import { ROOT_URL } from './../commons/const.js'
-
-//Keyword list
-export const FETCH_KEYWORDS = 'FETCH_KEYWORDS';
-export const FETCH_KEYWORDS_FULFILLED = 'FETCH_KEYWORDS_FULFILLED';
-export const FETCH_KEYWORDS_REJECTED = 'FETCH_KEYWORDS_REJECTED';
-export const RESET_KEYWORDS = 'RESET_KEYWORDS';
-
-//Keyword paginated list
-export const FETCH_PAGINATED_KEYWORDS = 'FETCH_PAGINATED_KEYWORDS';
-export const FETCH_PAGINATED_KEYWORDS_FULFILLED = 'FETCH_PAGINATED_KEYWORDS_FULFILLED';
-export const FETCH_PAGINATED_KEYWORDS_REJECTED = 'FETCH_PAGINATED_KEYWORDS_REJECTED';
-export const RESET_PAGINATED_KEYWORDS = 'RESET_PAGINATED_KEYWORDS';
-
-//Keyword Total Count
-export const FETCH_KEYWORDS_COUNT = 'FETCH_KEYWORDS_COUNT';
-export const FETCH_KEYWORDS_COUNT_FULFILLED = 'FETCH_KEYWORDS_COUNT_FULFILLED';
-export const FETCH_KEYWORDS_COUNT_REJECTED = 'FETCH_KEYWORDS_COUNT_REJECTED';
-export const RESET_KEYWORDS_COUNT = 'RESET_KEYWORDS_COUNT';
-
-//Fetch keyword
-export const FETCH_KEYWORD = 'FETCH_KEYWORD';
-export const FETCH_KEYWORD_FULFILLED = 'FETCH_KEYWORD_FULFILLED';
-export const FETCH_KEYWORD_REJECTED = 'FETCH_KEYWORD_REJECTED';
-export const RESET_ACTIVE_KEYWORD = 'RESET_ACTIVE_KEYWORD';
-
-//Create new keyword
-export const CREATE_KEYWORD = 'CREATE_KEYWORD';
-export const CREATE_KEYWORD_FULFILLED = 'CREATE_KEYWORD_FULFILLED';
-export const CREATE_KEYWORD_REJECTED = 'CREATE_KEYWORD_REJECTED';
-export const RESET_NEW_KEYWORD = 'RESET_NEW_KEYWORD';
-
-//Update site
-export const UPDATE_SITE = 'UPDATE_SITE';
-export const UPDATE_SITE_FULFILLED = 'UPDATE_SITE_FULFILLED';
-export const UPDATE_SITE_REJECTED = 'UPDATE_SITE_REJECTED';
-export const RESET_UPDATED_SITE = 'RESET_UPDATED_SITE';
-
-//Validate keyword fields like Title, Categries on the server
-export const VALIDATE_KEYWORD_FIELDS = 'VALIDATE_KEYWORD_FIELDS';
-export const VALIDATE_KEYWORD_FIELDS_FULFILLED = 'VALIDATE_KEYWORD_FIELDS_FULFILLED';
-export const VALIDATE_KEYWORD_FIELDS_REJECTED = 'VALIDATE_KEYWORD_FIELDS_REJECTED';
-export const RESET_KEYWORD_FIELDS = 'RESET_KEYWORD_FIELDS';
-
-//Delete keyword
-export const DELETE_KEYWORD = 'DELETE_KEYWORD';
-export const DELETE_KEYWORD_FULFILLED = 'DELETE_KEYWORD_FULFILLED';
-export const DELETE_KEYWORD_REJECTED = 'DELETE_KEYWORD_REJECTED';
-export const RESET_DELETED_KEYWORD = 'RESET_DELETED_KEYWORD';
+import { ROOT_URL } from '../constants/commons'
+import * as types from '../constants/keywords'
 
 // ===========================================================================
 // Keywords
@@ -74,21 +27,21 @@ export function fetchKeywords(siteId) {
 
 export function fetchKeywordsSuccess(payload) {
   return {
-    type: FETCH_KEYWORDS_FULFILLED,
+    type: types.FETCH_KEYWORDS_FULFILLED,
     payload
   }
 }
 
 export function fetchKeywordsFailure(error) {
   return {
-    type: FETCH_KEYWORDS_REJECTED,
+    type: types.FETCH_KEYWORDS_REJECTED,
     payload: error
   }
 }
 
 export function resetKeywords() {
   return {
-    type: RESET_KEYWORDS
+    type: types.RESET_KEYWORDS
   }
 }
 
@@ -117,21 +70,21 @@ export function fetchPaginatedKeywords(siteId, offset, size) {
 
 export function fetchPaginatedKeywordsSuccess(payload) {
   return {
-    type: FETCH_PAGINATED_KEYWORDS_FULFILLED,
+    type: types.FETCH_PAGINATED_KEYWORDS_FULFILLED,
     payload
   }
 }
 
 export function fetchPaginatedKeywordsFailure(error) {
   return {
-    type: FETCH_PAGINATED_KEYWORDS_REJECTED,
+    type: types.FETCH_PAGINATED_KEYWORDS_REJECTED,
     payload: error
   }
 }
 
 export function resetPaginatedKeywords() {
   return {
-    type: RESET_PAGINATED_KEYWORDS
+    type: types.RESET_PAGINATED_KEYWORDS
   }
 }
 
@@ -161,21 +114,21 @@ export function fetchKeywordsCount(siteId) {
 
 export function fetchKeywordsCountSuccess(payload) {
   return {
-    type: FETCH_KEYWORDS_COUNT_FULFILLED,
+    type: types.FETCH_KEYWORDS_COUNT_FULFILLED,
     payload
   }
 }
 
 export function fetchKeywordsCountFailure(error) {
   return {
-    type: FETCH_KEYWORDS_COUNT_REJECTED,
+    type: types.FETCH_KEYWORDS_COUNT_REJECTED,
     payload: error
   }
 }
 
 export function resetKeywordsCount() {
   return {
-    type: RESET_KEYWORDS_COUNT
+    type: types.RESET_KEYWORDS_COUNT
   }
 }
 
@@ -204,21 +157,21 @@ export function fetchKeyword(siteId, keywordId) {
 
 export function fetchKeywordSuccess(payload) {
   return {
-    type: FETCH_KEYWORD_FULFILLED,
+    type: types.FETCH_KEYWORD_FULFILLED,
     payload
   }
 }
 
 export function fetchKeywordFailure(error) {
   return {
-    type: FETCH_KEYWORD_REJECTED,
+    type: types.FETCH_KEYWORD_REJECTED,
     payload: error
   }
 }
 
 export function resetKeyword() {
   return {
-    type: RESET_ACTIVE_KEYWORD
+    type: types.RESET_ACTIVE_KEYWORD
   }
 }
 
@@ -249,21 +202,21 @@ export function createKeyword(siteId, payload) {
 
 export function createKeywordSuccess(payload) {
   return {
-    type: CREATE_KEYWORD_FULFILLED,
+    type: types.CREATE_KEYWORD_FULFILLED,
     payload
   }
 }
 
 export function createKeywordFailure(error) {
   return {
-    type: CREATE_KEYWORD_REJECTED,
+    type: types.CREATE_KEYWORD_REJECTED,
     payload: error
   }
 }
 
 export function resetNewKeyword() {
   return {
-    type: RESET_NEW_KEYWORD
+    type: types.RESET_NEW_KEYWORD
   }
 }
 
@@ -294,21 +247,21 @@ export function updateKeyword(siteId, payload, tokenFromStorage) {
 
 export function updateKeywordSuccess(payload) {
   return {
-    type: UPDATE_KEYWORD_FULFILLED,
+    type: types.UPDATE_KEYWORD_FULFILLED,
     payload
   }
 }
 
 export function updateKeywordFailure(error) {
   return {
-    type: UPDATE_KEYWORD_REJECTED,
+    type: types.UPDATE_KEYWORD_REJECTED,
     payload: error
   }
 }
 
 export function resetUpdatedKeyword() {
   return {
-    type: RESET_UPDATED_KEYWORD
+    type: types.RESET_UPDATED_KEYWORD
   }
 }
 // ===========================================================================
@@ -337,20 +290,20 @@ export function deleteKeyword(siteId, payload) {
 
 export function deleteKeywordSuccess(payload) {
   return {
-    type: DELETE_KEYWORD_FULFILLED,
+    type: types.DELETE_KEYWORD_FULFILLED,
     payload
   }
 }
 
 export function deleteKeywordFailure(error) {
   return {
-    type: DELETE_KEYWORD_REJECTED,
+    type: types.DELETE_KEYWORD_REJECTED,
     payload: error
   }
 }
 
 export function resetDeletedKeyword() {
   return {
-    type: RESET_DELETED_KEYWORD
+    type: types.RESET_DELETED_KEYWORD
   }
 }

@@ -1,15 +1,10 @@
 import axios from "axios";
-import { ROOT_URL } from './../commons/const.js'
-import { fetchSites } from './sites.js'
-
-//Fetch user
-export const FETCH_USER = 'FETCH_USER';
-export const FETCH_USER_FULFILLED = 'FETCH_USER_FULFILLED';
-export const FETCH_USER_REJECTED = 'FETCH_USER_REJECTED';
-export const RESET_ACTIVE_USER = 'RESET_ACTIVE_USER';
+import { ROOT_URL } from '../constants/commons'
+import { fetchSites } from './sites'
+import * as types from '../constants/user'
 
 // ===========================================================================
-// User
+// User: https://github.com/pburtchaell/redux-promise-middleware/issues/85
 // ===========================================================================
 export function fetchUser(userId) {
   return (dispatch) => {
@@ -21,7 +16,7 @@ export function fetchUser(userId) {
       },
     };
 
-    axios.request(config)
+    return axios.request(config)
       .then((response) => {
         dispatch(fetchUserSuccess(response.data));
       })
@@ -33,21 +28,21 @@ export function fetchUser(userId) {
 
 export function fetchUserSuccess(payload) {
   return {
-    type: FETCH_USER_FULFILLED,
+    type: types.FETCH_USER_FULFILLED,
     payload
   }
 }
 
 export function fetchUserFailure(error) {
   return {
-    type: FETCH_USER_REJECTED,
+    type: types.FETCH_USER_REJECTED,
     payload: error
   }
 }
 
 export function resetActiveUser() {
   return {
-    type: RESET_ACTIVE_USER
+    type: types.RESET_ACTIVE_USER
   }
 }
 

@@ -1,0 +1,5 @@
+//Fetch user
+export const FETCH_USER = 'FETCH_USER';
+export const FETCH_USER_FULFILLED = 'FETCH_USER_FULFILLED';
+export const FETCH_USER_REJECTED = 'FETCH_USER_REJECTED';
+export const RESET_ACTIVE_USER = 'RESET_ACTIVE_USER';

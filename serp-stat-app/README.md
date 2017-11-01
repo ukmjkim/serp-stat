@@ -1159,3 +1159,30 @@ https://medium.com/@rajaraodv/a-guide-for-building-a-react-redux-crud-app-7fe0b8
 
 ## List Pagination
 
+
+## Testing - Unit Tests(Unit Tests, Component Tests, UI Automation Tests, E2E Tests)
+Applying the multi-level approach to the domain of testing front-end applications yields the famous pyramid of testing:
+- Unit Tests, Component Tests, UI Automation Tests, E2E Tests
+
+- Mocha as our test runner
+- Chai as our expectation library
+- Sinon for creating stubs and mocks whenever necessary
+- Enzyme as a helper library for testing React Components
+
+```
+npm i mocha jsdom chai sinon enzyme react-addons-test-utils --save-dev
+
++ chai@4.1.2
++ react-addons-test-utils@15.6.2
++ enzyme@3.1.0
++ sinon@4.0.2
++ mocha@4.0.1
++ jsdom@11.3.0
++ redux-mock-store@1.3.0
++ axios-mock-adapter@1.9.0
+added 53 packages in 45.168s
+```
+
+
+
+
