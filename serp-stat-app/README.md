@@ -1184,7 +1184,7 @@ npm i mocha jsdom chai sinon enzyme react-addons-test-utils nyc --save-dev
 added 53 packages in 45.168s
 ```
 
-Foundings: One of the popular tool to generate code coverage report is Karma. But down side to use Karma is the performance.
+Findings: One of the popular tool to generate code coverage report is Karma. But down side to use Karma is the performance.
 Only for unit tests, I don't need Karma but I will use nyc. Much faster and it will be productive.
 
 
