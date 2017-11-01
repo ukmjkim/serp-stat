@@ -1,0 +1,5 @@
+--compilers js:babel-register
+--require babel-register
+--require ./test/test_helper.js
+test/**/*.spec.js --recursive
+

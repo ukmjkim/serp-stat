@@ -22,7 +22,7 @@
 * Classes: http://www.benmvp.com/learning-es6-classes/
 * New Collections: http://www.benmvp.com/learning-es6-new-collections/
 * Iterators & Iterables: http://www.benmvp.com/learning-es6-generators-as-iterators/
-* Generators as Iterators: http://www.benmvp.com/learning-es6-generators-as-iterators/ 
+* Generators as Iterators: http://www.benmvp.com/learning-es6-generators-as-iterators/
 * 12 tricks for ES6 fun: http://www.benmvp.com/learning-es6-12-tricks-for-es6-fun/
 
 * Modules
@@ -220,7 +220,7 @@ console.log(lName + ', '+ fName);
 
 /*
  * Object destructuring
- * Object destructuring assignment uses an object literal pattern on the left hand side of an assignment operation. 
+ * Object destructuring assignment uses an object literal pattern on the left hand side of an assignment operation.
  */
 {
 let config = {delay: 500, title: 'Hi!', info: {name: 'Elijah'}},
@@ -232,7 +232,7 @@ console.log(info, delay, title);
 /*
  * Object destructuring
  * We were able to store references to the 3 property values within config into variables with names that matched the property keys of config.
- * This is actually the shorthand syntax for object destructuring 
+ * This is actually the shorthand syntax for object destructuring
  */
 {
 let config = {
@@ -709,7 +709,7 @@ fetch('/json/data.json')
     	// catching all failures!
     	console.error(e);
     });
-    
+
 ```
 
 ## for-of operator
@@ -804,9 +804,9 @@ class Note {
 	}
 
 	static add(...properties) {
- 
+
  console.log(properties);
- 
+
 		// `this` will be the class on
 		// which `add()` was called increment counter
 		++this._idCounter;
@@ -1170,7 +1170,7 @@ Applying the multi-level approach to the domain of testing front-end application
 - Enzyme as a helper library for testing React Components
 
 ```
-npm i mocha jsdom chai sinon enzyme react-addons-test-utils --save-dev
+npm i mocha jsdom chai sinon enzyme react-addons-test-utils nyc --save-dev
 
 + chai@4.1.2
 + react-addons-test-utils@15.6.2
@@ -1180,9 +1180,27 @@ npm i mocha jsdom chai sinon enzyme react-addons-test-utils --save-dev
 + jsdom@11.3.0
 + redux-mock-store@1.3.0
 + axios-mock-adapter@1.9.0
++ nyc@11.2.1
 added 53 packages in 45.168s
 ```
 
+Foundings: One of the popular tool to generate code coverage report is Karma. But down side to use Karma is the performance.
+Only for unit tests, I don't need Karma but I will use nyc. Much faster and it will be productive.
 
 
+```
+$ npm run coverage
 
+-------------|----------|----------|----------|----------|----------------|
+File         |  % Stmts | % Branch |  % Funcs |  % Lines |Uncovered Lines |
+-------------|----------|----------|----------|----------|----------------|
+All files    |    49.44 |       50 |     11.9 |    49.44 |                |
+ actions     |    22.41 |      100 |     11.9 |    22.41 |                |
+  sites.js   |     6.52 |      100 |        0 |     6.52 |... 207,214,221 |
+  user.js    |    83.33 |      100 |    71.43 |    83.33 |          21,30 |
+ constants   |      100 |       50 |      100 |      100 |                |
+  commons.js |      100 |       50 |      100 |      100 |              2 |
+  sites.js   |      100 |      100 |      100 |      100 |                |
+  user.js    |      100 |      100 |      100 |      100 |                |
+-------------|----------|----------|----------|----------|----------------|
+```

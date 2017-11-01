@@ -43,6 +43,7 @@
     "history": "4.7.2",
     "is-url-external": "^1.0.3",
     "jsdom": "^11.3.0",
+    "nyc": "^11.2.1",
     "path-to-regexp": "^2.1.0",
     "query-string": "^5.0.1",
     "react": "^16.0.0",
@@ -61,7 +62,8 @@
     "simple-line-icons": "^2.4.1"
   },
   "scripts": {
-    "test": "mocha --compilers js:babel-register --require ./test_helper.js ./test --recursive",
+    "coverage": "nyc mocha",
+    "test": "mocha",
     "tdd": "npm test -- --watch --watch-extensions jsx",
     "dev": "webpack -d --progress --watch --profile --json > compilation-stats.json --env.dev",
     "start": "webpack-dev-server --progress --colors --inline --env.dev",
