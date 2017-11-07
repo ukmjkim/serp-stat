@@ -19,14 +19,12 @@ import java.util.Set;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
@@ -34,13 +32,15 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.serpstat.rest.domain.Site;
 import com.serpstat.rest.domain.User;
 import com.serpstat.rest.domain.UserAPI;
 import com.serpstat.rest.repository.UserRepository;
 import com.serpstat.rest.web.UserController;
+
+import static com.serpstat.rest.utils.JsonConverter.convertObjectToJson;
+import static com.serpstat.rest.utils.JsonConverter.convertJsonToList;
+import static com.serpstat.rest.utils.JsonConverter.convertJsonToMap;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = UserController.class, secure = false)
@@ -54,60 +54,44 @@ public class UserControllerTest {
 
 	@Test
 	public void listAllUsers() throws Exception {
-		List<User> mockList = getUserList();
+		List<User> userList = getUserList();
 
-		Mockito.when(userRepository.findAll()).thenReturn(mockList);
+		when(userRepository.findAll()).thenReturn(userList);
 
 		MvcResult result = mockMvc
 				.perform(MockMvcRequestBuilders.get("/users/").accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 		verify(userRepository, atLeastOnce()).findAll();
-		String jsonString = result.getResponse().getContentAsString();
+		assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
 
-		List<LinkedHashMap<String, Object>> usersList = new Gson().fromJson(
-				jsonString, 
-				new TypeToken<List<LinkedHashMap<String, Object>>>() {}.getType());
-
-		System.out.println(usersList);
-		if (usersList != null) {
-			assertEquals(2, usersList.size());
-		}
+		List<Map<String, Object>> list = convertJsonToList(result.getResponse().getContentAsString());
+		assertEquals(2, list.size());
 	}
 
 	@Test
 	public void getUser() throws Exception {
 		User user = getUserList().get(0);
-		Optional<User> mockUser = Optional.of(user);
-		
-		when(userRepository.findById(anyLong())).thenReturn(mockUser);
+
+		when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
 
 		MvcResult result = mockMvc
 				.perform(MockMvcRequestBuilders.get("/users/"+user.getId()).accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
-
 		verify(userRepository, atLeastOnce()).findById(anyLong());
-		String jsonString = result.getResponse().getContentAsString();
+		assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
 
-		LinkedHashMap<String, Object> userMap = new Gson().fromJson(
-				jsonString, 
-				new TypeToken<LinkedHashMap<String, Object>>() {}.getType());
+		Map<String, Object> map = convertJsonToMap(result.getResponse().getContentAsString());
 
-		System.out.println(userMap);
-		if (userMap != null) {
-			long userId = convertDoubleToLong(userMap, "id");
-			assertEquals(1, userId);
-		}
+		assertEquals(1,  map.get("id"));
 	}
 
 	@Test
 	public void createUserWithSuccess() {
-		User mockUser = new User("login1234", "password", "niceName", "email");
+		User newUser = getNewUser();
+		String userJson = convertObjectToJson(newUser);
 
-		String userJson = new Gson().toJson(mockUser);
-
-		mockUser.setId(1L);
 		when(userRepository.findByLogin(anyString())).thenReturn(Optional.empty());
-		when(userRepository.saveAndFlush(any(User.class))).thenReturn(mockUser);
+		when(userRepository.saveAndFlush(any(User.class))).thenReturn(newUser);
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/users/")
 				.accept(MediaType.APPLICATION_JSON).content(userJson).contentType(MediaType.APPLICATION_JSON);
@@ -115,9 +99,8 @@ public class UserControllerTest {
 		MvcResult result;
 		try {
 			result = mockMvc.perform(requestBuilder).andReturn();
-			MockHttpServletResponse response = result.getResponse();
-			assertEquals(HttpStatus.CREATED.value(), response.getStatus());
-			assertEquals("http://localhost/users/1", response.getHeader(HttpHeaders.LOCATION));
+			assertEquals(HttpStatus.CREATED.value(), result.getResponse().getStatus());
+			assertEquals("http://localhost/users/1", result.getResponse().getHeader(HttpHeaders.LOCATION));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -125,11 +108,10 @@ public class UserControllerTest {
 
 	@Test
 	public void createUserWithConflict() {
-		User mockUser = new User("login", "password", "niceName", "email");
+		User newUser = getNewUser();
+		String userJson = convertObjectToJson(newUser);
 
-		String userJson = new Gson().toJson(mockUser);
-
-		when(userRepository.findByLogin(anyString())).thenReturn(Optional.of(mockUser));
+		when(userRepository.findByLogin(anyString())).thenReturn(Optional.of(newUser));
 
 		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/users/")
 				.accept(MediaType.APPLICATION_JSON).content(userJson).contentType(MediaType.APPLICATION_JSON);
@@ -137,14 +119,10 @@ public class UserControllerTest {
 		MvcResult result;
 		try {
 			result = mockMvc.perform(requestBuilder).andReturn();
-			MockHttpServletResponse response = result.getResponse();
-			assertEquals(HttpStatus.OK.value(), response.getStatus());
-			String jsonString = result.getResponse().getContentAsString();
-			LinkedHashMap<String, Object> errorMap = new Gson().fromJson(
-					jsonString, 
-					new TypeToken<LinkedHashMap<String, Object>>() {}.getType());
-			long errorCode = convertDoubleToLong(errorMap, "errorCode");
-			assertEquals(HttpStatus.CONFLICT.value(), errorCode);
+			assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+
+			Map<String, Object> map = convertJsonToMap(result.getResponse().getContentAsString());
+			assertEquals(HttpStatus.CONFLICT.value(), ((Integer) map.get("errorCode")).intValue());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -153,22 +131,19 @@ public class UserControllerTest {
 
 	@Test
 	public void updateUserWithSuccess() {
-		User mockUser = new User("login", "password", "niceName", "email");
+		User newUser = getNewUser();
+		String userJson = convertObjectToJson(newUser);
 
-		String userJson = new Gson().toJson(mockUser);
-		
-		mockUser.setId(1L);
-		when(userRepository.findById(anyLong())).thenReturn(Optional.of(mockUser));
-		when(userRepository.saveAndFlush(any(User.class))).thenReturn(mockUser);
+		when(userRepository.findById(anyLong())).thenReturn(Optional.of(newUser));
+		when(userRepository.saveAndFlush(any(User.class))).thenReturn(newUser);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/users/"+mockUser.getId())
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/users/"+newUser.getId())
 				.accept(MediaType.APPLICATION_JSON).content(userJson).contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result;
 		try {
 			result = mockMvc.perform(requestBuilder).andReturn();
-			MockHttpServletResponse response = result.getResponse();
-			assertEquals(HttpStatus.OK.value(), response.getStatus());
+			assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -176,28 +151,22 @@ public class UserControllerTest {
 
 	@Test
 	public void updateUserWithNotFound() {
-		User mockUser = new User("login", "password", "niceName", "email");
-		
-		String userJson = new Gson().toJson(mockUser);
+		User newUser = getNewUser();
+		String userJson = convertObjectToJson(newUser);
 
-		mockUser.setId(1L);
 		when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
-		when(userRepository.saveAndFlush(any(User.class))).thenReturn(mockUser);
+		when(userRepository.saveAndFlush(any(User.class))).thenReturn(newUser);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/users/"+mockUser.getId())
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/users/"+newUser.getId())
 				.accept(MediaType.APPLICATION_JSON).content(userJson).contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result;
 		try {
 			result = mockMvc.perform(requestBuilder).andReturn();
-			MockHttpServletResponse response = result.getResponse();
-			assertEquals(HttpStatus.OK.value(), response.getStatus());
-			String jsonString = result.getResponse().getContentAsString();
-			LinkedHashMap<String, Object> errorMap = new Gson().fromJson(
-					jsonString, 
-					new TypeToken<LinkedHashMap<String, Object>>() {}.getType());
-			long errorCode = convertDoubleToLong(errorMap, "errorCode");
-			assertEquals(HttpStatus.NOT_FOUND.value(), errorCode);
+			assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
+
+			Map<String, Object> map = convertJsonToMap(result.getResponse().getContentAsString());
+			assertEquals(HttpStatus.NOT_FOUND.value(), ((Integer) map.get("errorCode")).intValue());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -205,11 +174,11 @@ public class UserControllerTest {
 
 	@Test
 	public void deleteUserWithSuccess() {
-		User mockUser = new User("login", "password", "niceName", "email");
-		mockUser.setId(1L);
-		when(userRepository.findById(anyLong())).thenReturn(Optional.of(mockUser));
+		User newUser = getNewUser();
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/users/"+mockUser.getId())
+		when(userRepository.findById(anyLong())).thenReturn(Optional.of(newUser));
+
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/users/"+newUser.getId())
 				.accept(MediaType.APPLICATION_JSON);
 
 		MvcResult result;
@@ -217,8 +186,7 @@ public class UserControllerTest {
 			result = mockMvc.perform(requestBuilder).andReturn();
 			verify(userRepository, atLeastOnce()).deleteById(anyLong());
 
-			MockHttpServletResponse response = result.getResponse();
-			assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
+			assertEquals(HttpStatus.NO_CONTENT.value(), result.getResponse().getStatus());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -226,37 +194,31 @@ public class UserControllerTest {
 
 	@Test
 	public void deleteUserWithNotFound() {
-		User mockUser = new User("login", "password", "niceName", "email");
-
-		String userJson = new Gson().toJson(mockUser);
+		User newUser = getNewUser();
+		String userJson = convertObjectToJson(newUser);
 		
-		mockUser.setId(1L);
 		when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/users/"+mockUser.getId())
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/users/"+newUser.getId())
 				.accept(MediaType.APPLICATION_JSON).content(userJson).contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result;
 		try {
 			result = mockMvc.perform(requestBuilder).andReturn();
 			verify(userRepository, never()).deleteById(anyLong());
+			assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
 
-			MockHttpServletResponse response = result.getResponse();
-			assertEquals(HttpStatus.OK.value(), response.getStatus());
-			String jsonString = result.getResponse().getContentAsString();
-			LinkedHashMap<String, Object> errorMap = new Gson().fromJson(
-					jsonString, 
-					new TypeToken<LinkedHashMap<String, Object>>() {}.getType());
-			long errorCode = convertDoubleToLong(errorMap, "errorCode");
-			assertEquals(HttpStatus.NOT_FOUND.value(), errorCode);
+			Map<String, Object> map = convertJsonToMap(result.getResponse().getContentAsString());
+			assertEquals(HttpStatus.NOT_FOUND.value(), ((Integer) map.get("errorCode")).intValue());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
-	private long convertDoubleToLong(Map<String, Object> map, String fieldName) {
-		double fromNumber = (double) map.get(fieldName);
-		return (new Double(fromNumber)).longValue();
+	private User getNewUser() {
+		User newUser = new User("login", "password", "niceName", "email");
+		newUser.setId(1L);
+		return newUser;
 	}
 
 	private List<User> getUserList() {
