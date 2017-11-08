@@ -48,7 +48,8 @@ public class UserAPI {
 3. While health is non sensitive in 1.x, this has changed in 2.x with the new status endpoint and the example above reflects those new defaults.
 
 https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide
-https://docs.spring.io/spring-boot/docs/2.0.x-SNAPSHOT/reference/html/common-application-properties.html
+https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#production-ready-endpoints
 
 ```
 endpoints.beans.id = springbeans  --> deprecated
@@ -59,4 +60,14 @@ management.port=8081
 management.address=127.0.0.1
 management.security.enabled=false  --> deprecated
 ```
-
+http://localhost:8080/application
+http://localhost:8080/application/beans
+http://localhost:8080/application/autoconfig ==> Doesn't work
+http://localhost:8080/application/env ==> Doesn't work
+http://localhost:8080/application/mappings ==> Doesn't work
+http://localhost:8080/application/metrics ==> Doesn't work
+http://localhost:8080/application/trace ==> Doesn't work
+http://localhost:8080/application/health
+http://localhost:8080/application/status
+http://localhost:8080/application/info
+http://localhost:8080/application/dump ==> Doesn't work
