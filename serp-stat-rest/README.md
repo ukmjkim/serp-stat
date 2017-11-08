@@ -48,6 +48,7 @@ public class UserAPI {
 3. While health is non sensitive in 1.x, this has changed in 2.x with the new status endpoint and the example above reflects those new defaults.
 
 https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide
+https://docs.spring.io/spring-boot/docs/2.0.x-SNAPSHOT/reference/html/common-application-properties.html
 
 ```
 endpoints.beans.id = springbeans  --> deprecated
