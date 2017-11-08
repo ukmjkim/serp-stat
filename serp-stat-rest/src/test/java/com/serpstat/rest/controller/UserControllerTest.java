@@ -32,11 +32,11 @@ import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import com.serpstat.rest.controller.UserController;
 import com.serpstat.rest.domain.Site;
 import com.serpstat.rest.domain.User;
 import com.serpstat.rest.domain.UserAPI;
 import com.serpstat.rest.repository.UserRepository;
-import com.serpstat.rest.web.UserController;
 
 import static com.serpstat.rest.utils.JsonConverter.convertObjectToJson;
 import static com.serpstat.rest.utils.JsonConverter.convertJsonToList;
@@ -227,30 +227,18 @@ public class UserControllerTest {
 		userApi1.setId(1);
 		userApis1.add(userApi1);
 
-		Set<Site> sites1 = new HashSet<Site>();
-		Site site1 = new Site("title1", "url", 1, 0, 0, "contactEmail", null, null);
-		site1.setId(1L);
 		User user1 = new User("login", "password", "niceName", "email");
 		user1.setId(1L);
 		user1.setUserAPIs(userApis1);
-		site1.setUser(user1);
-		sites1.add(site1);
-		user1.setSites(sites1);
 
 		Set<UserAPI> userApis2 = new HashSet<UserAPI>();
 		UserAPI userApi2 = new UserAPI("apiKey2", "ips", 1000, 1000);
 		userApi2.setId(2);
 		userApis2.add(userApi2);
 
-		Set<Site> sites2 = new HashSet<Site>();
-		Site site2 = new Site("title2", "url", 1, 0, 0, "contactEmail", null, null);
-		site2.setId(2L);
 		User user2 = new User("login", "password", "niceName", "email");
 		user2.setId(2L);
 		user2.setUserAPIs(userApis2);
-		site2.setUser(user2);
-		sites2.add(site2);
-		user2.setSites(sites2);
 
 		List<User> users = new ArrayList<>();
 		users.add(user1);

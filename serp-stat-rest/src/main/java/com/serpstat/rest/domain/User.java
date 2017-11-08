@@ -70,9 +70,6 @@ public class User {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
 	private Set<UserAPI> userAPIs = new HashSet<UserAPI>();
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
-	private Set<Site> sites = new HashSet<Site>();
-
 	public User(String login, String password, String niceName, String email) {
 		super();
 		this.login = login;
