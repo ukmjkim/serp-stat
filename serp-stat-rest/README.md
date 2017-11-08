@@ -46,6 +46,8 @@ public class UserAPI {
 1. Actuator endpoints are moved to /application/info
 2. Properties are Deprecated: Endpoint identifier is no longer customizable.
 
+https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide
+
 ```
 endpoints.beans.id = springbeans  --> deprecated
 endpoints.beans.sensitive = false  --> deprecated
