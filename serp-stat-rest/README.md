@@ -45,6 +45,7 @@ public class UserAPI {
 ## Actuator 404 pageNotFound
 1. Actuator endpoints are moved to /application/info
 2. Properties are Deprecated: Endpoint identifier is no longer customizable.
+3. While health is non sensitive in 1.x, this has changed in 2.x with the new status endpoint and the example above reflects those new defaults.
 
 https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide
 
