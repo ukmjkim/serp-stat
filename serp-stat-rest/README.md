@@ -43,4 +43,21 @@ public class UserAPI {
 ```
 
 ## Actuator 404 pageNotFound
+1. Actuator endpoints are moved to /application/info
+2. You can override endpoint in application.properties
+
+```
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.hateoas</groupId>
+			<artifactId>spring-hateoas</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-rest-hal-browser</artifactId>
+		</dependency>
+```
 
