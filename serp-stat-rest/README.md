@@ -60,6 +60,7 @@ management.port=8081
 management.address=127.0.0.1
 management.security.enabled=false  --> deprecated
 ```
+```
 http://localhost:8080/application
 http://localhost:8080/application/beans
 http://localhost:8080/application/autoconfig ==> Doesn't work
@@ -71,3 +72,10 @@ http://localhost:8080/application/health
 http://localhost:8080/application/status
 http://localhost:8080/application/info
 http://localhost:8080/application/dump ==> Doesn't work
+```
+
+## Actuator - Found two extensions for HealthEndpoint
+```
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'webEndpointServletHandlerMapping' defined in class path resource [org/springframework/boot/actuate/autoconfigure/endpoint/web/servlet/WebMvcEndpointManagementContextConfiguration.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping]: Factory method 'webEndpointServletHandlerMapping' threw exception; nested exception is java.lang.IllegalStateException: Found two extensions for the same endpoint 'org.springframework.boot.actuate.health.HealthEndpoint': org.springframework.boot.actuate.health.HealthWebEndpointExtension and com.serpstat.rest.actuator.CustomHealthWebEndpointExtension
+```
+
