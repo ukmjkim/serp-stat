@@ -60,18 +60,34 @@ management.port=8081
 management.address=127.0.0.1
 management.security.enabled=false  --> deprecated
 ```
+
+I have to enable all endpoints for actuator
+```
+endpoints.info.enabled=true
+endpoints.beans.enabled=true
+endpoints.default.enabled=true
+endpoints.env.enabled=true
+endpoints.health.enabled=true
+endpoints.metrics.enabled=true
+endpoints.loggers.enabled=true
+endpoints.mappings.enabled=true
+endpoints.trace.enabled=true
+endpoints.threaddump.enabled=true
+endpoints.customhealth.enabled=true
+```
+
 ```
 http://localhost:8080/application
 http://localhost:8080/application/beans
-http://localhost:8080/application/autoconfig ==> Doesn't work
-http://localhost:8080/application/env ==> Doesn't work
-http://localhost:8080/application/mappings ==> Doesn't work
-http://localhost:8080/application/metrics ==> Doesn't work
-http://localhost:8080/application/trace ==> Doesn't work
+http://localhost:8080/application/autoconfig
+http://localhost:8080/application/env
+http://localhost:8080/application/mappings
+http://localhost:8080/application/metrics
+http://localhost:8080/application/trace
 http://localhost:8080/application/health
 http://localhost:8080/application/status
 http://localhost:8080/application/info
-http://localhost:8080/application/dump ==> Doesn't work
+http://localhost:8080/application/threaddump
 ```
 
 ## Actuator - Found two extensions for HealthEndpoint
