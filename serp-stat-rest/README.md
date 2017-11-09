@@ -46,7 +46,7 @@ public class UserAPI {
 1. Actuator endpoints are moved to /application/info
 2. Properties are Deprecated: Endpoint identifier is no longer customizable.
 3. While health is non sensitive in 1.x, this has changed in 2.x with the new status endpoint and the example above reflects those new defaults.
-4. http://localhost:8080/browser/index.html#/
+4. The HAL Browser (for Spring Data REST): http://localhost:8080/browser/index.html#/
 
 https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-2.0-Migration-Guide
 https://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
