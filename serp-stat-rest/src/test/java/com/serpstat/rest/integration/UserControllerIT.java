@@ -58,7 +58,7 @@ public class UserControllerIT {
 		HttpEntity<String> entity = new HttpEntity<String>(null, headers);
 
 		ResponseEntity<String> response = restTemplate.exchange(
-				createURLWithPort("/users"), HttpMethod.GET, entity, String.class);
+				createURLWithPort("/api/v1/users"), HttpMethod.GET, entity, String.class);
 		
 		List<Map<String, Object>> list = convertJsonToList(response.getBody());
 		assertEquals(true, (list.size() > 0));
