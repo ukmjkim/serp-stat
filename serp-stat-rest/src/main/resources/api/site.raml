@@ -1,0 +1,51 @@
+#%RAML 1.0
+title: Site
+version: 1
+baseUri: /api/v1/users
+
+types:
+  Site:
+    properties:
+      title: string
+      url: string
+      tracking: integer
+      dropWWWPrefix: integer
+      dropDirectories: integer
+      contactEmail: string
+      treatNonRankingAs: number
+      nonRankingValue: number
+    example:
+      title: "lululemon CA Site"
+      url: "lululemon.ca"
+      tracking: 1
+      dropWWWPrefix: 1
+      dropDirectories: 1
+      contactEmail: "seoadmin@lululemon.com"
+      treatNonRankingAs: 1
+      nonRankingValue: 120
+
+resourceTypes:
+  Collection:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: <<item>>[]
+    post:
+      body:
+        application/json:
+          type: <<item>>
+  Member:
+    put:
+      body:
+        application/json:
+          type: <<item>>
+    delete:
+      responses:
+        204:
+
+/sites:
+  type: { Collection: {item: Site} }
+  /{id}:
+    type: { Member: {item: Site} }

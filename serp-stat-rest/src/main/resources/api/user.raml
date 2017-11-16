@@ -1,0 +1,43 @@
+#%RAML 1.0
+title: User
+version: 1
+baseUri: /api/v1
+
+types:
+  User:
+    properties:
+      login: string
+      password: string
+      nicename: string
+      email: string
+    example:
+      login: "lululemon"
+      password: "password1"
+      nicename: "Lulu Lemon SEO team"
+      email: "seoadmin@lululemon.com"
+
+resourceTypes:
+  Collection:
+    get:
+      responses:
+        200:
+          body:
+            application/json:
+              type: <<item>>[]
+    post:
+      body:
+        application/json:
+          type: <<item>>
+  Member:
+    put:
+      body:
+        application/json:
+          type: <<item>>
+    delete:
+      responses:
+        204:
+
+/users:
+  type: { Collection: {item: User} }
+  /{id}:
+    type: { Member: {item: User} }
