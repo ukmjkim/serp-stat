@@ -1,5 +1,8 @@
 # SERP-STAT-REST (Spring Boot 2.0.0 migration)
 
+## API Specification
+https://rawgit.com/ukmjkim/serp-stat/master/serp-stat-rest/src/main/resources/api/api.html
+
 ## mysql & hibernate auto config (converted from im-memory database H2)
 ```
 $ cat application.properties
