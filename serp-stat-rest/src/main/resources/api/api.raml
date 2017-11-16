@@ -1,5 +1,8 @@
 #%RAML 1.0
 #api.raml
+title: SERP Stat Restful API
+version: v1
+baseUri: http://serpstat.com:8080/api/{version}
 
-!include user.raml
-!include site.raml
+/users: !include user.raml
+/sites: !include site.raml
