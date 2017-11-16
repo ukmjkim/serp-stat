@@ -35,7 +35,7 @@ resourceTypes:
       responses:
         204:
 
-/:
+:
   type: { Collection: {item: User} }
-  /{id}:
+  {id}:
     type: { Member: {item: User} }
