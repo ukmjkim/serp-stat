@@ -1,0 +1,14 @@
+[
+    {
+        "login": "lululemon",
+        "password": "password",
+        "nicename": "Lulu Lemon SEO team",
+        "email": "seoadmin@lululemon.com"
+    },
+    {
+        "login": "sportscheck",
+        "password": "password",
+        "nicename": "Sports Check SEO team",
+        "email": "seoadmin@sportscheck.com"
+    }
+]

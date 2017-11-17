@@ -1,0 +1,22 @@
+[
+    {
+          "title": "lululemon CA Site",
+          "url": "lululemon.ca",
+          "tracking": 1,
+          "dropWWWPrefix": 1,
+          "dropDirectories": 1,
+          "contactEmail": "seoadmin@lululemon.com",
+          "treatNonRankingAs": 1,
+          "nonRankingValue": 120
+    },
+    {
+          "title": "lululemon US Site",
+          "url": "lululemon.us",
+          "tracking": 1,
+          "dropWWWPrefix": 1,
+          "dropDirectories": 1,
+          "contactEmail": "seoadmin@lululemon.com",
+          "treatNonRankingAs": 1,
+          "nonRankingValue": 120
+    }
+]

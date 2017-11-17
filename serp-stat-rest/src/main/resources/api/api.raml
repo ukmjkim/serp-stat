@@ -2,7 +2,108 @@
 #api.raml
 title: SERP Stat Restful API
 version: v1
+protocols: [ HTTP ]
 baseUri: http://serpstat.com:8080/api/{version}
+mediaType: application/json
+securedBy: basicAuth
+securitySchemes:
+  basicAuth:
+    description: Each request must contain the headers necessary forbasic authentication
+    type: Basic Authentication
+    describedBy:
+      headers:
+        Authorization:
+          description: |
+            Used to send the Base64 encoded "username:password"
+            credentials
+            type: string
+      responses:
+        401:
+          description: |
+            Unauthorized. Either the provided username and password
+            combination is invalid, or the user is not allowed to
+            access the content provided by the requested URL.
+types:
+  User:  !include types/User.raml
+  Site:  !include types/Site.raml
+  Error: !include types/Error.raml
 
-/users: !include user.raml
-/sites: !include site.raml
+resourceTypes:
+  collection:
+      usage: Use this resourceType to represent a collection of items
+      description: A collection of <<resourcePathName|!uppercamelcase>>
+      get:
+        description: |
+          Get all <<resourcePathName|!uppercamelcase>>,
+          optionally filtered
+        is: [ hasResponseCollection: { typeName: <<typeName>> } ]
+      post:
+        description: |
+          Create a new <<resourcePathName|!uppercamelcase|!singularize>>
+        is: [ hasRequestItem: { typeName: <<typeName>> } ]
+  item:
+      usage: Use this resourceType to represent any single item
+      description: A single <<typeName>>
+      get:
+        description: Get a <<typeName>> by <<resourcePathName>>
+        is: [ hasResponseItem: { typeName: <<typeName>> }, hasNotFound ]
+      put:
+        description: Update a <<typeName>> by <<resourcePathName>>
+        is: [ hasRequestItem: { typeName: <<typeName>> }, hasResponseItem, hasNotFound ]
+      delete:
+        description: Delete a <<typeName>> by <<resourcePathName>>
+        is: [ hasNotFound ]
+        responses:
+          204:
+traits:
+  hasRequestItem:
+    body:
+      application/json:
+        type: <<typeName>>
+  hasResponseItem:
+    responses:
+      200:
+        body:
+          application/json:
+            type: <<typeName>>
+            example: !include examples/<<typeName>>.json
+  hasResponseCollection:
+    responses:
+      200:
+        body:
+          application/json:
+            type: <<typeName>>[]
+            example: !include examples/<<typeName|!pluralize>>.json
+  hasNotFound:
+    responses:
+      404:
+        body:
+          application/json:
+            type: Error
+            example: !include examples/Error.json
+/users:
+  type: collection
+  typeName: User
+  get:
+    queryParameters:
+      name?: string
+      ownerName?: string
+  post:
+  /{userId}:
+    type: item
+    typeName: User
+    get:
+    put:
+    delete:
+    /sites:
+      type: collection
+      typeName: Site
+      get:
+      post:
+/sites:
+  /{siteId}:
+    type: item
+    typeName: Site
+    get:
+     put:
+    delete:
