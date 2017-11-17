@@ -1,5 +1,7 @@
 # SERP STAT RESTAPI
 
+## API Specification
+https://rawgit.com/ukmjkim/serp-stat/master/serp-stat-rest/src/main/resources/api/api.html
 
 ## serp-stat-restapi : Spring 4 MVC REST API
 
