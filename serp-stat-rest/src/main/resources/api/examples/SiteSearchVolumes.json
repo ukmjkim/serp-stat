@@ -1,0 +1,20 @@
+[
+    {
+          "id": 1,
+          "siteId": 1,
+          "crawlDate": "2017-01-01",
+          "globalAggregateSV": 120,
+          "globalAverageSV": 1000,
+          "regionalAggregateSV": 900,
+          "regionalAverageSV": 900
+    },
+    {
+          "id": 2,
+          "siteId": 1,
+          "crawlDate": "2017-01-02",
+          "globalAggregateSV": 120,
+          "globalAverageSV": 1000,
+          "regionalAggregateSV": 900,
+          "regionalAverageSV": 900
+    }
+]

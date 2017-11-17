@@ -1,0 +1,34 @@
+[
+    {
+          "id": 1,
+          "tagId": 1,
+          "crawlDate": "2017-01-01",
+          "one": 10,
+          "two": 20,
+          "three": 30,
+          "four": 40,
+          "five": 50,
+          "elevenToTwenty": 100,
+          "twentyOneToThirty": 300,
+          "thirtyOneToForty": 900,
+          "fortyOneToFifty": 1000,
+          "fiftyOneToHundred": 0,
+          "nonRanking": 0
+    },
+    {
+          "id": 2,
+          "tagId": 1,
+          "crawlDate": "2017-01-02",
+          "one": 10,
+          "two": 20,
+          "three": 30,
+          "four": 40,
+          "five": 50,
+          "elevenToTwenty": 100,
+          "twentyOneToThirty": 300,
+          "thirtyOneToForty": 900,
+          "fortyOneToFifty": 1000,
+          "fiftyOneToHundred": 0,
+          "nonRanking": 0
+    }
+]

@@ -26,6 +26,7 @@ securitySchemes:
 types:
   User:  !include types/User.raml
   Site:  !include types/Site.raml
+  Keyword:  !include types/Keyword.raml
   Error: !include types/Error.raml
 
 resourceTypes:
@@ -43,15 +44,15 @@ resourceTypes:
         is: [ hasRequestItem: { typeName: <<typeName>> } ]
   item:
       usage: Use this resourceType to represent any single item
-      description: A single <<typeName>>
+      description: A single <<resourcePathName|!uppercamelcase|!singularize>>
       get:
-        description: Get a <<typeName>> by <<resourcePathName>>
+        description: Get a <<resourcePathName|!uppercamelcase|!singularize>> by <<resourcePathName>>
         is: [ hasResponseItem: { typeName: <<typeName>> }, hasNotFound ]
       put:
-        description: Update a <<typeName>> by <<resourcePathName>>
+        description: Update a <<resourcePathName|!uppercamelcase|!singularize>> by <<resourcePathName>>
         is: [ hasRequestItem: { typeName: <<typeName>> }, hasResponseItem, hasNotFound ]
       delete:
-        description: Delete a <<typeName>> by <<resourcePathName>>
+        description: Delete a <<resourcePathName|!uppercamelcase|!singularize>> by <<resourcePathName>>
         is: [ hasNotFound ]
         responses:
           204:
@@ -59,21 +60,21 @@ traits:
   hasRequestItem:
     body:
       application/json:
-        type: <<typeName>>
+        type: <<resourcePathName|!uppercamelcase|!singularize>>
   hasResponseItem:
     responses:
       200:
         body:
           application/json:
-            type: <<typeName>>
-            example: !include examples/<<typeName>>.json
+            type: <<resourcePathName|!uppercamelcase|!singularize>>
+            example: !include examples/<<resourcePathName|!uppercamelcase|!singularize>>.json
   hasResponseCollection:
     responses:
       200:
         body:
           application/json:
-            type: <<typeName>>[]
-            example: !include examples/<<typeName|!pluralize>>.json
+            type: <<resourcePathName|!uppercamelcase|!singularize>>[]
+            example: !include examples/<<resourcePathName|!uppercamelcase|!pluralize>>.json
   hasNotFound:
     responses:
       404:
@@ -81,6 +82,28 @@ traits:
           application/json:
             type: Error
             example: !include examples/Error.json
+/devices:
+  type: collection:
+  typeName: Device
+  get:
+  post:
+  /{deviceId}:
+    type: item
+    typeName: Device
+    get:
+    put:
+    delete:
+/markets:
+  type: collection
+  typeName: Market
+  get:
+  post:
+  /{marketId}:
+    type: item
+    typeName: Market
+    get:
+    put:
+    delete:
 /users:
   type: collection
   typeName: User
@@ -105,5 +128,138 @@ traits:
     type: item
     typeName: Site
     get:
-     put:
+    put:
     delete:
+    /keywords:
+      type: collection
+      typeName: Keyword
+      get:
+      post:
+      /paginated:
+        type: collection
+        typeName: Keyword
+        get:
+          queryParameters:
+            offset?: number
+            size?: number
+      /count:
+        type: number
+        get:
+      /{keywordId}:
+        type: item
+        typeName: Keyword
+        get:
+        put:
+        delete:
+    /stats:
+      type: collection
+      typeName: SiteStat
+      get:
+        queryParameters:
+          fromDate?: number
+          toDate?: number
+      post:
+      /{statId}:
+        type: item
+        typeName: SiteStat
+        get:
+        put:
+        delete:
+    /distribs:
+      type: collection
+      typeName: SiteDistrib
+      get:
+        queryParameters:
+          fromDate?: number
+          toDate?: number
+      post:
+      /{distribId}:
+        type: item
+        typeName: SiteDistrib
+        get:
+        put:
+        delete:
+    /searchvolumes:
+      type: collection
+      typeName: SiteSearchVolume
+      get:
+        queryParameters:
+          fromDate?: number
+          toDate?: number
+      post:
+      /{searchVolumeId}:
+        type: item
+        typeName: SiteSearchVolume
+        get:
+        put:
+        delete:
+/tags:
+  /{tagId}:
+    type: item
+    typeName: Tag
+    get:
+    put:
+    delete:
+    /keywords:
+      type: collection
+      typeName: Keyword
+      get:
+      post:
+      /paginated:
+        type: collection
+        typeName: Keyword
+        get:
+          queryParameters:
+            offset?: number
+            size?: number
+      /count:
+        type: number
+        get:
+      /{keywordId}:
+        type: item
+        typeName: Keyword
+        get:
+        put:
+        delete:
+    /stats:
+      type: collection
+      typeName: TagStat
+      get:
+        queryParameters:
+          fromDate?: number
+          toDate?: number
+      post:
+      /{statId}:
+        type: item
+        typeName: TagStat
+        get:
+        put:
+        delete:
+    /distribs:
+      type: collection
+      typeName: TagDistrib
+      get:
+        queryParameters:
+          fromDate?: number
+          toDate?: number
+      post:
+      /{distribId}:
+        type: item
+        typeName: TagDistrib
+        get:
+        put:
+        delete:
+    /searchvolumes:
+      type: collection
+      typeName: TagSearchVolume
+      get:
+        queryParameters:
+          fromDate?: number
+          toDate?: number
+      post:
+      /{searchVolumeId}:
+        type: item
+        typeName: TagSearchVolume
+        get:
+        put:
+        delete:

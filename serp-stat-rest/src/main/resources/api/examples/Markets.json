@@ -1,0 +1,16 @@
+[
+    {
+        "id" : 1,
+        "region" : "US",
+        "lang": "en",
+        "regionName" : "USA",
+        "langName": "English"
+    },
+    {
+        "id" : 2,
+        "region" : "US",
+        "lang": "es",
+        "regionName" : "USA",
+        "langName": "Spanish"
+    }
+]

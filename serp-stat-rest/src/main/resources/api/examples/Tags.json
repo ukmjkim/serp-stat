@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "siteId": 1,
+        "tag": "Top 10 products",
+        "deleted": 0,
+        "reportTag": 1,
+        "filterRefresh": "",
+        "backfillId": 1
+    },
+    {
+        "id": 2,
+        "siteId": 1,
+        "tag": "Seasonal Sales",
+        "deleted": 0,
+        "reportTag": 1,
+        "filterRefresh": "",
+        "backfillId": 1
+    }
+]

@@ -1,0 +1,19 @@
+{
+    "siteId" : "Not found",
+    "keyword" : "yoga pants",
+    "translation": "",
+    "tracking": 1,
+    "location": "US",
+    "deleted": 0,
+    "device": {
+        "id": 1,
+        "name": "desktop"
+    },
+    "market": {
+        "id": 1,
+        "region": "US",
+        "lang": "en",
+        "regionName": "US",
+        "langName": "english"
+    }
+}

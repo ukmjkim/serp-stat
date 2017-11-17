@@ -1,0 +1,20 @@
+{
+      "id": 1,
+      "siteId": 1,
+      "crawlDate": "2017-01-01",
+      "backLinks": 1,
+      "indexed": 1,
+      "pageRank": 1,
+      "nonRankingValue": 120,
+      "totalKeywords": 1000,
+      "trackedKeywords": 900,
+      "untrackedKeywords": 100,
+      "uniqueKeywords": 1000,
+      "nonUniqueKeywords": 0,
+      "rankingKeywords": 900,
+      "googleRankingKeywords": 900,
+      "googleBaseRankingKeywords": 900,
+      "googleTopTenKeywords": 100,
+      "googleAverage": 5.3,
+      "googleBaseAverage": 3.3
+}
