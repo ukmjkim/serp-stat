@@ -32,7 +32,6 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import com.serpstat.rest.controller.UserController;
-import com.serpstat.rest.domain.Site;
 import com.serpstat.rest.domain.User;
 import com.serpstat.rest.domain.UserAPI;
 import com.serpstat.rest.repository.UserRepository;
@@ -44,6 +43,7 @@ import static com.serpstat.rest.utils.JsonConverter.convertJsonToMap;
 @RunWith(SpringRunner.class)
 @WebMvcTest(value = UserController.class, secure = false)
 public class UserControllerTest {
+	final static String URI_USER = "/api/v1/users";
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -58,7 +58,7 @@ public class UserControllerTest {
 		when(userRepository.findAll()).thenReturn(userList);
 
 		MvcResult result = mockMvc
-				.perform(MockMvcRequestBuilders.get("/api/v1/users/").accept(MediaType.APPLICATION_JSON))
+				.perform(MockMvcRequestBuilders.get(URI_USER).accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 		verify(userRepository, atLeastOnce()).findAll();
 		assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
@@ -74,7 +74,7 @@ public class UserControllerTest {
 		when(userRepository.findById(anyLong())).thenReturn(Optional.of(user));
 
 		MvcResult result = mockMvc
-				.perform(MockMvcRequestBuilders.get("/api/v1/users/"+user.getId()).accept(MediaType.APPLICATION_JSON))
+				.perform(MockMvcRequestBuilders.get(URI_USER+"/"+user.getId()).accept(MediaType.APPLICATION_JSON))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn();
 		verify(userRepository, atLeastOnce()).findById(anyLong());
 		assertEquals(HttpStatus.OK.value(), result.getResponse().getStatus());
@@ -92,14 +92,14 @@ public class UserControllerTest {
 		when(userRepository.findByLogin(anyString())).thenReturn(Optional.empty());
 		when(userRepository.saveAndFlush(any(User.class))).thenReturn(newUser);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/users/")
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(URI_USER)
 				.accept(MediaType.APPLICATION_JSON).content(userJson).contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result;
 		try {
 			result = mockMvc.perform(requestBuilder).andReturn();
 			assertEquals(HttpStatus.CREATED.value(), result.getResponse().getStatus());
-			assertEquals("http://localhost/api/v1/users/1", result.getResponse().getHeader(HttpHeaders.LOCATION));
+			assertEquals("http://localhost"+URI_USER+"/1", result.getResponse().getHeader(HttpHeaders.LOCATION));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -112,7 +112,7 @@ public class UserControllerTest {
 
 		when(userRepository.findByLogin(anyString())).thenReturn(Optional.of(newUser));
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/v1/users/")
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.post(URI_USER)
 				.accept(MediaType.APPLICATION_JSON).content(userJson).contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result;
@@ -136,7 +136,7 @@ public class UserControllerTest {
 		when(userRepository.findById(anyLong())).thenReturn(Optional.of(newUser));
 		when(userRepository.saveAndFlush(any(User.class))).thenReturn(newUser);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/v1/users/"+newUser.getId())
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put(URI_USER+"/"+newUser.getId())
 				.accept(MediaType.APPLICATION_JSON).content(userJson).contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result;
@@ -156,7 +156,7 @@ public class UserControllerTest {
 		when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 		when(userRepository.saveAndFlush(any(User.class))).thenReturn(newUser);
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.put("/api/v1/users/"+newUser.getId())
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.put(URI_USER+"/"+newUser.getId())
 				.accept(MediaType.APPLICATION_JSON).content(userJson).contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result;
@@ -177,7 +177,7 @@ public class UserControllerTest {
 
 		when(userRepository.findById(anyLong())).thenReturn(Optional.of(newUser));
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/v1/users/"+newUser.getId())
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(URI_USER+"/"+newUser.getId())
 				.accept(MediaType.APPLICATION_JSON);
 
 		MvcResult result;
@@ -198,7 +198,7 @@ public class UserControllerTest {
 		
 		when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
 
-		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/api/v1/users/"+newUser.getId())
+		RequestBuilder requestBuilder = MockMvcRequestBuilders.delete(URI_USER+"/"+newUser.getId())
 				.accept(MediaType.APPLICATION_JSON).content(userJson).contentType(MediaType.APPLICATION_JSON);
 
 		MvcResult result;

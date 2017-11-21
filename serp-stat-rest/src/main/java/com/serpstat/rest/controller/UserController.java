@@ -3,8 +3,6 @@ package com.serpstat.rest.controller;
 import java.net.URI;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.http.HttpStatus;
@@ -27,10 +25,12 @@ import com.serpstat.rest.exception.UserLoginNotUniqueException;
 import com.serpstat.rest.exception.UserNotFoundException;
 import com.serpstat.rest.repository.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @RestController
 @RequestMapping("/api/v1")
 public class UserController {
-	static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
 	@Autowired
 	UserRepository userRepository;
@@ -57,6 +57,7 @@ public class UserController {
 	public ResponseEntity<Void> createUser(@RequestBody User user) throws UserLoginNotUniqueException {
 		User entity = userRepository.findByLogin(user.getLogin()).orElse(null);
 		if (entity != null) {
+			log.info("The login given is already exist []", user.getLogin());
 			throw new UserLoginNotUniqueException("The login given is already exist");
 		}
 
