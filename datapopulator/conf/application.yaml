@@ -1,0 +1,5 @@
+# Database
+database:
+    host: "jdbc:mysql://serpstat:3306/serpstat?autoReconnect=true&useSSL=false"
+    user: "serpstat"
+    pwd: "statserp"
